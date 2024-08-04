@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import backgroundImageUrl from '../../assets/BlurMed.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import AuthController from '../../API/index';
 
 const LoginForm = ({ role }) => {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
     const [errors, setErrors] = useState({});
+    const [message, setMessage] = useState('');
 
     const validateForm = () => {
         let formIsValid = true;
@@ -36,11 +40,30 @@ const LoginForm = ({ role }) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
-            console.log('Form is valid');
-            // Handle form submission here
+            try {
+                const data = {...formData,role}
+                const response = await AuthController.login(data);
+                if (response.success) {
+                    setMessage('Login successful!');
+                    localStorage.setItem('token',response.data.token)
+                    if (role === 'hospitalAdmin'){
+                        navigate("/hospitalDB")
+                        console.log(response);
+                    }else if (role === 'healthcareProfessional'){
+                        const user = response.data.user;
+                        console.log(user);
+                        navigate("/mainDB")
+                    }
+                    // Handle successful login, e.g., redirect or save token
+                } else {
+                    setMessage(`Login failed: ${response.error}`);
+                }
+            } catch (error) {
+                setMessage(`An error occurred: ${error.message}`);
+            }
         }
     };
 
@@ -56,7 +79,7 @@ const LoginForm = ({ role }) => {
         }}>
             <form className="w-full max-w-md bg-opacity-50 backdrop-filter font-serif backdrop-blur-lg shadow-md rounded border-2 border-gray-300 border-opacity-50 px-8 py-8 mb-4 relative" onSubmit={handleSubmit}>
                 <button className="absolute top-4 right-4 text-white focus:outline-none">
-                    <Link to={"/access"}>
+                    <Link to="/access">
                         <FontAwesomeIcon icon={faTimes} size="lg" />
                     </Link>
                 </button>
@@ -107,6 +130,7 @@ const LoginForm = ({ role }) => {
                         </button>
                     </div>
                 )}
+                {message && <p className="text-red-500 text-xs italic mt-4">{message}</p>}
             </form>
         </div>
     );

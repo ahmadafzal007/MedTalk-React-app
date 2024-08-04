@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import backgroundImageUrl from '../../assets/BlurMed.png';
 import { Link } from 'react-router-dom';
+import UserController from "../../API/index"
 
 const ScholarSignUpForm = () => {
     const [formData, setFormData] = useState({
@@ -51,11 +52,23 @@ const ScholarSignUpForm = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
-            console.log('Form is valid');
-            // Handle form submission here
+            const data = {
+                name : formData.name,
+                email : formData.email,
+                password: formData.password,
+                role : 'scholar',
+            }
+
+            const response = await UserController.signup(data);
+            if (response.success){
+                alert("Login successfull")
+            }else{
+                alert("Login failed")
+                console.log(response)
+            }
         }
     };
 
@@ -140,7 +153,7 @@ const ScholarSignUpForm = () => {
                 </div>
                 <div className="flex flex-col items-center">
 
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4" type="submit">
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4" onClick={(e)=>handleSubmit(e)}>
                         Sign Up
                     </button>
 

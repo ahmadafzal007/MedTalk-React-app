@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import backgroundImageUrl from '../../assets/BlurMed.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import AuthController from '../../API/index';
+import HospitalController from '../../API/hospital';
+
 
 const DoctorSignUpForm = () => {
+    const navigate = useNavigate();
+    const [hospitals , setHospitals] = useState([]);
+
     const [formData, setFormData] = useState({
         hospital: '',
         name: '',
         doctorId: '',
+        department: '',
         email: '',
         password: '',
         confirmPassword: ''
@@ -59,15 +66,63 @@ const DoctorSignUpForm = () => {
         return formIsValid;
     };
 
+    useEffect(() => {
+        async function getAllHospitals() {
+            try {
+                const response = await HospitalController.getAllHospitals();
+                if (response.success) {
+                    let hospitalArr = response.data.hospitals.map(hospital => hospital.hospitalName);
+                    setHospitals(hospitalArr);  // Set the state with the array of hospital names
+                } else {
+                    console.log('Failed to fetch hospitals:', response.message);
+                }
+            } catch (err) {
+                console.error('Error fetching hospitals:', err);
+            }
+        }
+    
+        getAllHospitals();
+    }, []);
+    
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
-            console.log('Form is valid');
-            // Handle form submission here
+            try {
+                //{
+// "name": "test",
+// "email": "test4@gmail.com",
+// "password": "1234",
+// "department": "Cardio",
+// "healthCareCenterId": "1234",
+// "hospitalName": "Alshiffa",
+// "role": "healthcareProfessional"
+// }
+                const data = {
+                    name: formData.name,
+                    email: formData.email,
+                    password: formData.password,
+                    department: formData.department,
+                    healthCareCenterId: formData.hospital,
+                    hospitalName: formData.hospital,
+                    role: 'healthcareProfessional'
+                }
+                const response = await AuthController.signup(data);
+                console.log(response)
+                if (response.success) {
+                    // Handle successful login, e.g., redirect or save token
+                    navigate("/mainDb")
+                } else {
+                    // Handle failed logi
+                    console.log(response)
+                }
+            } catch (error) {
+                console.log(error);
+            }
         }
     };
 
@@ -94,18 +149,19 @@ const DoctorSignUpForm = () => {
                             Select Hospital
                         </label>
                         <div className="relative">
-                            <select
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="hospital"
-                                name="hospital"
-                                value={formData.hospital}
-                                onChange={handleChange}
-                            >
-                                <option value="">Select hospital</option>
-                                <option value="Hospital A">CMH</option>
-                                <option value="Hospital B">Shifa Medical Complex</option>
-                                <option value="Hospital C">Benazir Bhutto Medical Complex</option>
-                            </select>
+                        <select
+    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+    id="hospital"
+    name="hospital"
+    value={formData.hospital}
+    onChange={handleChange}
+>
+    <option value="">Select hospital</option>
+    {hospitals.map((hospital, index) => (
+        <option key={index} value={hospital}>{hospital}</option>
+    ))}
+</select>
+
                             <FontAwesomeIcon icon={faCaretDown} className="absolute top-1/2 right-6 transform -translate-y-1/2 text-gray-700" />
                         </div>
                         {errors.hospital && <p className="text-red-500 text-xs italic">{errors.hospital}</p>}
@@ -140,7 +196,26 @@ const DoctorSignUpForm = () => {
                         />
                         {errors.doctorId && <p className="text-red-500 text-xs italic">{errors.doctorId}</p>}
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 col-span-1">
+                        <label className="block text-white text-sm font-bold mb-2" htmlFor="department">
+                            Select Department
+                        </label>
+                        <div className="relative">
+                            <select
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="department"
+                                name="department"
+                                value={formData.department}
+                                onChange={handleChange}
+                            >
+                                <option value="">Select department</option>
+                                <option value="Cardiology">Cardiology</option>
+                                <option value="Radiology">Radiology</option>
+                            </select>
+                            <FontAwesomeIcon icon={faCaretDown} className="absolute top-1/2 right-6 transform -translate-y-1/2 text-gray-700" />
+                        </div>
+                    </div>
+                    <div className="mb-4 col-span-1">
                         <label className="block text-white text-sm font-bold mb-2" htmlFor="email">
                             Email
                         </label>
@@ -187,14 +262,13 @@ const DoctorSignUpForm = () => {
                     </div>
                 </div>
                 <div className="flex items-center justify-between">
-                    <Link to={'/mainDB'}>
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                        Sign Up
-                    </button>
+                    <Link >
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={(e)=>handleSubmit(e)}>
+                            Sign Up
+                        </button>
                     </Link>
-                   
                     <a className="inline-block align-baseline font-bold text-sm text-blue-500 " href="#">
-                        <span className='text-white'>Already have an account? </span> <span className=' text-base hover:underline'> Sign in</span>
+                        <span className='text-white'>Already have an account? </span> <span className=' text-base hover:underline'> Sign in</span>s
                     </a>
                 </div>
             </form>

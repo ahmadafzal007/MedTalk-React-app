@@ -1,32 +1,42 @@
 import React, { useState, useEffect } from 'react';
-
-const doctorsData = [
-    { id: 1, name: "Dr. John Doe", email: "john@example.com" },
-    { id: 2, name: "Dr. Jane Smith", email: "jane@example.com" },
-    { id: 3, name: "Dr. Jim Brown", email: "jim@example.com" },
-    { id: 4, name: "Dr. Jake White", email: "jake@example.com" },
-    { id: 5, name: "Dr. Jill Green", email: "jill@example.com" },
-    { id: 6, name: "Dr. Judy Blue", email: "judy@example.com" },
-    { id: 7, name: "Dr. Jack Black", email: "jack@example.com" },
-    { id: 8, name: "Dr. Jasmine Yellow", email: "jasmine@example.com" },
-    { id: 9, name: "Dr. Jerry Pink", email: "jerry@example.com" },
-    { id: 10, name: "Dr. Janet Purple", email: "janet@example.com" }
-];
+import HospitalController from '../../API/hospital'
+// const doctorsData = [
+//     { id: 1, name: "Dr. John Doe", email: "john@example.com" },
+//     { id: 2, name: "Dr. Jane Smith", email: "jane@example.com" },
+//     { id: 3, name: "Dr. Jim Brown", email: "jim@example.com" },
+//     { id: 4, name: "Dr. Jake White", email: "jake@example.com" },
+//     { id: 5, name: "Dr. Jill Green", email: "jill@example.com" },
+//     { id: 6, name: "Dr. Judy Blue", email: "judy@example.com" },
+//     { id: 7, name: "Dr. Jack Black", email: "jack@example.com" },
+//     { id: 8, name: "Dr. Jasmine Yellow", email: "jasmine@example.com" },
+//     { id: 9, name: "Dr. Jerry Pink", email: "jerry@example.com" },
+//     { id: 10, name: "Dr. Janet Purple", email: "janet@example.com" }
+// ];
 
 const AdminDashboard = () => {
-    const [doctors, setDoctors] = useState([]);
+    const [doctorsData, setDoctorsData] = useState([]);
 
     useEffect(() => {
-        // Fetch doctors data from MongoDB
-        // const fetchDoctors = async () => {
-        //     const response = await fetch('/api/doctors'); // Replace with actual API endpoint
-        //     const data = await response.json();
-        //     setDoctors(data);
-        // };
-        // fetchDoctors();
+        (async () => {
+            // Get all hospitals
+            const token = localStorage.getItem('token');
 
-        // Using static data for demonstration
-        setDoctors(doctorsData);
+            const pendingProfessionalsResponse = await HospitalController.getPendingProfessionals( token);
+            if (pendingProfessionalsResponse.success) {
+              console.log("Pending Professionals:", pendingProfessionalsResponse.data.users);
+              const doctors = pendingProfessionalsResponse.data.users.map((item)=>{
+                return {
+                    id : item.healthCareCenterId,
+                    name: item.user.name,
+                    email: item.user.email,
+                }
+              })
+              setDoctorsData(doctors)
+              console.log("doctor" , doctorsData)
+            } else {
+              console.error("Error fetching pending professionals:", pendingProfessionalsResponse.error);
+            }
+          })();
     }, []);
 
     const handleAccept = (id) => {
@@ -40,20 +50,20 @@ const AdminDashboard = () => {
     };
 
     return (
-        <div className="min-h-screen bg-black text-white flex flex-col items-center py-10">
-            <h1 className="text-3xl mb-8">Hospital Admin Dashboard</h1>
+        <div className="min-h-screen font-sans md:font-serif bg-black text-white flex flex-col items-center py-10">
+            <h1 className="text-3xl mb-8 font-sans md:font-serif ">Hospital Admin Dashboard</h1>
             <div className="w-full max-w-4xl">
                 <table className="min-w-full bg-gray-900 text-gray-200">
                     <thead>
                         <tr className="bg-gray-800">
-                            <th className="py-2 px-4">Doctor ID</th>
+                            <th className="py-2 px-4">Hospital</th>
                             <th className="py-2 px-4">Name</th>
                             <th className="py-2 px-4">Email</th>
                             <th className="py-2 px-4">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {doctors.map(doctor => (
+                        {doctorsData.map(doctor => (
                             <tr key={doctor.id} className="border-b border-gray-700">
                                 <td className="py-2 px-4">{doctor.id}</td>
                                 <td className="py-2 px-4">{doctor.name}</td>
@@ -71,7 +81,7 @@ const AdminDashboard = () => {
                                     >
                                         Reject
                                     </button>
-                                </td>
+                                </td>   
                             </tr>
                         ))}
                     </tbody>

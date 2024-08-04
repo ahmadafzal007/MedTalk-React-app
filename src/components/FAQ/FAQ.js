@@ -77,7 +77,7 @@ const FAQ = () => {
               </div>
             </div>
           </div>
-          <div className="md:col-span-3">
+          <div className="md:col-span-3 md:font-serif">
             <div className="hs-accordion-group divide-y divide-gray-600">
               {faqs.map((faq, index) => (
                 <div key={index} className={`hs-accordion pt-6 pb-3 ${openIndexes.includes(index) ? 'active' : ''}`} id={`hs-accordion-heading-${index}`}>

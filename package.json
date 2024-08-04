@@ -15,6 +15,7 @@
     "@tsparticles/interaction-particles-links": "^3.4.0",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.4.0",
+    "axios": "^1.7.2",
     "components": "^0.1.0",
     "framer-motion": "^11.2.4",
     "react": "^18.3.1",
