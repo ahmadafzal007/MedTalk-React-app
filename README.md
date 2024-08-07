@@ -1,70 +1,70 @@
-# Getting Started with Create React App
+# 🏥 MedTalk AI: Advanced Medical Diagnostic System 🏥
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**MedTalk AI** is a sophisticated medical diagnostic system built with the MERN stack (MongoDB, Express.js, React, Node.js) and Python. The system leverages advanced technologies to provide comprehensive medical diagnostics and insights.
 
-## Available Scripts
+**Note:** The project is currently 30% complete. The video below showcases the progress made so far, including a preview of the implemented features.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## 🚀 Modules Overview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 1. Textual Prompting for Generic Medical Knowledge
+- **FE-1:** Advanced NLP techniques to comprehend user queries.
+- **FE-2:** Dynamic generation of medical information, diagnoses, and treatment recommendations.
+- **FE-3:** Follow-up questions on previously generated content.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 2. Detecting Heart Diseases through ECG Digital Signals
+- **FE-1:** Real-time ECG upload and analysis for heart disease detection.
+- **FE-2:** Data preprocessing to identify deviations in ECGs.
+- **FE-3:** Detection and classification of heart diseases.
+- **FE-4:** Confidence scoring with detection results.
 
-### `npm test`
+### 3. Detecting Lung Diseases through X-Rays
+- **FE-1:** Automated X-Ray analysis for disease detection.
+- **FE-2:** Data preprocessing to identify deviations in X-Rays.
+- **FE-3:** Identification and classification of lung diseases.
+- **FE-4:** Confidence scoring with detection results.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 4. Generating Reports and Follow-Up Questioning
+- **FE-1:** Automatic generation of detailed medical reports.
+- **FE-2:** Follow-up question handling and recommendations.
+- **FE-3:** Information on treatment options, medications, and lifestyle changes.
 
-### `npm run build`
+### 5. Data Annotation
+- **FE-1:** Annotating raw medical data to enhance model training.
+- **FE-2:** User feedback on data accuracy to enhance continuous improvement.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 6. Profile Management
+- **FE-1:** Secure account creation, login, and management.
+- **FE-2:** Password changes, 2-factor authentication, and FAQs.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 7. User History Management
+- **FE-1:** Reviewing and accessing interaction history.
+- **FE-2:** Sharing and deleting specific chat records for privacy.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## 🎥 Demo Video
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Watch the demo video to see MedTalk AI in action:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+[![MedTalk AI Demo](https://img.youtube.com/vi/njc45-XZznk/0.jpg)](https://youtu.be/njc45-XZznk)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Click on the image to view the demo video.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## 🛠️ Getting Started
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Prerequisites
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- [Node.js](https://nodejs.org/)
+- [MongoDB](https://www.mongodb.com/)
+- [Python](https://www.python.org/downloads/)
+- Required libraries and dependencies (listed in `requirements.txt` and `package.json`)
 
-### Code Splitting
+### Installation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/ahmadafzal007/MedTalk-AI.git
