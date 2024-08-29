@@ -4,14 +4,13 @@ class Authentication {
   }
 
   async signup(data) {
-    
     try {
       const response = await fetch(`${this.url}/register`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) {
@@ -21,13 +20,13 @@ class Authentication {
       const result = await response.json();
       return {
         success: true,
-        data: result
+        data: result,
       };
     } catch (e) {
       console.error("Signup error:", e);
       return {
         success: false,
-        error: e.message
+        error: e.message,
       };
     }
   }
@@ -37,9 +36,9 @@ class Authentication {
       const response = await fetch(`${this.url}/login`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
-        },                                                                                                                
-        body: JSON.stringify(data)
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) {
@@ -47,16 +46,16 @@ class Authentication {
       }
 
       const result = await response.json();
-      console.log(result)
+      console.log(result);
       return {
         success: true,
-        data: result
+        data: result,
       };
     } catch (e) {
       console.error("Login error:", e);
       return {
         success: false,
-        error: e.message
+        error: e.message,
       };
     }
   }

@@ -2,19 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-/* fonts.css */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+
+
 
 body {
-  font-family: 'Poppins', monospace;
+  font-family: "Poppins", monospace;
 }
 
-
+/* In your global CSS file or Tailwind CSS configuration */
+@layer utilities {
+  .border-l-gradient-blue {
+    border-left: 4px solid transparent;
+    border-image: linear-gradient(to bottom, #3b82f6, #2563eb);
+    border-image-slice: 1;
+  }
+}
 
 .App {
   text-align: center;
 }
-
 
 #particles canvas {
   z-index: -1;

@@ -1,64 +1,4 @@
-// // /** @type {import('tailwindcss').Config} */
-// // export const content = [
-// //   "./src/**/*.{js,jsx,ts,tsx}"
-// // ];
-// // export const theme = {
-  
-// //   extend: {},
-// // };
-// // export const plugins = [];
-
-
-
-// module.exports = {
-//   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
-//   darkMode: false, // or 'media' or 'class'
-//   theme: {
-//     extend: {
-//       fontFamily: {
-//         sans: ["var(--font-sora)", ...fontFamily.sans],
-//         code: "var(--font-code)",
-//         grotesk: "var(--font-grotesk)",
-//       },
-//     },
-//   },
-//   variants: {
-//     extend: {},
-//   },
-//   plugins: [],
-// };
-
-// /** @type {import('tailwindcss').Config} */
-// export default {
-//   content: [
-//     "./index.html",
-//     "./src/**/*.{js,ts,jsx,tsx}",
-//   ],
-//   theme: {
-//     extend: {
-//       colors: {
-//         primary: {
-//           light: '#FFD460',
-//           DEFAULT: '#E14411',
-//           dark: '#8B322C',
-//         },
-//         secondary: {
-//           light: '#FEFAE0',
-//           DEFAULT: '#FFD700',
-//           dark: '#2D4059',
-//         },
-//       },
-//     backgroundImage:{
-//       'parallax':"url('https://images.unsplash.com/photo-1535378620166-273708d44e4c?q=80&w=2157&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')"
-//     }
-//     },
-//   },
-//   plugins: [],
-// }
-
-
 /** @type {import('tailwindcss').Config} */
-// import { fontFamily } from "tailwindcss/defaultTheme";
 import {fontFamily} from "tailwindcss/defaultTheme"
 import plugin from "tailwindcss/plugin";
 
@@ -75,6 +15,33 @@ export default {
   ],
   theme: {
     extend: {
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+      },
+      animation: {
+        float: 'float 3s ease-in-out infinite',
+      },
+
+      screens: {
+        'xsm': '400px',
+
+        'sm': '560px',
+        // => @media (min-width: 640px) { ... }
+  
+        'md': '650px',
+        // => @media (min-width: 768px) { ... }
+         
+        'lg': '1000px',
+        // => @media (min-width: 1024px) { ... }
+  
+        'xl': '1280px',
+        // => @media (min-width: 1280px) { ... }
+
+      },
+
       height: {
         '128': '32rem',   // 512px
         '144': '36rem',   // 576px
@@ -130,6 +97,12 @@ export default {
         sans: ["Poppins", ...fontFamily.sans],
         code: "var(--font-code)",
         grotesk: "var(--font-grotesk)",
+        matemasie: ['Matemasie', 'sans-serif'],
+        libre: ['Libre Baskerville', 'serif'],
+        dancing: ['Dancing Script', 'cursive'],
+        pacifico: ['Pacifico', 'cursive'],
+
+
       },
       letterSpacing: {
         tagline: ".15em",
