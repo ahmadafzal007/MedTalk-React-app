@@ -54,7 +54,7 @@ const LoginPage = () => {
         </button>
       </div>
 
-      <h1 className="text-6xl text-white font-permanent text-center pt-16  font-bold mb-8">
+      <h1 className="text-6xl md:text-7xl text-white font-permanent text-center pt-16  font-bold mb-8">
         MedTalk
       </h1>
       <div className="flex items-center justify-center">
