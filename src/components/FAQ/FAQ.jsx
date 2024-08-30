@@ -76,7 +76,12 @@ const FAQ = () => {
               <div>
                 {/* Insert your video component or video player here */}
                 {/* Example of HTML5 video player */}
-                <video className="w-1/2 h-1/2 mt-10 ml-20 md:ml-5 hidden md:block" loop autoPlay muted>
+                <video
+                  className="w-1/2 h-1/2 mt-10 ml-20 md:ml-5 hidden md:block"
+                  loop
+                  autoPlay
+                  muted
+                >
                   <source src="xrayVid.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
@@ -94,7 +99,7 @@ const FAQ = () => {
                   id={`hs-accordion-heading-${index}`}
                 >
                   <button
-                    className="hs-accordion-toggle font-inconsolata group pb-3 inline-flex items-center justify-between gap-x-3 w-full text-lg md:text-xl font-semibold text-start text-white rounded-lg transition hover:text-gray-400"
+                    className="hs-accordion-toggle font-inconsolata group pb-3 inline-flex items-center justify-between gap-x-3 w-full text-lg md:text-xl font-semibold text-start text-white rounded-lg  text-glow"
                     aria-controls={`hs-accordion-collapse-${index}`}
                     onClick={() => toggleAccordion(index)}
                   >
@@ -129,7 +134,9 @@ const FAQ = () => {
                     }`}
                     aria-labelledby={`hs-accordion-heading-${index}`}
                   >
-                    <p className="text-white text-base font-mono text-start">{faq.answer}</p>
+                    <p className="text-white text-base font-mono text-start">
+                      {faq.answer}
+                    </p>
                   </div>
                 </div>
               ))}

@@ -60,7 +60,7 @@ const LoginPage = () => {
       <div className="flex items-center justify-center">
         <div className="p-8 rounded-lg shadow-lg w-full max-w-md text-white">
           <h2 className="text-2xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-gray-600 to-gray-400 shadow-md ">
-            Login your credentials
+            Login your account
           </h2>
 
           {step === 1 && (
