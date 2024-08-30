@@ -66,14 +66,24 @@ const SignUpPage = () => {
         </button>
       </div>
 
-      <h1 className="text-6xl md:text-7xl text-white font-permanent text-center pt-16  font-bold mb-8">
+      <h1 className="text-6xl md:text-8xl text-white font-permanent text-center pt-16  font-bold mb-8">
         MedTalk
       </h1>
       <div className="flex items-center justify-center">
         <div className="p-8 rounded-lg shadow-lg w-full max-w-md text-white">
-        <h2 className="text-2xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-gray-600 to-gray-400 shadow-md ">
-            Create your account
-          </h2>
+          <h2
+            className="text-2xl animate-float font-bold text-center mb-12 md:mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-gray-600 to-gray-400 shadow-md"
+            style={{
+              backgroundImage:
+                "linear-gradient(90deg, #d1d5db, #6b7280, #4b5563)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+            }}
+          >
+Ready to Explore? Create an Account Now.
+</h2>
+
           {step === 1 && (
             <form onSubmit={handleNameSubmit}>
               <div className="mb-4">
@@ -184,7 +194,7 @@ const SignUpPage = () => {
               </button>
             </form>
           )}
-            {step === 3 && (
+          {step === 3 && (
             <form onSubmit={handlePasswordSubmit}>
               <div className="">
                 <label htmlFor="password" className="block text-gray-400 mb-2">
@@ -226,11 +236,7 @@ const SignUpPage = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="text-gray-400  hover:text-gray-300 focus:outline-none"
                 >
-                  {showPassword ? (
-                    <VisibilityOffIcon />
-                  ) : (
-                    <VisibilityIcon />
-                  )}
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                 </button>
               </div>
               <button
@@ -260,29 +266,32 @@ const SignUpPage = () => {
               </button>
             </form>
           )}
-          
-        <div className="mt-6 text-center">
+
+          <div className="mt-6 text-center">
             <button className="w-full bg-white text-gray-800 py-2 rounded-md hover:bg-gray-100 transition duration-200 transform hover:scale-105 flex items-center justify-center">
               <img
                 src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-color-icon.png"
                 alt="Google Icon"
                 className="w-5 h-5 mr-2"
-                />
+              />
               Continue with Google
             </button>
           </div>
           <div className="mt-6 text-center">
             <p>
               Already have an account?{" "}
-              <a onClick={handleLoginClick} href="#" className="text-gray-400 hover:underline">
+              <a
+                onClick={handleLoginClick}
+                href="#"
+                className="text-gray-400 hover:underline"
+              >
                 Sign In
               </a>
             </p>
           </div>
         </div>
-       </div>
       </div>
-
+    </div>
   );
 };
 

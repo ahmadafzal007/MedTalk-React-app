@@ -56,6 +56,12 @@ export default {
       },
 
       colors: {
+        
+        metallicGray: {
+          light: '#d1d5db', // lighter metallic shade
+          DEFAULT: '#6b7280', // default metallic shade
+          dark: '#4b5563', // darker metallic shade
+        },
         primary: {
           light: '#83a79d',
           DEFAULT: '#E14411',

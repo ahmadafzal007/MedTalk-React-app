@@ -50,18 +50,27 @@ const LoginPage = () => {
           onClick={() => navigate("/")}
           className="text-white hover:text-gray-400 transition duration-200"
         >
-          <ArrowBackIcon style={{ fontSize: "2rem" }} /> 
+          <ArrowBackIcon style={{ fontSize: "2rem" }} />
         </button>
       </div>
 
-      <h1 className="text-6xl md:text-7xl text-white font-permanent text-center pt-16  font-bold mb-8">
+      <h1 className="text-6xl md:text-8xl text-white font-permanent text-center pt-16  font-bold mb-8">
         MedTalk
       </h1>
       <div className="flex items-center justify-center">
         <div className="p-8 rounded-lg shadow-lg w-full max-w-md text-white">
-          <h2 className="text-2xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-gray-600 to-gray-400 shadow-md ">
-            Sign in your account
-          </h2>
+          <h2
+            className="text-2xl  animate-float font-bold text-center mb-12 md:mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-gray-600 to-gray-400 shadow-md"
+            style={{
+              backgroundImage:
+                "linear-gradient(90deg, #d1d5db, #6b7280, #4b5563)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
+            }}
+          >
+Already a Member? Let’s Get You In.
+</h2>
 
           {step === 1 && (
             <form onSubmit={handleEmailSubmit}>
@@ -153,11 +162,7 @@ const LoginPage = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="text-gray-400 hover:text-gray-300 focus:outline-none"
                 >
-                  {showPassword ? (
-                    <VisibilityOffIcon />
-                  ) : (
-                    <VisibilityIcon />
-                  )}
+                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                 </button>
               </div>
 
