@@ -14,7 +14,7 @@ const Header = () => {
         </Link>
       </div>
       <div>
-        <ul className="flex gap-3 text-l font-bold pr-4">
+        <ul className="flex md:gap-3 text-l font-bold pr-4">
           <li>
             <button className="hidden border-1 md:block pt-2 text-lg font-inconsolata text-white-900">
               Try MedTalk Pro
@@ -30,7 +30,7 @@ const Header = () => {
           <li>
             <button
               type="button"
-              className="text-white shadow-2xl shadow-zinc-900 bg-gray-800 hover:bg-gray-900    border-1 border-gray-500 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2 "
+              className="text-white hidden md:block shadow-2xl    border-1 border-gray-500 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2 "
             >
               <LoginIcon className="w-[8px] h-[8px]" />{" "}
               {/* Use the MUI Login icon */}

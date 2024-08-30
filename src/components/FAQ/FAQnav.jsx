@@ -18,7 +18,7 @@ const Header = () => {
           <li>
             <button
               type="button"
-              className="text-white bg-gray-800  hover:bg-gray-900 focus:outline-none focus:bg-gray-800 border-1 border-gray-500 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2 ring-1 ring-white/10"
+              className="text-white  focus:outline-none focus:bg-gray-800 border-1 border-gray-500 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2 ring-1 ring-white/10"
             >
               <LoginIcon className="w-[8px] h-[8px]" />{" "}
               {/* Use the MUI Login icon */}
