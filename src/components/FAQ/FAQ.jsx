@@ -70,7 +70,7 @@ const FAQ = () => {
         <div className="grid md:grid-cols-5 gap-10">
           <div className="flex justify-center md:col-span-2">
             <div className="max-w-xs">
-              <h2 className=" text-[90px] ml-16 md:ml-0 font-dancing font-bold text-white  leading-tight">
+              <h2 className=" text-[90px] ml-16 md:ml-0 font-permanent font-bold text-white  leading-tight">
                 FAQ!
               </h2>
               <div>
@@ -94,7 +94,7 @@ const FAQ = () => {
                   id={`hs-accordion-heading-${index}`}
                 >
                   <button
-                    className="hs-accordion-toggle font-dancing group pb-3 inline-flex items-center justify-between gap-x-3 w-full md:text-lg font-semibold text-start text-white rounded-lg transition hover:text-gray-400"
+                    className="hs-accordion-toggle font-inconsolata group pb-3 inline-flex items-center justify-between gap-x-3 w-full md:text-lg font-semibold text-start text-white rounded-lg transition hover:text-gray-400"
                     aria-controls={`hs-accordion-collapse-${index}`}
                     onClick={() => toggleAccordion(index)}
                   >
@@ -129,7 +129,7 @@ const FAQ = () => {
                     }`}
                     aria-labelledby={`hs-accordion-heading-${index}`}
                   >
-                    <p className="text-white text-start">{faq.answer}</p>
+                    <p className="text-white font-inconsolata text-start">{faq.answer}</p>
                   </div>
                 </div>
               ))}

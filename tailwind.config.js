@@ -99,8 +99,17 @@ export default {
         grotesk: "var(--font-grotesk)",
         matemasie: ['Matemasie', 'sans-serif'],
         libre: ['Libre Baskerville', 'serif'],
-        dancing: ['Dancing Script', 'cursive'],
         pacifico: ['Pacifico', 'cursive'],
+        caveat : ['Caveat', 'cursive'],
+        chewy: ['Chewy', 'cursive'],
+        permanent: ['Permanent Marker', 'cursive'],
+        roboto: ['Roboto', 'sans-serif'],
+        inconsolata: ['Inconsolata', 'monospace'],
+
+
+
+
+
 
 
       },

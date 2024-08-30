@@ -8,7 +8,7 @@ const Header = () => {
       <div className="flex">
         <Link
           to={"/"}
-          className="font-dancing text-2xl font-bold ml-5 text-white-900"
+          className="font-permanent text-2xl font-bold ml-5 text-white-900"
         >
           MedTalk
         </Link>
@@ -16,13 +16,13 @@ const Header = () => {
       <div>
         <ul className="flex gap-3 text-l font-bold pr-4">
           <li>
-            <button className="hidden border-1 md:block pt-2 text-lg font-dancing text-white-900">
+            <button className="hidden border-1 md:block pt-2 text-lg font-inconsolata text-white-900">
               Try MedTalk Pro
             </button>
           </li>
           <Link to={"/faq"}>
             <li>
-              <button className="pt-2 border-1   text-lg font-dancing text-white-900">
+              <button className="pt-2 border-1 font-inconsolata  text-lg  text-white-900">
                 FAQs
               </button>
             </li>

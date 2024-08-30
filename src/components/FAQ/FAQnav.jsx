@@ -8,7 +8,7 @@ const Header = () => {
       <div className="flex">
         <Link
           to={"/"}
-          className=" text-2xl font-bold ml-5 text-white-900 font-dancing "
+          className=" text-2xl font-bold ml-5 text-white-900 font-permanent "
         >
           MedTalk
         </Link>

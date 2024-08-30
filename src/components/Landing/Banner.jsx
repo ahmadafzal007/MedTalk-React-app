@@ -15,21 +15,21 @@ const Banner = () => {
       </style>
 
       <div className="w-full flex  pt-20 justify-between items-center ">
-        <div className="flex justify-start items-start pl-8 flex-col gap-3 pb-12 md:pl-16  ">
+        <div className="flex justify-start items-start  flex-col gap-3 pb-12 md:pl-16  ">
           <div className="mt-44 lg:mt-0">
-            <div className="font-dancing text-7xl  md:text-8xl font-bold text-white-900 leading-tight">
+            <div className="font-permanent text-7xl  md:text-8xl font-bold text-white-900 leading-tight">
               MedTalk
             </div>
           </div>
 
           <div>
-            <h1 className="text-white font-dancing xsm:text-sm text-base md:text-xl font-bold mr-8 md:mr-0 text-start">
+            <h1 className="text-white font-inconsolata  xsm:text-sm text-base md:text-lg font-bold mr-8 md:mr-0 text-start">
               A generative AI chatbot for Medical Purposes
             </h1>
           </div>
 
           <div>
-            <p className=" font-dancing md:w-[500px] text-white-700  text-sm md:text-base text-start mr-8 md:mr-0">
+            <p className=" font-inconsolata md:w-[500px] text-white-700  text-sm md:text-base text-start mr-8 md:mr-0">
               Collarobate with MedTalk for healthcare information, treatment and
               diagnosis
             </p>
@@ -38,11 +38,11 @@ const Banner = () => {
           {/* Button */}
 
           <div className="mt-4">
-            <button className="relative inline-block p-px font-semibold leading-6 text-white no-underline bg-gray-800 hover:bg-gray-900 shadow-2xl cursor-pointer group rounded-xl shadow-zinc-900 animate-float">
-              <span className="absolute inset-0 overflow-hidden rounded-xl">
-                <span className="absolute inset-0 rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
+          <button className="relative inline-block p-px font-semibold leading-6 text-white no-underline bg-gray-800 hover:bg-gray-900 shadow-2xl cursor-pointer group rounded-xl shadow-zinc-900 animate-float">
+              <span className="absolute inset-0 overflow-hidden rounded-lg">
+                <span className="absolute inset-0 rounded-lg opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
               </span>
-              <div className="relative z-10 flex items-center px-6 py-3 space-x-2 rounded-xl bg-gray-950/50 ring-1 ring-white/10">
+              <div className="relative font-inconsolata z-10 flex items-center px-4 py-2 space-x-2 rounded-lg bg-gray-950/50 ring-1 ring-white/10 sm:px-3 sm:py-1 sm:text-sm md:px-6 md:py-3 md:space-x-2 md:text-base">
                 <span>Let's get started</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -50,7 +50,7 @@ const Banner = () => {
                   fill="currentColor"
                   aria-hidden="true"
                   data-slot="icon"
-                  className="w-6 h-6"
+                  className="w-5 h-5 sm:w-4 sm:h-4 md:w-6 md:h-6"
                 >
                   <path
                     fillRule="evenodd"
@@ -61,6 +61,7 @@ const Banner = () => {
               </div>
               <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-gray-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40"></span>
             </button>
+
           </div>
         </div>
 
