@@ -57,7 +57,7 @@ const SignUpPage = () => {
   return (
     <div className="bg-black font-inconsolata h-screen relative">
       {/* Back Icon */}
-      <div className="absolute top-4 left-4">
+      <div className="absolute top-2 md:top-4 md:left-4">
         <button
           onClick={() => navigate("/")}
           className="text-white hover:text-gray-400 transition duration-200"
@@ -66,7 +66,7 @@ const SignUpPage = () => {
         </button>
       </div>
 
-      <h1 className="text-7xl text-white font-permanent text-center pt-16 font-bold mb-8">
+      <h1 className="text-6xl md:text-7xl text-white font-permanent text-center pt-16  font-bold mb-8">
         MedTalk
       </h1>
       <div className="flex items-center justify-center">
