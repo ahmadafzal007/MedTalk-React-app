@@ -60,7 +60,7 @@ const LoginPage = () => {
       <div className="flex items-center justify-center">
         <div className="p-8 rounded-lg shadow-lg w-full max-w-md text-white">
           <h2 className="text-2xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-gray-600 to-gray-400 shadow-md ">
-            Login your account
+            Sign in your account
           </h2>
 
           {step === 1 && (
@@ -169,7 +169,7 @@ const LoginPage = () => {
                   <span className="absolute  inset-0 rounded-lg opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
                 </span>
                 <div className="relative font-inconsolata z-10  px-4 py-2 space-x-2 rounded-lg bg-gray-950/50 ring-1 ring-white/10 sm:px-3 sm:py-1 sm:text-sm md:px-6 md:py-3 md:space-x-2 md:text-base">
-                  Continue
+                  Sign In
                 </div>
                 <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-gray-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40"></span>
               </button>
