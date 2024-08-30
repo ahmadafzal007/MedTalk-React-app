@@ -1,8 +1,14 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import LoginIcon from "@mui/icons-material/Login"; // Import the Login icon from MUI
 
 const Header = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  const handleLoginClick = () => {
+    navigate("/login"); // Navigate to the "login" route
+  };
+
   return (
     <div className="w-full fixed top-0 text-white py-7 flex justify-between items-center border-b-[1px] border-b-white-800 z-50">
       <div className="flex">
@@ -30,7 +36,8 @@ const Header = () => {
           <li>
             <button
               type="button"
-              className="text-white hidden md:block shadow-2xl    border-1 border-gray-500 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2 "
+              className="text-white hidden md:block shadow-2xl border-1 border-gray-500 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2"
+              onClick={handleLoginClick} // Call handleLoginClick on button click
             >
               <LoginIcon className="w-[8px] h-[8px]" />{" "}
               {/* Use the MUI Login icon */}

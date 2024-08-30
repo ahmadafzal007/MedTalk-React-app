@@ -1,8 +1,14 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoginIcon from "@mui/icons-material/Login";
 
 const Header = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  const handleLoginClick = () => {
+    navigate("/login"); // Navigate to the "login" route
+  };
+
   return (
     <div className="w-full top-0 text-white py-7 flex justify-between items-center border-b-[1px] border-b-white-800">
       <div className="flex">
@@ -18,6 +24,7 @@ const Header = () => {
           <li>
             <button
               type="button"
+              onClick={handleLoginClick}
               className="text-white  focus:outline-none focus:bg-gray-800 border-1 border-gray-500 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center me-2 ring-1 ring-white/10"
             >
               <LoginIcon className="w-[8px] h-[8px]" />{" "}

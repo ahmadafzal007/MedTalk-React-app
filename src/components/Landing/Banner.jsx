@@ -1,7 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Banner = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  const handleLoginClick = () => {
+    navigate("/login"); // Navigate to the "login" route
+  };
   return (
     <>
       <style>
@@ -38,7 +43,7 @@ const Banner = () => {
           {/* Button */}
 
           <div className="mt-4">
-          <button className="relative  inline-block p-px font-semibold leading-6 text-white no-underline bg-gray-800 hover:bg-gray-900 shadow-2xl cursor-pointer group rounded-xl shadow-zinc-900 animate-float">
+          <button onClick={handleLoginClick} className="relative  inline-block p-px font-semibold leading-6 text-white no-underline bg-gray-800 hover:bg-gray-900 shadow-2xl cursor-pointer group rounded-xl shadow-zinc-900 animate-float">
               <span className="absolute inset-0 overflow-hidden rounded-lg">
                 <span className="absolute inset-0 rounded-lg opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
               </span>
