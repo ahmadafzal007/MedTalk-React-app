@@ -15,8 +15,8 @@ const Banner = () => {
       </style>
 
       <div className="w-full flex  pt-20 justify-between items-center ">
-        <div className="flex justify-start items-start flex-col gap-3 pb-12 md:pl-16  ">
-          <div className="mt-36 lg:mt-0">
+        <div className="flex justify-start items-start pl-8 flex-col gap-3 pb-12 md:pl-16  ">
+          <div className="mt-44 lg:mt-0">
             <div className="font-dancing text-7xl  md:text-8xl font-bold text-white-900 leading-tight">
               MedTalk
             </div>

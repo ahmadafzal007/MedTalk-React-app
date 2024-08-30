@@ -70,13 +70,13 @@ const FAQ = () => {
         <div className="grid md:grid-cols-5 gap-10">
           <div className="flex justify-center md:col-span-2">
             <div className="max-w-xs">
-              <h2 className=" text-[90px] font-dancing font-bold text-white  leading-tight">
+              <h2 className=" text-[90px] ml-16 md:ml-0 font-dancing font-bold text-white  leading-tight">
                 FAQ!
               </h2>
               <div>
                 {/* Insert your video component or video player here */}
                 {/* Example of HTML5 video player */}
-                <video className="w-1/2 h-1/2 mt-10 ml-5" loop autoPlay muted>
+                <video className="w-1/2 h-1/2 mt-10 ml-20 md:ml-5" loop autoPlay muted>
                   <source src="xrayVid.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
                 </video>
