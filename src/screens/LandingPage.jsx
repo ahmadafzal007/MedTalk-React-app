@@ -11,7 +11,7 @@ function Welcome() {
         <div className=" mx-auto text-white">
           {/* Header */}
           <Header />
-          <div className=" ml-[4px] md:ml-20 ">
+          <div className="  md:ml-20 ">
             {/* Banner */}
             <Banner />
           </div>
