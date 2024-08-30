@@ -71,7 +71,7 @@ const SignUpPage = () => {
       </h1>
       <div className="flex items-center justify-center">
         <div className="p-8 rounded-lg shadow-lg w-full max-w-md text-white">
-        <h2 className="text-2xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-gray-600 to-gray-400 shadow-md ">
+        <h2 className="text-2xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-gray-600/60 to-gray-400 shadow-md ">
             Create your account
           </h2>
           {step === 1 && (
@@ -83,7 +83,7 @@ const SignUpPage = () => {
                 <input
                   type="text"
                   id="name"
-                  className={`w-full px-4 py-2 border ${
+                  className={`w-full px-4 py-2  border  ${
                     nameError ? "border-red-500" : "border-gray-300"
                   } rounded-md focus:outline-none focus:ring-2 focus:ring-green-500`}
                   placeholder="Your Name"
