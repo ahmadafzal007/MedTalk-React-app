@@ -66,7 +66,7 @@ const SignUpPage = () => {
         </button>
       </div>
 
-      <h1 className="text-6xl md:text-8xl text-white font-permanent text-center pt-16  font-bold mb-8">
+      <h1 className="text-6xl md:text-8xl text-white font-permanent text-center pt-16  font-bold mb-8 md:mb-0">
         MedTalk
       </h1>
       <div className="flex items-center justify-center">
@@ -81,8 +81,8 @@ const SignUpPage = () => {
               textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
             }}
           >
-Ready to Explore? Create an Account Now.
-</h2>
+            Ready to Explore? Create an Account Now.
+          </h2>
 
           {step === 1 && (
             <form onSubmit={handleNameSubmit}>

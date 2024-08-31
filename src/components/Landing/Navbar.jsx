@@ -22,13 +22,13 @@ const Header = () => {
       <div>
         <ul className="flex md:gap-3 text-l font-bold pr-4">
           <li>
-            <button className="hidden border-1 md:block pt-2 text-lg font-inconsolata text-white-900">
+            <button className="hidden border-1 md:block pt-2 font-thin text-lg font-inconsolata text-white-900">
               Try MedTalk Pro
             </button>
           </li>
           <Link to={"/faq"}>
             <li>
-              <button className="pt-2 border-1 font-inconsolata  text-lg  text-white-900">
+              <button className="pt-2 font-thin border-1 font-inconsolata  text-lg  text-white-900">
                 FAQs
               </button>
             </li>

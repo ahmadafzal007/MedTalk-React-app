@@ -111,6 +111,8 @@ export default {
         permanent: ['Permanent Marker', 'cursive'],
         roboto: ['Roboto', 'sans-serif'],
         inconsolata: ['Inconsolata', 'monospace'],
+        suse: ['SUSE', 'sans-serif'],
+
 
 
 

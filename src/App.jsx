@@ -4,6 +4,7 @@ import Landing from "./screens/LandingPage";
 import FAQ from "./screens/FAQpage";
 import Login from "./screens/access/Login";
 import SignUp from "./screens/access/signup";
+import Main from "./screens/MainScreen";
 
 
 
@@ -15,6 +16,7 @@ function App() {
         <Route path="/faq" element={<FAQ />} />
         <Route path="/login" element={<Login />} />
         <Route path="/SignUp" element={<SignUp />} />
+        <Route path="/main" element={<Main />} />
 
       </Routes>
     </Router>
