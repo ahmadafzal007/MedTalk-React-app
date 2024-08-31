@@ -47,7 +47,6 @@ export const ChatContextProvider = ({ children }) => {
 			setIsPending(false);
 			setIsGenerating(false);
 			setShowResult(true);
-
 			return;
 		}
 

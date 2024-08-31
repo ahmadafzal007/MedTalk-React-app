@@ -73,7 +73,7 @@ const Sidebar = () => {
           <div className="animate-fade-in flex flex-col mt-6">
             <p className="my-4 ml-1 text-white">Recent</p>
 
-            <div className="space-y-3">
+            <div className="  space-y-3">
               {prevPrompts
                 .slice()
                 .reverse()
@@ -84,7 +84,7 @@ const Sidebar = () => {
                       !isGenerating ? () => loadPrompt(prompt) : undefined
                     }
                     label={prompt}
-                    className="text-white"
+                    className="text-white flex gap-1  items-center"
                   />
                 ))}
             </div>
@@ -101,7 +101,7 @@ const Sidebar = () => {
             Icon={icon}
             label={label}
             isExpanded={isExpanded}
-            className={`text-white transition-transform ease-in-out ${
+            className={`text-white flex transition-transform ease-in-out ${
               isExpanded ? "translate-x-0" : "-translate-x-3"
             } hover:scale-110`}
             style={{

@@ -80,3 +80,15 @@ button:focus-visible {
 .text-glow {
   text-shadow: 0 0 2px rgba(255, 255, 255, 0.2), 0 0 8px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.3), 0 0 10px rgba(255, 255, 255, 0.1);
 }
+
+
+
+/* Custom Tailwind utility for hiding scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}

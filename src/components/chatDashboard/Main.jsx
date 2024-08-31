@@ -33,8 +33,8 @@ const Main = () => {
   };
 
   return (
-    <div className="relative font-inconsolata h-screen w-full flex flex-col bg-black text-white">
-      <nav className="flex items-center justify-between px-4 py-3 md:px-6 md:py-4 text-base font-light">
+    <div className="relative font-inconsolata w-full h-screen pb-[15vh] bg-black text-white">
+      <nav className="flex items-center  justify-between px-4 py-3 md:px-6 md:py-4 text-base font-light">
       <div className="relative">
       <button
         onClick={toggleDropdown}
@@ -52,7 +52,7 @@ const Main = () => {
         <div className="absolute left-0 mt-2 w-48 bg-black text-white rounded-lg border-2 border-white shadow-lg">
           <ul>
             <li
-              className="cursor-pointer text-sm px-4 py-2 hover:bg-[#131314] rounded-lg"
+              className="cursor-pointer text-sm px-4 py-2  bg-[#131314] hover:bg-[#131314] rounded-lg"
               onClick={() => alert('MedTalk Pro')}
             >
               MedTalk Pro
@@ -86,15 +86,15 @@ const Main = () => {
 
 
 
-      <main className="flex-1  overflow-y-auto px-4 py-5 md:px-6 md:py-8">
-        <div className="lg:w-[1000px] lg:ml-[115px]">
+      <main className="flex-1 items-center justify-center  overflow-y-auto px-4 py-5 md:px-6 md:py-8">
+        <div className="lg:w-[1000px] lg:ml-[115px] ">
 
         {!showResult ? (
-          <section className="text-start">
+          <section className="text-start ">
             <p className="text-3xl md:text-4xl font-semibold text-gray-400">
               <div className="flex flex-col md:ml-28 ">
                 <span
-                  className="text-4xl text-start font-permanent font-bold mb-12 md:mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-gray-600 to-gray-400 shadow-md"
+                  className="text-4xl text-start font-permanent font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-gray-600 to-gray-400 shadow-md"
                   style={{
                     backgroundImage:
                       "linear-gradient(90deg, #d1d5db, #6b7280, #4b5563)",
@@ -120,8 +120,11 @@ const Main = () => {
             
               </div>
             </p>
+
+
+            <div className="absolute ml-24 pl-4 overflow-hidden scrollbar-hide hidden md:block">
             <div className="flex font-thin items-center justify-center">
-              <div className="w-[770px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-20 mt-10">
+              <div className=" lg:w-[770px] w-[550px] grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 mb-20 mt-10">
                 {[
                   {
                     label: "Explain the mechanism of a common medication",
@@ -150,6 +153,7 @@ const Main = () => {
                     transitionDuration: "400ms",
                   }}
                   >
+    
                     <p className="text-gray-300">{label}</p>
                     <div className="absolute bottom-4 right-4 flex items-center justify-center w-8 h-8 rounded-full bg-gray-900 shadow-lg">
                       <Icon
@@ -165,62 +169,68 @@ const Main = () => {
                 ))}
               </div>
             </div>
+            </div>
           </section>
         ) : (
-          <section>
-            <div className="my-8 flex items-center gap-4">
-              <div className="flex items-center justify-center h-8 w-8 md:h-10 md:w-10 rounded-full  shadow-md">
-                <UserRound
-                  className="text-gray-300"
-                  size={20}
-                  style={{
-                    filter: "drop-shadow(0 0 5px rgba(255, 255, 255, 0.3))",
-                  }}
-                />
-              </div>
-              <p className="text-gray-300">{recentPrompt}</p>
-            </div>
 
-            <div className="flex items-start gap-4">
-              <div className="flex items-center justify-center h-8 w-8 md:h-10 md:w-10">
-                <img
-                  className={`w-6 md:w-7 transition-transform duration-500 ${
-                    isPending
-                    ? "animate-pulse"
-                    : isGenerating
-                    ? "animate-spin"
-                    : ""
-                  }`}
-                  src="/gemini.svg"
-                  alt="gemini icon"
-                  style={{
-                    filter: "drop-shadow(0 0 5px rgba(255, 255, 255, 0.3))",
-                  }}
-                  />
-              </div>
 
-              {isPending ? (
-                <div className="flex flex-col gap-2">
-                  {[...Array(3).keys()].map((i) => (
-                    <hr
-                    key={i}
-                    className={`mt-1.5 h-4 md:h-5 rounded-md border-none bg-gray-800 bg-gradient-to-r from-[#9ed7ff] via-[#ffffff] to-[#9ed7ff] [background-size:800px_50px] [animation-delay:${
-                      (i + 1) * 100
-                    }ms] [animation-duration:${4 - i}s] shadow-md`}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <p
-                className="text-gray-300 font-light leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: output }}
-                />
-              )}
-            </div>
-          </section>
+
+<section
+  className="fixed h-[550px] md:h-[380px] lg:w-[900px] md:w-[600px] w-[360px] overflow-hidden overflow-y-auto scrollbar-hide"
+  style={{ maxHeight: "calc(100vh - 2rem)" }} // Adjust this value as needed
+>
+  <div className=" flex items-center gap-4">
+    <div className="flex items-center justify-center h-8 w-8 md:h-10 md:w-10 rounded-full shadow-md">
+      <UserRound
+        className="text-gray-300"
+        size={20}
+        style={{
+          filter: "drop-shadow(0 0 5px rgba(255, 255, 255, 0.3))",
+        }}
+      />
+    </div>
+    <p className="text-gray-300">{recentPrompt}</p>
+  </div>
+
+  <div className="flex items-start gap-4">
+    <div className="flex items-center justify-center h-8 w-8 md:h-10 md:w-10">
+      <img
+        className={`w-6 md:w-7 transition-transform duration-500 ${
+          isPending ? "animate-pulse" : isGenerating ? "animate-spin" : ""
+        }`}
+        src="/gemini.svg"
+        alt="gemini icon"
+        style={{
+          filter: "drop-shadow(0 0 5px rgba(255, 255, 255, 0.3))",
+        }}
+      />
+    </div>
+
+    {isPending ? (
+      <div className="flex flex-col gap-2">
+        {[...Array(3).keys()].map((i) => (
+          <hr
+            key={i}
+            className={`mt-1.5 h-4 md:h-5 rounded-md border-none bg-gray-800 bg-gradient-to-r from-[#9ed7ff] via-[#ffffff] to-[#9ed7ff] [background-size:800px_50px] [animation-delay:${
+              (i + 1) * 100
+            }ms] [animation-duration:${4 - i}s] shadow-md`}
+          />
+        ))}
+      </div>
+    ) : (
+      <p
+        className="text-gray-300 font-light leading-relaxed"
+        dangerouslySetInnerHTML={{ __html: output }}
+      />
+    )}
+  </div>
+</section>
+
         )}
 
-        <div className=" bottom-0 left-0 flex flex-col items-center bg-black right-0 mx-auto max-w-screen px-4 py-3 md:px-6 md:py-4 backdrop-blur-sm">
+
+
+        <div className="absolute mb-12 md:mb-0 bottom-0 left-0 flex flex-col items-center bg-black right-0 mx-auto max-w-screen px-4 py-3 md:px-6 md:py-4 backdrop-blur-sm">
           <div
             className="flex items-center  justify-between gap-3 rounded-full max-w-[800px] bg-[#131314] px-4 py-2 md:px-5 md:py-3 shadow-lg"
             style={{
