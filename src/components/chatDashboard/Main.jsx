@@ -87,12 +87,12 @@ const Main = () => {
 
 
       <main className="flex-1  overflow-y-auto px-4 py-5 md:px-6 md:py-8">
-        <div className="lg:w-[1000px] ml-[120px]">
+        <div className="lg:w-[1000px] lg:ml-[115px]">
 
         {!showResult ? (
           <section className="text-start">
             <p className="text-3xl md:text-4xl font-semibold text-gray-400">
-              <div className="flex flex-col md:ml-36 ">
+              <div className="flex flex-col md:ml-28 ">
                 <span
                   className="text-4xl text-start font-permanent font-bold mb-12 md:mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-gray-600 to-gray-400 shadow-md"
                   style={{
@@ -121,7 +121,7 @@ const Main = () => {
               </div>
             </p>
             <div className="flex font-thin items-center justify-center">
-              <div className="w-[720px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-20 mt-10">
+              <div className="w-[770px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mb-20 mt-10">
                 {[
                   {
                     label: "Explain the mechanism of a common medication",
@@ -142,7 +142,7 @@ const Main = () => {
                   },
                 ].map(({ label, Icon }, idx) => (
                   <div
-                  className="relative h-28 md:h-44 w-40 cursor-pointer text-xs rounded-xl  from-gray-700 via-gray-800 to-gray-900 backdrop-blur-lg shadow-xl transform transition-all p-4 text-white   "
+                  className="relative h-28 md:h-44 w-44 cursor-pointer text-xs rounded-xl  from-gray-700 via-gray-800 to-gray-900 backdrop-blur-lg shadow-xl transform transition-all p-4 text-white   "
                   key={idx}
                   style={{
                     boxShadow:
