@@ -19,6 +19,10 @@ const LoginPage = () => {
     navigate("/SignUp"); // Navigate to the "login" route
   };
 
+  const handleLoginClick = () => {
+    navigate("/main"); // Navigate to the "login" route
+  };
+
   const handleEmailSubmit = (e) => {
     e.preventDefault();
     // Simple email validation
@@ -168,6 +172,7 @@ Already a Member? Let’s Get You In.
 
               <button
                 type="submit"
+                onClick={handleLoginClick}
                 className="relative w-full mt-3 inline-block p-px font-semibold leading-6 text-white no-underline bg-gray-800 hover:bg-gray-900 shadow-2xl cursor-pointer group rounded-xl shadow-zinc-900 "
               >
                 <span className="absolute inset-0 overflow-hidden rounded-lg">
