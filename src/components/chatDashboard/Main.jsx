@@ -87,11 +87,11 @@ const Main = () => {
 
 
       <main className="flex-1 items-center justify-center  overflow-y-auto px-4 py-5 md:px-6 md:py-8">
-        <div className="lg:w-[1000px] lg:ml-[115px] ">
+        <div className="lg:w-[1000px] lg:ml-[140px] ">
 
         {!showResult ? (
-          <section className="text-start ">
-            <p className="text-3xl md:text-4xl font-semibold text-gray-400">
+          <section className="text-start  ">
+            <p className="text-3xl  md:text-4xl font-semibold text-gray-400">
               <div className="flex flex-col md:ml-28 ">
                 <span
                   className="text-4xl text-start font-permanent font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-gray-600 to-gray-400 shadow-md"
