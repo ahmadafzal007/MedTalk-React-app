@@ -1,118 +1,104 @@
-import { CircleHelp, History, Menu, Plus, Settings } from "lucide-react";
-import { useContext, useState } from "react";
-import ChatContext from "../../providers/ChatsContext";
-import RecentChatItem from "./RecentChatItem";
-import SidebarMenuItem from "./SidebarMenuItem";
+import { useContext, useState } from 'react'
+import ChatContext from '../../providers/ChatsContext'
+import SidebarToggle from './sidebar/SidebarToggle'
+import NewChatButton from './sidebar/NewChatButton'
+import SearchBar from './sidebar/SearchBar'
+import RecentChats from './sidebar/RecentChats'
+import AddPatientButton from './sidebar/AddPatientButton'
+import ViewPatientsButton from './sidebar/ViewPatientsButton'
+import SidebarMenuItems from './sidebar/SidebarMenuItems'
 
-const Sidebar = () => {
-  const {
-    sendPrompt,
-    setRecentPrompt,
-    startNewChat,
-    prevPrompts,
-    isGenerating,
-  } = useContext(ChatContext);
-
-  const [isExpanded, setIsExpanded] = useState(true);
+const Sidebar = ({ setShowForm, setShowViewPatients }) => {
+  const { startNewChat, isGenerating } = useContext(ChatContext)
+  const [isExpanded, setIsExpanded] = useState(true)
+  const [recentChats, setRecentChats] = useState([]) // Track recent chats
+  const [chatCounter, setChatCounter] = useState(1) // Counter for naming chats
 
   const toggleSidebarExpand = () => {
-    setIsExpanded((prev) => !prev);
-  };
+    setIsExpanded((prev) => !prev)
+  }
 
-  const loadPrompt = async (prompt) => {
-    setRecentPrompt(prompt);
-    await sendPrompt(prompt);
-  };
+  const handleNewChat = () => {
+    startNewChat() // Start a fresh new chat
+    setShowForm(false) // Ensure the form is hidden when starting a new chat
+    setShowViewPatients(false) // Ensure the View Patients list is hidden when starting a new chat
+
+    // Update recent chats list (keep only the 3 most recent chats)
+    setRecentChats((prevChats) => {
+      const updatedChats = [
+        ...prevChats,
+        { name: `New Chat ${chatCounter}`, id: chatCounter },
+      ]
+      // Keep only the last 3 chats
+      if (updatedChats.length > 3) {
+        updatedChats.shift() // Remove the oldest chat (first one)
+      }
+      return updatedChats
+    })
+
+    // Increment chat counter for unique naming
+    setChatCounter((prevCounter) => prevCounter + 1)
+  }
+
+  const handleAddPatient = () => {
+    setShowForm(true) // Show Add Patient Form
+    setShowViewPatients(false) // Ensure View Patients is hidden
+  }
+
+  const handleViewPatients = () => {
+    setShowViewPatients(true) // Show View Patients
+    setShowForm(false) // Ensure Add Patient Form is hidden
+  }
 
   return (
     <div
       className={`hidden z-3 font-inconsolata h-screen flex-col justify-between bg-[#131314] text-white px-4 py-6 sm:inline-flex backdrop-blur-lg shadow-xl transform transition-all ${
-        isExpanded ? "w-60" : "w-[4.75rem]"
+        isExpanded ? 'w-60' : 'w-[4.75rem]'
       }`}
       style={{
-        boxShadow: "inset 0 0 15px rgba(255, 255, 255, 0.1), 0 4px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 255, 255, 0.1)",
-        transitionDuration: "400ms",
-        transitionTimingFunction: "ease-in-out",
+        boxShadow:
+          'inset 0 0 15px rgba(255, 255, 255, 0.1), 0 4px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 255, 255, 0.1)',
+        transitionDuration: '400ms',
+        transitionTimingFunction: 'ease-in-out',
       }}
     >
       <div>
-        <button
-          onClick={toggleSidebarExpand}
-          className="grid bg-black place-items-center rounded-full p-3 hover:bg-gray-900/80 transition-all ease-in-out transform hover:scale-110 shadow-lg text-white"
-          style={{
-            transitionDuration: "400ms",
-            transitionTimingFunction: "ease-in-out",
-            boxShadow: "0 0 10px rgba(255, 255, 255, 0.3)",
-          }}
-        >
-          <Menu size={20} />
-        </button>
-
-        <div
-          onClick={!isGenerating ? startNewChat : undefined}
-          className={`mt-10 bg-black inline-flex h-11 cursor-pointer items-center gap-2 rounded-full p-3 text-sm text-white font-semibold duration-300 transition-all ease-in-out transform ${
-            isExpanded ? "w-[8rem]" : "w-11"
-          } hover:scale-105 shadow-lg`}
-          style={{
-            transitionDuration: "400ms",
-            transitionTimingFunction: "ease-in-out",
-            boxShadow: "0 0 15px rgba(255, 255, 255, 0.3)",
-          }}
-        >
-          <Plus className="min-w-4" size={20} />
-          <p
-            className={`line-clamp-1 text-white font-thin  duration-300 ${
-              !isExpanded ? "opacity-0" : ""
-            }`}
-          >
-            New Chat
-          </p>
-        </div>
-
+        {/* Toggle Sidebar */}
+        <SidebarToggle toggleSidebarExpand={toggleSidebarExpand} />
+        {/* New Chat Button */}
+        <NewChatButton
+          isGenerating={isGenerating}
+          handleNewChat={handleNewChat} // Reset everything when starting a new chat
+          isExpanded={isExpanded}
+        />
+        {/* Search Bar */}
+        <SearchBar isExpanded={isExpanded} />
+        {/* Add Patient Button */}
+        <AddPatientButton
+          isExpanded={isExpanded}
+          setShowForm={handleAddPatient}
+        />
+        {/* View Patients Button */}
+        <ViewPatientsButton
+          isExpanded={isExpanded}
+          setShowViewPatients={handleViewPatients} // Update handler
+        />
+        {/* Recent Chats */}
         {isExpanded && (
-          <div className="animate-fade-in flex flex-col mt-6">
-            <p className="my-4 ml-1 text-white">Recent</p>
-
-            <div className="  space-y-3">
-              {prevPrompts
-                .slice()
-                .reverse()
-                .map((prompt, idx) => (
-                  <RecentChatItem
-                    key={`${prompt} - ${idx}`}
-                    onClick={
-                      !isGenerating ? () => loadPrompt(prompt) : undefined
-                    }
-                    label={prompt}
-                    className="text-white flex gap-1  items-center"
-                  />
-                ))}
-            </div>
-          </div>
+          <RecentChats
+            chats={recentChats} // Pass the recent chats
+            handleChatClick={() => {
+              setShowForm(false)
+              setShowViewPatients(false)
+            }} // Hide form and view patients when selecting an old chat
+            isGenerating={isGenerating}
+          />
         )}
       </div>
-
-      <div className="flex flex-col space-y-3">
-        {[
-          // Add your menu items here
-        ].map(({ label, icon }, idx) => (
-          <SidebarMenuItem
-            key={idx}
-            Icon={icon}
-            label={label}
-            isExpanded={isExpanded}
-            className={`text-white flex transition-transform ease-in-out ${
-              isExpanded ? "translate-x-0" : "-translate-x-3"
-            } hover:scale-110`}
-            style={{
-              transitionDuration: "400ms",
-              boxShadow: "0 0 15px rgba(255, 255, 255, 0.3)",
-            }}
-          />
-        ))}
-      </div>
+      {/* Sidebar Menu Items */}
+      <SidebarMenuItems isExpanded={isExpanded} />
     </div>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar

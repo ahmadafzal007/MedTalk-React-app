@@ -1,107 +1,134 @@
-import { createContext, useState } from 'react';
-import { runChat } from '../libs/gemini';
+import { createContext, useState } from 'react'
+import { runChat } from '../libs/gemini'
 
 export const ChatContext = createContext({
-	sendPrompt: async () => {},
-	setPrevPrompts: () => {},
-	setRecentPrompt: () => {},
-	setPrompt: () => {},
-	startNewChat: () => {},
-	prevPrompts: [],
-	recentPrompt: '',
-	prompt: '',
-	isPending: false,
-	isGenerating: false,
-	output: '',
-	showResult: false,
-});
+  sendPrompt: async () => {},
+  setPrevPrompts: () => {},
+  setRecentPrompt: () => {},
+  setPrompt: () => {},
+  startNewChat: () => {},
+  prevPrompts: [],
+  chatHistory: [], // Store entire conversation (prompt and response)
+  recentPrompt: '',
+  prompt: '',
+  isPending: false,
+  isGenerating: false,
+  output: [],
+  showResult: false,
+})
 
 export const ChatContextProvider = ({ children }) => {
-	const [prevPrompts, setPrevPrompts] = useState([]);
-	const [recentPrompt, setRecentPrompt] = useState('');
-	const [prompt, setPrompt] = useState('');
-	const [isPending, setIsPending] = useState(false);
-	const [isGenerating, setIsGenerating] = useState(false);
-	const [output, setOutput] = useState('');
-	const [showResult, setShowResult] = useState(false);
+  const [prevPrompts, setPrevPrompts] = useState([])
+  const [chatHistory, setChatHistory] = useState([]) // Stores prompts and responses
+  const [recentPrompt, setRecentPrompt] = useState('')
+  const [prompt, setPrompt] = useState('')
+  const [isPending, setIsPending] = useState(false)
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [output, setOutput] = useState([]) // Store output for each message
+  const [showResult, setShowResult] = useState(false)
 
-	const handleNewChat = () => {
-		setRecentPrompt('');
-		setOutput('');
-		setShowResult(false);
-	};
+  const handleNewChat = () => {
+    setRecentPrompt('')
+    setChatHistory([]) // Clear the entire conversation for a new chat
+    setOutput([])
+    setShowResult(false)
+  }
 
-	const handleSendPrompt = async (prompt) => {
-		setIsGenerating(true);
-		setIsPending(true);
-		setRecentPrompt(prompt);
-		setShowResult(true);
+  const handleSendPrompt = async (newPrompt) => {
+    setIsGenerating(true)
+    setIsPending(true)
+    setRecentPrompt(newPrompt)
+    setShowResult(true)
 
-		setPrevPrompts((prev) => [...prev.filter((p) => p !== prompt), prompt]);
+    // Add new prompt to previous prompts, avoiding duplicates
+    setPrevPrompts((prev) => [
+      ...prev.filter((p) => p !== newPrompt),
+      newPrompt,
+    ])
 
-		const { data, error } = await runChat(prompt);
-		let formattedResponse = '';
+    // Add new prompt to chat history
+    setChatHistory((prev) => [
+      ...prev,
+      { prompt: newPrompt, response: null }, // Response is null initially
+    ])
 
-		if (error) {
-			setOutput(`<span class="text-red-500">${error}</span>`);
-			setIsPending(false);
-			setIsGenerating(false);
-			setShowResult(true);
-			return;
-		}
+    const { data, error } = await runChat(newPrompt)
+    let formattedResponse = ''
 
-		data.split('**').forEach((word, idx) => {
-			if (idx === 0 || idx % 2 === 0) {
-				formattedResponse += word;
-			} else {
-				formattedResponse += `<strong>${word}</strong>`;
-			}
-		});
+    if (error) {
+      setChatHistory((prev) => [
+        ...prev,
+        {
+          prompt: newPrompt,
+          response: `<span class="text-red-500">${error}</span>`,
+        },
+      ])
+      setIsPending(false)
+      setIsGenerating(false)
+      return
+    }
 
-		formattedResponse = formattedResponse.split('*').join('<br />');
+    // Format the response with strong tags and line breaks
+    data.split('**').forEach((word, idx) => {
+      if (idx === 0 || idx % 2 === 0) {
+        formattedResponse += word
+      } else {
+        formattedResponse += `<strong>${word}</strong>`
+      }
+    })
 
-		setOutput('');
-		setIsPending(false);
+    formattedResponse = formattedResponse.split('*').join('<br />')
+    setIsPending(false)
 
-		await Promise.all(
-			formattedResponse
-				.split(' ')
-				.map((word, idx) => simulateTypingEffect(idx, word + ' ')),
-		);
+    const newOutput = []
+    await Promise.all(
+      formattedResponse
+        .split(' ')
+        .map((word, idx) => simulateTypingEffect(idx, word + ' ', newOutput))
+    )
 
-		setPrompt('');
-		setIsGenerating(false);
-	};
+    const finalOutput = newOutput.join('')
 
-	const simulateTypingEffect = (idx, nextWord) =>
-		new Promise((resolve) =>
-			setTimeout(() => {
-				setOutput((prev) => prev + nextWord);
-				resolve();
-			}, 40 * idx),
-		);
+    // Update the chat history with the final response
+    setChatHistory((prev) =>
+      prev.map((entry, index) =>
+        index === prev.length - 1 ? { ...entry, response: finalOutput } : entry
+      )
+    )
 
-	return (
-		<ChatContext.Provider
-			value={{
-				sendPrompt: handleSendPrompt,
-				setPrevPrompts,
-				setRecentPrompt,
-				setPrompt,
-				startNewChat: handleNewChat,
-				prevPrompts,
-				recentPrompt,
-				prompt,
-				isPending,
-				isGenerating,
-				output,
-				showResult,
-			}}
-		>
-			{children}
-		</ChatContext.Provider>
-	);
-};
+    setPrompt('')
+    setIsGenerating(false)
+  }
 
+  const simulateTypingEffect = (idx, nextWord, outputArray) =>
+    new Promise((resolve) =>
+      setTimeout(() => {
+        outputArray.push(nextWord)
+        resolve()
+      }, 40 * idx)
+    )
 
-export default ChatContext;
+  return (
+    <ChatContext.Provider
+      value={{
+        sendPrompt: handleSendPrompt,
+        setPrevPrompts,
+        setRecentPrompt,
+        setPrompt,
+        startNewChat: handleNewChat,
+        prevPrompts,
+        chatHistory, // Entire conversation is here
+        recentPrompt,
+        prompt,
+        isPending,
+        isGenerating,
+        output,
+        showResult,
+      }}
+    >
+      {children}
+    </ChatContext.Provider>
+  )
+}
+
+export default ChatContext
