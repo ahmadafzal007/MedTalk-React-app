@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   patientList: [], // Store patient data here
 }
-
+// Initialize Marry
 const patientSlice = createSlice({
   name: 'patients',
   initialState,
