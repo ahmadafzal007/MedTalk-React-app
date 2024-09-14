@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import hospitalReducer from './hospitalSlice'
 import radiologistReducer from './radiologistSlice'
-import patientReducer from './patientSlice'
+import patientReducer from './patientSLice'
 export const store = configureStore({
   reducer: {
     hospital: hospitalReducer,

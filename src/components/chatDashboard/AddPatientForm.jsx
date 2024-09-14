@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addPatient } from '../../redux/patientSlice' // Import addPatient action
+import { addPatient } from '../../redux/patientSLice' // Import addPatient action
 
 const AddPatientForm = ({ setShowForm }) => {
   const [name, setName] = useState('')
