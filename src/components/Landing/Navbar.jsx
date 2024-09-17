@@ -36,7 +36,7 @@ const Header = () => {
 
           <Link to={"/faq"}>
             <li>
-              <button className="hover:border-white font-light hidden border-1 md:block p-2 text-lg font-poppins text-white-900 transition-all duration-300 ease-in-out transform hover:bg-black hover:text-white hover:scale-105 hover:shadow-lg"
+              <button className="hover:border-white font-light  border-1 md:block p-2 text-lg font-poppins text-white-900 transition-all duration-300 ease-in-out transform hover:bg-black hover:text-white hover:scale-105 hover:shadow-lg"
   >FAQs
               </button> 
             </li>
