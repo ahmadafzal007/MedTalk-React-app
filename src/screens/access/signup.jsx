@@ -55,7 +55,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="bg-black font-inconsolata h-screen relative">
+    <div className="bg-black font-poppins font-light h-screen fixed w-full">
       {/* Back Icon */}
       <div className="absolute top-2 md:top-4 md:left-4">
         <button
@@ -66,13 +66,17 @@ const SignUpPage = () => {
         </button>
       </div>
 
-      <h1 className="text-6xl md:text-8xl text-white font-permanent text-center pt-16  font-bold mb-8 md:mb-0">
-        MedTalk
-      </h1>
+      <div className="text-center pt-16 mb-8 md:mb-0">
+  <img
+    src="/medtalk-main.png" // Reference to the logo in the public directory
+    alt="MedTalk Logo"
+    className="mx-auto h-28 md:h-44" // Adjust size (h-32 = 8rem, md:h-48 = 12rem for larger screens)
+  />
+</div>
       <div className="flex items-center justify-center">
         <div className="p-8 rounded-lg shadow-lg w-full max-w-md text-white">
           <h2
-            className="text-2xl animate-float font-bold text-center mb-12 md:mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-400 via-gray-600 to-gray-400 shadow-md"
+            className="text-xl  font-base text-center mb-12 md:mb-4 "
             style={{
               backgroundImage:
                 "linear-gradient(90deg, #d1d5db, #6b7280, #4b5563)",
@@ -87,7 +91,7 @@ const SignUpPage = () => {
           {step === 1 && (
             <form onSubmit={handleNameSubmit}>
               <div className="mb-4">
-                <label htmlFor="name" className="block text-gray-400 mb-2">
+                <label htmlFor="name" className="block  mb-2">
                   Name*
                 </label>
                 <input
@@ -135,7 +139,7 @@ const SignUpPage = () => {
           {step === 2 && (
             <form onSubmit={handleEmailSubmit}>
               <div className="mb-4">
-                <label htmlFor="email" className="block text-gray-400 mb-2">
+                <label htmlFor="email" className="block  mb-2">
                   Email address*
                 </label>
                 <input
@@ -197,7 +201,7 @@ const SignUpPage = () => {
           {step === 3 && (
             <form onSubmit={handlePasswordSubmit}>
               <div className="">
-                <label htmlFor="password" className="block text-gray-400 mb-2">
+                <label htmlFor="password" className="block mb-2">
                   Password*
                 </label>
                 <input
