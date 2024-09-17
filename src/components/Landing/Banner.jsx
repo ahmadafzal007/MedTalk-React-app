@@ -28,7 +28,7 @@ const Banner = () => {
           </div>
 
           <div>
-            <h1 className="text-white  font-poppins pl-[28px] md:pl-0  xsm:text-sm text-base md:text-lg font- mr-8 md:mr-0 md:text-start">
+            <h1 className="text-white font-medium  font-poppins pl-[28px] md:pl-0  xsm:text-sm text-base md:text-lg font- mr-8 md:mr-0 md:text-start">
             A chatbot designed for swift medical diagnosis            </h1>
           </div>
 
