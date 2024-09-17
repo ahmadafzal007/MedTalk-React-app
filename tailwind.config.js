@@ -108,12 +108,17 @@ export default {
         matemasie: ['Matemasie', 'sans-serif'],
         libre: ['Libre Baskerville', 'serif'],
         pacifico: ['Pacifico', 'cursive'],
-        caveat: ['Caveat', 'cursive'],
+        caveat: ['Caveat', 'cursive'], // Add the Caveat font
         chewy: ['Chewy', 'cursive'],
         permanent: ['Permanent Marker', 'cursive'],
         roboto: ['Roboto', 'sans-serif'],
         inconsolata: ['Inconsolata', 'monospace'],
         suse: ['SUSE', 'sans-serif'],
+        merriweather: ['Merriweather', 'serif'],
+        varela: ['Varela Round', 'sans-serif'],
+        source: ['Source Code Pro', 'monospace'],
+        poppins: ['Poppins', 'sans-serif'],
+
       },
 
       letterSpacing: {

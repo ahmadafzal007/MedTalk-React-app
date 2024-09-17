@@ -22,19 +22,18 @@ const Banner = () => {
       <div className="w-full flex  pt-20 justify-between items-center ">
         <div className="flex  justify-start items-center md:items-start  flex-col gap-3 pb-12 md:pl-16  ">
           <div className="mt-44 lg:mt-0">
-            <div className="font-permanent text-7xl  md:text-8xl font-bold text-white-900 leading-tight">
+            <div className="font-varela text-7xl  md:text-8xl font-semibold text-white-900 leading-tight">
               MedTalk
             </div>
           </div>
 
           <div>
-            <h1 className="text-white font-inconsolata pl-[28px] md:pl-0 xsm:text-sm text-base md:text-lg font-bold mr-8 md:mr-0 md:text-start">
-              A generative AI chatbot for Medical Purposes
-            </h1>
+            <h1 className="text-white  font-poppins pl-[28px] md:pl-0  xsm:text-sm text-base md:text-lg font- mr-8 md:mr-0 md:text-start">
+            A chatbot designed for swift medical diagnosis            </h1>
           </div>
 
           <div>
-            <p className=" font-inconsolata md:w-[500px] pl-[28px] md:pl-0 text-white-700  text-sm md:text-base md:text-start mr-8 md:mr-0">
+            <p className=" font-poppins md:w-[500px] pl-[28px] font-extralight md:pl-0 text-white-700  text-sm md:text-base md:text-start mr-8 md:mr-0">
               Collarobate with MedTalk for healthcare information, treatment and
               diagnosis
             </p>
@@ -43,11 +42,11 @@ const Banner = () => {
           {/* Button */}
 
           <div className="mt-4">
-          <button onClick={handleLoginClick} className="relative  inline-block p-px font-semibold leading-6 text-white no-underline bg-gray-800 hover:bg-gray-900 shadow-2xl cursor-pointer group rounded-xl shadow-zinc-900 animate-float">
+          <button onClick={handleLoginClick} className="relative  inline-block p-px font-medium leading-6 text-white no-underline bg-gray-800 hover:bg-gray-900 shadow-2xl cursor-pointer group rounded-xl shadow-zinc-900 animate-float">
               <span className="absolute inset-0 overflow-hidden rounded-lg">
                 <span className="absolute inset-0 rounded-lg opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
               </span>
-              <div className="relative font-inconsolata z-10 flex items-center px-4 py-2 space-x-2 rounded-lg bg-gray-950/50 ring-1 ring-white/10 sm:px-3 sm:py-1 sm:text-sm md:px-6 md:py-3 md:space-x-2 md:text-base">
+              <div className="relative  font-poppins z-10 flex items-center px-4 py-2 space-x-2 rounded-lg bg-gray-950/50 ring-1 ring-white/10 sm:px-3 sm:py-1 sm:text-sm md:px-6 md:py-3 md:space-x-2 md:text-base">
                 <span>Let's get started</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
