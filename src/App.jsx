@@ -10,6 +10,7 @@ import Dashboard from './screens/Dashboard/Dashboard'
 import RadiologistData from './screens/RadiologistData' // Import the RadiologistData screen
 import { Provider } from 'react-redux' // Import Provider from react-redux
 import store from './redux/store' // Import your Redux store
+import DoctorDashboard from './components/Doctor/DoctorDashboard'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path='/main' element={<Main />} />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/radiologist' element={<RadiologistData />} />
+          <Route path='doctordashboard' element={<DoctorDashboard />}></Route>
         </Routes>
       </Router>
     </Provider>
