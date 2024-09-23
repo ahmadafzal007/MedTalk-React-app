@@ -7,9 +7,9 @@ import Login from './screens/access/Login'
 import SignUp from './screens/access/signup'
 import Main from './screens/MainScreen'
 import Dashboard from './screens/Dashboard/Dashboard'
-import RadiologistData from './screens/RadiologistData' // Import the RadiologistData screen
-import { Provider } from 'react-redux' // Import Provider from react-redux
-import store from './redux/store' // Import your Redux store
+import RadiologistData from './screens/RadiologistData' 
+import { Provider } from 'react-redux' 
+import store from './redux/store'
 import DoctorDashboard from './components/Doctor/DoctorDashboard'
 
 function App() {

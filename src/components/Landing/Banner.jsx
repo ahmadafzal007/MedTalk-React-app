@@ -22,7 +22,7 @@ const Banner = () => {
       <div className="w-full flex  pt-20 justify-between items-center ">
         <div className="flex  justify-start items-center md:items-start  flex-col gap-3 pb-12 md:pl-16  ">
           <div className="mt-44 lg:mt-0">
-            <div className="font-varela text-7xl  md:text-8xl font-semibold text-white-900 leading-tight">
+            <div className="font-sans text-7xl  md:text-8xl font-semibold text-white-900 leading-tight">
               MedTalk
             </div>
           </div>
