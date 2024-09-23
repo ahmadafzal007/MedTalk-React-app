@@ -70,7 +70,7 @@ const FAQ = () => {
         <div className="grid md:grid-cols-5 gap-10">
           <div className="flex justify-center md:col-span-2">
             <div className="max-w-xs">
-              <h2 className=" text-[90px] ml-[10px] md:ml-0 font-varela font-bold text-white  leading-tight">
+              <h2 className=" text-[90px] ml-[10px] md:ml-0 font-bold text-white  leading-tight tracking-wide">
                 FAQ!
               </h2>
               <div>
