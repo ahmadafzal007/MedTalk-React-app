@@ -4,19 +4,14 @@ const NewChatButton = ({ isGenerating, handleNewChat, isExpanded }) => {
   return (
     <div
       onClick={!isGenerating ? handleNewChat : undefined}
-      className={`mt-3 bg-black inline-flex h-11 cursor-pointer items-center gap-2 rounded-full p-3 text-sm text-white font-semibold duration-300 transition-all ease-in-out transform ${
-        isExpanded ? 'w-[9rem]' : 'w-11'
-      } hover:scale-105 shadow-lg`}
-      style={{
-        transitionDuration: '400ms',
-        transitionTimingFunction: 'ease-in-out',
-        boxShadow: '0 0 15px rgba(255, 255, 255, 0.3)',
-      }}
+      className={`mt-3 rounded-lg  border-gray-600  hover:border-white inline-flex  h-8 cursor-pointer items-center gap-2 p-3 text-sm text-white font-semibold duration-300 transition-all ease-in-out transform ${
+        isExpanded ? 'w-[100%]' : 'w-11' // Stretch to full width when expanded
+      } hover:bg-[#1e1e22] hover:scale-105 shadow-md`}
     >
-      <Plus className='min-w-4' size={20} />
+      <Plus className='min-w-4 text-gray-300' size={20} />
       <p
-        className={`line-clamp-1 text-white font-thin duration-300 ${
-          !isExpanded ? 'opacity-0' : ''
+        className={`line-clamp-1 text-xs text-white font-normal duration-300 ${
+          !isExpanded ? 'opacity-0' : 'opacity-100'
         }`}
       >
         New Chat

@@ -4,6 +4,7 @@ import {
   faPaperclip,
   faPaperPlane,
   faTimes,
+   faPrint,
 } from '@fortawesome/free-solid-svg-icons'
 
 const ChatInput = ({ prompt, setPrompt, handleSendPrompt, isGenerating }) => {
@@ -41,12 +42,13 @@ const ChatInput = ({ prompt, setPrompt, handleSendPrompt, isGenerating }) => {
   }
 
   return (
-    <div className='absolute mb-12 md:mb-0 bottom-0 left-0 flex flex-col items-center bg-black right-0 mx-auto max-w-screen px-4 py-3 md:px-6 md:py-4 backdrop-blur-sm'>
+    <div className='absolute font-poppins mb-12 md:mb-0 bottom-0 left-0 flex flex-col items-center bg-black right-0 mx-auto max-w-screen px-4 py-3 md:px-6 md:py-4 backdrop-blur-sm'>
+      
+      <div className='flex justify-center items-center gap-x-2'>
+
       <div
-        className='flex items-center justify-between gap-3 rounded-full max-w-[800px] bg-[#131314] px-4 py-2 md:px-5 md:py-3 shadow-lg'
-        style={{
-          boxShadow: '0 0 8px rgba(255, 255, 255, 0.5)', // Border glow effect
-        }}
+        className='flex items-center justify-between gap-3 rounded-lg max-w-[800px] bg-black border border-gray-600 px-4 py-2 md:px-5 md:py-3 shadow-lg'
+      
       >
         {/* Paperclip Icon for File Upload */}
         <div className='cursor-pointer relative' onClick={handleIconClick}>
@@ -86,7 +88,7 @@ const ChatInput = ({ prompt, setPrompt, handleSendPrompt, isGenerating }) => {
           ref={inputRef} // Attach the ref to the input field
           onChange={(e) => setPrompt(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSendPrompt()}
-          className='flex-1 text-white w-[300px] md:w-[400px] lg:w-[600px] md:h-[30px] border-none bg-transparent font-thin outline-none'
+          className='flex-1 ml-2 text-white w-[300px] md:w-[400px] lg:w-[600px] md:h-[30px] border-none bg-transparent font-normal text-sm outline-none'
           type='text'
           placeholder='Enter a prompt here'
           value={prompt}
@@ -104,9 +106,24 @@ const ChatInput = ({ prompt, setPrompt, handleSendPrompt, isGenerating }) => {
             }}
           />
         </div>
-      </div>
+      
 
-      <p className='mt-3 w-[300px] md:w-[400px] lg:w-[600px] font-thin md:ml-4 text-center text-xs font-light text-gray-300'>
+      </div>
+        {/* {!showForm && !showViewPatients && ( */}
+          <div className=''>
+              <button
+                className='bg-black border border-gray-600 text-white py-4 px-4 rounded-lg flex items-center hover:bg-[#1e1e22] transition duration-300 shadow-lg'
+                onClick={() => setShowPDFForm(true)} // Show the modal with the form
+              >
+                          <FontAwesomeIcon icon={faPrint} className='text-white text-xl' />
+
+              </button>
+            </div>
+          {/* )}   */}
+          </div>
+
+
+      <p className='mt-3 w-[300px] md:w-[400px] lg:w-[600px]  md:ml-4 text-center text-[9px]  text-gray-300'>
         MedTalk may display inaccurate info, including about diagnosis, so if
         you are using it as a patient, must refer to your doctor.
       </p>

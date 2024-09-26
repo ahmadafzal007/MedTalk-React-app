@@ -94,3 +94,22 @@ button:focus-visible {
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
   scrollbar-width: none;  /* Firefox */
 }
+
+
+/* Custom Scrollbar Styling */
+.scrollbar-thin {
+  scrollbar-width: thin; /* For Firefox */
+}
+
+.scrollbar-thumb-rounded {
+  scrollbar-color: #888 #333; /* Thumb color #888, track color #333 */
+}
+
+.scrollbar-thumb-rounded::-webkit-scrollbar {
+  width: 8px; /* For Chrome, Safari, and Edge */
+}
+
+.scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
+  background-color: #888; /* Thumb color */
+  border-radius: 10px; /* Rounded corners */
+}

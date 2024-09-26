@@ -99,7 +99,7 @@ const FAQ = () => {
                   id={`hs-accordion-heading-${index}`}
                 >
                   <button
-                    className="hs-accordion-toggle font-poppins font-medium group pb-3 inline-flex items-center justify-between gap-x-3 w-full text-base md:text-lg  p-3  text-start text-white rounded-lg  text-glow"
+                    className="hs-accordion-toggle font-poppins font-semibold group pb-3 inline-flex items-center justify-between gap-x-3 w-full text-base md:text-md  p-3  text-start text-white rounded-lg  text-glow"
                     aria-controls={`hs-accordion-collapse-${index}`}
                     onClick={() => toggleAccordion(index)}
                   >
@@ -134,7 +134,7 @@ const FAQ = () => {
                     }`}
                     aria-labelledby={`hs-accordion-heading-${index}`}
                   >
-                    <p className="text-white text-base font-light font-poppins text-start">
+                    <p className="text-white text-sm font-light font-poppins text-start">
                       {faq.answer}
                     </p>
                   </div>

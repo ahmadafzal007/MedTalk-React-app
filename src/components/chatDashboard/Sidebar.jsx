@@ -1,104 +1,99 @@
-import { useContext, useState } from 'react'
-import ChatContext from '../../providers/ChatsContext'
-import SidebarToggle from './sidebar/SidebarToggle'
-import NewChatButton from './sidebar/NewChatButton'
-import SearchBar from './sidebar/SearchBar'
-import RecentChats from './sidebar/RecentChats'
-import AddPatientButton from './sidebar/AddPatientButton'
-import ViewPatientsButton from './sidebar/ViewPatientsButton'
-import SidebarMenuItems from './sidebar/SidebarMenuItems'
+import { useContext, useState } from 'react';
+import ChatContext from '../../providers/ChatsContext';
+import SidebarToggle from './sidebar/SidebarToggle';
+import NewChatButton from './sidebar/NewChatButton';
+import SearchBar from './sidebar/SearchBar';
+import RecentChats from './sidebar/RecentChats';
+import AddPatientButton from './sidebar/AddPatientButton';
+import ViewPatientsButton from './sidebar/ViewPatientsButton';
+import SidebarMenuItems from './sidebar/SidebarMenuItems';
+import UpgradeCard from './sidebar/UpgardeCard'; // New component
 
-const Sidebar = ({ setShowForm, setShowViewPatients }) => {
-  const { startNewChat, isGenerating } = useContext(ChatContext)
-  const [isExpanded, setIsExpanded] = useState(true)
-  const [recentChats, setRecentChats] = useState([]) // Track recent chats
-  const [chatCounter, setChatCounter] = useState(1) // Counter for naming chats
+const Sidebar = ({ setShowForm, setShowViewPatients ,setIsExpanded, isExpanded,
+}) => {
+  const { startNewChat, isGenerating } = useContext(ChatContext);
+  // const [isExpanded, setIsExpanded] = useState(false); // Default state is collapsed (false)
+  const [recentChats, setRecentChats] = useState([]); // Track recent chats
+  const [chatCounter, setChatCounter] = useState(1); // Counter for naming chats
 
   const toggleSidebarExpand = () => {
-    setIsExpanded((prev) => !prev)
-  }
+    localStorage.setItem('isExpanded', !isExpanded); // Save state to local storage
+    setIsExpanded((prev) => !prev);
+  };
 
   const handleNewChat = () => {
-    startNewChat() // Start a fresh new chat
-    setShowForm(false) // Ensure the form is hidden when starting a new chat
-    setShowViewPatients(false) // Ensure the View Patients list is hidden when starting a new chat
+    startNewChat();
+    setShowForm(false);
+    setShowViewPatients(false);
 
     // Update recent chats list (keep only the 3 most recent chats)
     setRecentChats((prevChats) => {
       const updatedChats = [
         ...prevChats,
         { name: `New Chat ${chatCounter}`, id: chatCounter },
-      ]
-      // Keep only the last 3 chats
+      ];
       if (updatedChats.length > 3) {
-        updatedChats.shift() // Remove the oldest chat (first one)
+        updatedChats.shift();
       }
-      return updatedChats
-    })
+      return updatedChats;
+    });
 
-    // Increment chat counter for unique naming
-    setChatCounter((prevCounter) => prevCounter + 1)
-  }
+    setChatCounter((prevCounter) => prevCounter + 1);
+  };
 
   const handleAddPatient = () => {
-    setShowForm(true) // Show Add Patient Form
-    setShowViewPatients(false) // Ensure View Patients is hidden
-  }
+    setShowForm(true);
+    setShowViewPatients(false);
+  };
 
   const handleViewPatients = () => {
-    setShowViewPatients(true) // Show View Patients
-    setShowForm(false) // Ensure Add Patient Form is hidden
-  }
+    setShowViewPatients(true);
+    setShowForm(false);
+  };
 
   return (
     <div
-      className={`hidden z-3 font-inconsolata h-screen flex-col justify-between bg-[#131314] text-white px-4 py-6 sm:inline-flex backdrop-blur-lg shadow-xl transform transition-all ${
-        isExpanded ? 'w-60' : 'w-[4.75rem]'
-      }`}
-      style={{
-        boxShadow:
-          'inset 0 0 15px rgba(255, 255, 255, 0.1), 0 4px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 255, 255, 0.1)',
-        transitionDuration: '400ms',
-        transitionTimingFunction: 'ease-in-out',
-      }}
+      className={`z-3 hidden  font-poppins h-screen flex-col justify-between text-white px-4 py-6 backdrop-blur-lg shadow-xl bg-[#151518] border border-gray-700 transform transition-all ${
+        isExpanded ? 'w-[350px]' : 'w-[4.75rem]'
+      } overflow-y-auto overflow-x-hidden sm:flex sm:inline-flex`} // Ensure it's visible in larger screens
     >
-      <div>
-        {/* Toggle Sidebar */}
-        <SidebarToggle toggleSidebarExpand={toggleSidebarExpand} />
-        {/* New Chat Button */}
-        <NewChatButton
-          isGenerating={isGenerating}
-          handleNewChat={handleNewChat} // Reset everything when starting a new chat
-          isExpanded={isExpanded}
-        />
-        {/* Search Bar */}
-        <SearchBar isExpanded={isExpanded} />
-        {/* Add Patient Button */}
-        <AddPatientButton
-          isExpanded={isExpanded}
-          setShowForm={handleAddPatient}
-        />
-        {/* View Patients Button */}
-        <ViewPatientsButton
-          isExpanded={isExpanded}
-          setShowViewPatients={handleViewPatients} // Update handler
-        />
-        {/* Recent Chats */}
-        {isExpanded && (
-          <RecentChats
-            chats={recentChats} // Pass the recent chats
-            handleChatClick={() => {
-              setShowForm(false)
-              setShowViewPatients(false)
-            }} // Hide form and view patients when selecting an old chat
-            isGenerating={isGenerating}
-          />
+      <div className='w-full'>
+        {/* Only render this section if expanded or on medium screens */}
+        {isExpanded || window.innerWidth >= 640 ? (
+          <>
+            <SidebarToggle toggleSidebarExpand={toggleSidebarExpand} />
+            <NewChatButton
+              isGenerating={isGenerating}
+              handleNewChat={handleNewChat}
+              isExpanded={isExpanded}
+            />
+            <AddPatientButton
+              isExpanded={isExpanded}
+              setShowForm={handleAddPatient}
+            />
+            <ViewPatientsButton
+              isExpanded={isExpanded}
+              setShowViewPatients={handleViewPatients}
+            />
+            {isExpanded && (
+              <RecentChats
+                chats={recentChats}
+                handleChatClick={() => {
+                  setShowForm(false);
+                  setShowViewPatients(false);
+                }}
+                isGenerating={isGenerating}
+              />
+            )}
+          </>
+        ) : (
+          <SidebarToggle toggleSidebarExpand={toggleSidebarExpand} /> // Show toggle button only if collapsed
         )}
       </div>
-      {/* Sidebar Menu Items */}
-      <SidebarMenuItems isExpanded={isExpanded} />
+      {/* Upgrade Card */}
+      {isExpanded && <UpgradeCard />} {/* Only show upgrade card if expanded */}
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

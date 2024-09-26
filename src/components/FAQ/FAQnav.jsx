@@ -10,7 +10,7 @@ const Header = () => {
   };
 
   return (
-    <div className="w-full top-0 text-white py-7 flex justify-between items-center border-b-[1px] border-b-white-800">
+    <div className="w-full top-0 text-white py-5 flex justify-between items-center border-b-[1px] border-b-white-800">
       <div className="flex items-center">
       
       <Link
@@ -30,7 +30,7 @@ const Header = () => {
             <button
               type="button"
               onClick={handleLoginClick}
-              className="border-white hidden border-1 md:block p-2 text-lg font-poppins text-white-900 transition-all duration-300 ease-in-out transform hover:bg-black hover:text-white hover:scale-105 hover:shadow-lg"
+              className="border-white hidden border-1 md:block p-2 rounded-full font-poppins text-white-900 transition-all duration-300 ease-in-out transform hover:bg-black hover:text-white hover:scale-105 hover:shadow-lg"
               >
               <LoginIcon className="w-[8px] h-[8px]" />{" "}
               {/* Use the MUI Login icon */}

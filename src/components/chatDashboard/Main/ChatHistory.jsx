@@ -3,7 +3,7 @@ import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 
 const ChatHistory = ({ chatHistory, isGenerating, isPending }) => {
   return (
-    <section className='h-[550px] md:h-[380px] lg:w-[900px] md:w-[600px] w-[360px] overflow-hidden overflow-y-auto scrollbar-hide'>
+    <section className='h-[550px] font-poppins md:h-[380px] lg:w-[900px] md:w-[600px] w-[360px] overflow-hidden overflow-y-auto scrollbar-hide'>
       {chatHistory.map(({ prompt, response }, index) => (
         <div key={index} className='mb-4'>
           {/* Display the user's prompt with fadeIn animation */}
@@ -26,10 +26,10 @@ const ChatHistory = ({ chatHistory, isGenerating, isPending }) => {
           >
             <div className='flex items-center justify-center h-8 w-8 md:h-10 md:w-10'>
               <img
-                className={`w-6 md:w-7 transition-transform duration-500 ${
+                className={`w-4 min-w-4 md:w-5 md:min-w-5  transition-transform duration-500 ${
                   isPending || isGenerating ? 'animate-pulse' : ''
                 }`}
-                src='/gemini.svg'
+                src='/medtalk-circle.png'
                 alt='gemini icon'
                 style={{
                   filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.3))',

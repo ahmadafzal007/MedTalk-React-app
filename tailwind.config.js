@@ -40,6 +40,7 @@ export default {
         xsm: '400px',
         sm: '560px',
         md: '650px',
+        mlg: '850px',
         lg: '1000px',
         xl: '1280px',
       },

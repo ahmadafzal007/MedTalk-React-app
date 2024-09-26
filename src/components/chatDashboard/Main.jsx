@@ -6,13 +6,13 @@ import ChatInput from './Main/ChatInput'
 import AddPatientForm from './AddPatientForm'
 import ViewPatients from './ViewPatients'
 import PrintReportForm from '../../Print/PrintReportForm' // Import the form instead of button
-import { ChevronDown, UserRound } from 'lucide-react' // Import icons
+import Navbar from './MainNavbar' // Import the new Navbar component
 
 const Main = ({
   showForm,
   setShowForm,
   showViewPatients,
-  setShowViewPatients,
+  isExpanded, // Accept the isExpanded prop
 }) => {
   const {
     sendPrompt,
@@ -23,12 +23,7 @@ const Main = ({
     chatHistory,
   } = useContext(ChatContext)
 
-  const [isOpen, setIsOpen] = useState(false) // For dropdown menu
   const [showPDFForm, setShowPDFForm] = useState(false) // State to control the PDF form modal
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen)
-  }
 
   const handleSendPrompt = () => {
     if (prompt.trim()) {
@@ -39,66 +34,9 @@ const Main = ({
   const hasMessages = chatHistory && chatHistory.length > 0
 
   return (
-    <div className='relative font-inconsolata w-full h-screen bg-black text-white'>
+    <div className='md:relative relative font-inconsolata w-full h-screen bg-black text-white'>
       {/* Navigation Bar */}
-      <nav className='flex items-center justify-between px-4 py-3 md:px-6 md:py-4 text-base font-light'>
-        <div className='relative'>
-          <button
-            onClick={toggleDropdown}
-            className='text-base font-thin text-white flex items-center gap-2'
-          >
-            MedTalk
-            <ChevronDown
-              size={15}
-              className={`transition-transform ${
-                isOpen ? 'rotate-180' : 'rotate-0'
-              }`}
-            />
-          </button>
-          {isOpen && (
-            <div className='absolute left-0 mt-2 w-48 bg-black text-white rounded-lg border-2 border-white shadow-lg'>
-              <ul>
-                <li
-                  className='cursor-pointer text-sm px-4 py-2 bg-[#131314] hover:bg-[#131314] rounded-lg'
-                  onClick={() => alert('MedTalk Pro')}
-                >
-                  MedTalk Pro
-                </li>
-              </ul>
-            </div>
-          )}
-        </div>
-        <div>
-          <ul className='flex items-center gap-2 md:gap-3 text-sm md:text-lg font-bold'>
-            <li>
-              <button className='hidden font-thin md:block text-base md:mr-4'>
-                Try MedTalk Pro
-              </button>
-            </li>
-            <li className='flex items-center justify-center h-8 w-8 md:h-10 md:w-10 rounded-full bg-gray-800 shadow-md'>
-              <UserRound
-                size={20}
-                className='text-white'
-                style={{
-                  filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.3))',
-                }}
-              />
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-      {/* Only show the Generate PDF button if neither showForm nor showViewPatients is true */}
-      {!showForm && !showViewPatients && (
-        <div className='absolute right-4 top-20 md:top-28'>
-          <button
-            className='bg-gray-800 text-white py-2 px-4 rounded-lg flex items-center hover:bg-gray-700 transition duration-300 shadow-lg'
-            onClick={() => setShowPDFForm(true)} // Show the modal with the form
-          >
-            <span className='mr-2'>Generate PDF</span>
-          </button>
-        </div>
-      )}
+      <Navbar setShowPDFForm={setShowPDFForm} />
 
       {/* Modal for Print Report Form */}
       {showPDFForm && (
@@ -115,11 +53,11 @@ const Main = ({
         </div>
       )}
 
-      <main className='flex-1 items-center justify-center overflow-y-auto px-4 py-5 md:px-6 md:py-8'>
-        <div className='lg:w-[1000px] lg:ml-[140px]'>
+      <main className={`flex-1 items-center justify-center overflow-y-auto px-4 py-5 md:px-6 md:py-8 ${isExpanded ? "" : ""}`}>
+        <div className=''>
           {/* Render HelpSection if no chat messages are present */}
           {!showForm && !showViewPatients && !hasMessages && (
-            <HelpSection hasMessages={false} />
+            <HelpSection hasMessages={false} isSidebarExpanded={isExpanded} />
           )}
 
           {/* Render chat messages when chat has started */}
@@ -137,6 +75,8 @@ const Main = ({
           {/* Show View Patients */}
           {showViewPatients && <ViewPatients />}
 
+
+          
           {/* Chat Input Section */}
           {!showForm && !showViewPatients && (
             <ChatInput
@@ -146,6 +86,8 @@ const Main = ({
               isGenerating={isGenerating}
             />
           )}
+
+          
         </div>
       </main>
     </div>
