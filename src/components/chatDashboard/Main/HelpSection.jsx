@@ -36,7 +36,7 @@ const HelpSection = ({ hasMessages , isExpanded}) => {
 
   return (
     <div
-      className={`max-h-screen mt-20 md:mt-24 lg:mt-28 flex flex-col justify-center items-center transition-all  ${
+      className={`max-h-screen  pt-20 md:mt-24 lg:mt-28 flex flex-col justify-center items-center transition-all  ${
         isSidebarExpanded ? '' : '' // Adjust margin based on sidebar expansion
       }`}
     >

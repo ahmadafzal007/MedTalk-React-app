@@ -42,7 +42,7 @@ const ChatInput = ({ prompt, setPrompt, handleSendPrompt, isGenerating }) => {
   }
 
   return (
-    <div className='absolute font-poppins pb-8 md:pb-0 md:mb-0 bottom-0 left-0 flex flex-col items-center bg-black right-0 mx-auto max-w-screen  px-4 py-0  md:px-6 md:py-4 backdrop-blur-sm'>
+    <div className='absolute  mb-16 font-poppins  md:pb-0 md:mb-0 bottom-0 left-0 flex flex-col items-center bg-black right-0 mx-auto max-w-screen  px-4 py-0  md:px-6 md:py-4 backdrop-blur-sm'>
       
       <div className='flex justify-center items-center gap-x-2'>
 
