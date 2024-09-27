@@ -44,7 +44,7 @@ const Main = ({
           <div className='relative bg-[#151518] mt-16 text-white p-8 rounded-lg w-11/12 md:w-2/3 lg:w-1/2 max-h-[80vh] overflow-y-auto border-2 border-gray-600 shadow-lg'>
             <button
               onClick={() => setShowPDFForm(false)}
-              className='absolute top-4 p-2 right-4 text-gray-300 hover:text-white'
+              className='absolute top-4 p-2 px-4 right-4 text-gray-300 hover:text-white'
             >
               X {/* Close button */}
             </button>
