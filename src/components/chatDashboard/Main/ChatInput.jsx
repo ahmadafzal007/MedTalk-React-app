@@ -67,7 +67,7 @@ const ChatInput = ({ prompt, setPrompt, handleSendPrompt, isGenerating, setShowP
               />
               {/* X icon to remove the image */}
               <button
-                className='absolute top-0 right-0 bg-black bg-opacity-60 text-white rounded-full p-0.5'
+                className='absolute top-2 right-2  bg-opacity-60 text-white rounded-full p-0'
                 onClick={handleRemoveImage}
                 style={{
                   transform: 'translate(50%, -50%)', // Align the button slightly outside the top-right corner

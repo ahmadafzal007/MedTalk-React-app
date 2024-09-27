@@ -73,8 +73,8 @@ const ChatHistory = ({ chatHistory, isGenerating, isPending }) => {
           {/* User's prompt */}
           <div className="flex flex-row-reverse justify-start items-start animate-fadeIn gap-2">
             {/* Prompt logo (on the right) */}
-            <div className="flex items-center justify-center h-7 w-7 md:h-9 md:w-9 rounded-full bg-[#151518] border border-gray-600 ">
-              <FontAwesomeIcon icon={faUserCircle} className="text-gray-300" size="lg" />
+            <div className="flex items-center justify-center h-5 w-5 md:h-5 md:w-5 rounded-full bg-[#151518] border border-gray-600 ">
+              <FontAwesomeIcon icon={faUserCircle} className="text-gray-300" size="sm" />
             </div>
             {/* Prompt content */}
             <div className="max-w-[75%] bg-[#151518] border border-gray-600 p-2 rounded-lg shadow-md text-right text-xs">
@@ -88,9 +88,9 @@ const ChatHistory = ({ chatHistory, isGenerating, isPending }) => {
               isPending || isGenerating ? 'animate-pulse' : ''
             }`}
           >
-            <div className="flex items-center justify-center h-7 w-7 md:h-9 md:w-9 rounded-full bg-[#151518] border border-gray-600">
+            <div className="flex items-center justify-center h-5 w-5 md:h-5 md:w-5 rounded-full bg-[#151518] border border-gray-600">
               <img
-                className={`w-4 min-w-4 md:w-5 md:min-w-5 transition-transform duration-500 ${
+                className={`w-4 min-w-4 md:w-3 md:min-w-3 transition-transform duration-500 ${
                   isPending || isGenerating ? 'animate-pulse' : ''
                 }`}
                 src="/medtalk-circle.png"

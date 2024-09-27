@@ -73,6 +73,9 @@ const Main = ({
           {showForm && <AddPatientForm setShowForm={setShowForm} />}
 
           {/* Show View Patients */}
+          <div>
+            
+          </div>
           {showViewPatients && <ViewPatients />}
 
           {/* Chat Input Section */}

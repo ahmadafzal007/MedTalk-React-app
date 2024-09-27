@@ -3,6 +3,7 @@ import { PDFDownloadLink } from '@react-pdf/renderer'
 import ReportDocument from './ReportDocument'
 import { Printer } from 'lucide-react'
 import Select from 'react-select'
+import { FaMinus, FaPlus } from 'react-icons/fa' // Icons for increment and decrement
 import CountryFlag from 'react-country-flag'
 import './PrintReportForm.css'
 
@@ -40,6 +41,16 @@ const PrintReportForm = () => {
   const handleCountryChange = (selectedOption) => {
     setFormData({ ...formData, nationality: selectedOption.value })
   }
+
+
+  const incrementAge = () => {
+    setAge((prevAge) => prevAge + 1)
+  }
+
+  const decrementAge = () => {
+    if (age > 0) setAge((prevAge) => prevAge - 1) // Ensure age is not negative
+  }
+
 
 // Custom styles for react-select dropdowns
 const customSelectStyles = {
@@ -80,8 +91,8 @@ const customSelectStyles = {
 
   return (
     <div className='p-6 font-poppins bg-[#151518] text-white min-h-screen overflow-auto'>
-      <h2 className='text-2xl font-bold text-center mb-8'>
-        Patient Report Form
+      <h2 className='text-3xl font-bold text-center mb-8'>
+        P<span className='font-normal'>atient</span> R<span className='font-normal'>eport</span> F<span className='font-normal'>orm</span>
       </h2>
 
       <form className='grid grid-cols-1 md:grid-cols-2 gap-6 border border-gray-700 rounded-lg p-4 bg-[#151518] font-poppins text-xs'>
@@ -138,17 +149,39 @@ const customSelectStyles = {
         </div>
 
         {/* Age Counter */}
-        <div className='form-group'>
-          <label className='block text-white'>Age</label>
-          <div className='flex items-center'>
+        <div className='mb-4 relative'>
+          <label
+            htmlFor='age'
+            className='block mb-2 text-xs font-normal text-white'
+          >
+            Age
+          </label>
+          <div className='flex text-xs items-center space-x-4'>
+            <button
+              type='button'
+              onClick={decrementAge}
+              className='p-2 bg-[#151518] rounded-lg border border-gray-700 transition'
+            >
+              <FaMinus className='text-white' />
+            </button>
             <input
               type='number'
-              name='age'
+              
+              id='age'
+              className='w-16 p-3 text-center text-xs border border-gray-700 bg-[#151518] text-gray-200 rounded-lg focus:outline-none focus:ring focus:ring-white transition'
               value={age}
               onChange={(e) => setAge(Number(e.target.value))}
-              className='w-16 text-center bg-gray-800 text-white'
-              min='0'
+              placeholder="Age"
+              min="0"
+              required
             />
+            <button
+              type='button'
+              onClick={incrementAge}
+              className='p-2 bg-[#151518] border border-gray-700 rounded-lg  transition'
+            >
+              <FaPlus className='text-white' />
+            </button>
           </div>
         </div>
 
