@@ -42,7 +42,7 @@ const ChatInput = ({ prompt, setPrompt, handleSendPrompt, isGenerating }) => {
   }
 
   return (
-    <div className='absolute font-poppins mb-12 md:mb-0 bottom-0 left-0 flex flex-col items-center bg-black right-0 mx-auto max-w-screen  px-4 py-3 md:px-6 md:py-4 backdrop-blur-sm'>
+    <div className='absolute font-poppins md:mb-0 bottom-0 left-0 flex flex-col items-center bg-black right-0 mx-auto max-w-screen  px-4 py-0  md:px-6 md:py-4 backdrop-blur-sm'>
       
       <div className='flex justify-center items-center gap-x-2'>
 
@@ -88,7 +88,7 @@ const ChatInput = ({ prompt, setPrompt, handleSendPrompt, isGenerating }) => {
           ref={inputRef} // Attach the ref to the input field
           onChange={(e) => setPrompt(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSendPrompt()}
-          className='flex-1 ml-2 text-white w-[200px] md:w-[400px] lg:w-[600px] md:h-[30px] border-none bg-transparent font-normal text-sm outline-none'
+          className='flex-1 ml-2 text-white w-[200px] md:w-[400px] lg:w-[600px] md:h-[30px]  border-none bg-transparent font-normal text-sm outline-none'
           type='text'
           placeholder='Enter a prompt here'
           value={prompt}
@@ -123,7 +123,7 @@ const ChatInput = ({ prompt, setPrompt, handleSendPrompt, isGenerating }) => {
           </div>
 
 
-      <p className='mt-3 w-[300px] md:w-[400px] lg:w-[600px]  md:ml-4 text-center text-[9px]  text-gray-300'>
+      <p className='mt-2 mb-1 w-[300px] md:w-[400px] lg:w-[600px]  md:ml-4 text-center md:text-[9px] text-[8px]  text-gray-300'>
         MedTalk may display inaccurate info, including about diagnosis, so if
         you are using it as a patient, must refer to your doctor.
       </p>
