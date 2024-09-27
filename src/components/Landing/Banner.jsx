@@ -47,7 +47,7 @@ const Banner = () => {
               <span className="absolute inset-0 overflow-hidden rounded-lg">
                 <span className="absolute inset-0 rounded-lg opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
               </span>
-              <div className="relative  font-poppins z-10 flex items-center px-4 py-2 space-x-2 rounded-lg bg-gray-950/50 ring-1 ring-white/10 sm:px-3 sm:py-1 sm:text-sm md:px-6 md:py-3 md:space-x-2 md:text-base">
+              <div className="relative  font-poppins z-10 flex items-center px-4 py-2 space-x-2 rounded-lg bg-gray-950/50 ring-1 ring-white/10   md:px-6 md:py-3 md:space-x-2 md:text-base">
                 <span>Let's get started</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
