@@ -88,7 +88,7 @@ const ChatInput = ({ prompt, setPrompt, handleSendPrompt, isGenerating }) => {
           ref={inputRef} // Attach the ref to the input field
           onChange={(e) => setPrompt(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSendPrompt()}
-          className='flex-1 ml-2 text-white w-[300px] md:w-[400px] lg:w-[600px] md:h-[30px] border-none bg-transparent font-normal text-sm outline-none'
+          className='flex-1 ml-2 text-white w-[200px] md:w-[400px] lg:w-[600px] md:h-[30px] border-none bg-transparent font-normal text-sm outline-none'
           type='text'
           placeholder='Enter a prompt here'
           value={prompt}
