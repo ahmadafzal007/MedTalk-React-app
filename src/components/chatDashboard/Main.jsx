@@ -54,7 +54,7 @@ const Main = ({
       )}
 
       <main className={`flex-1 items-center justify-center overflow-y-auto px-4 py-5 md:px-6 md:py-8 ${isExpanded ? "" : ""}`}>
-        <div className=''>
+        <div className='flex items-center justify-center'>
           {/* Render HelpSection if no chat messages are present */}
           {!showForm && !showViewPatients && !hasMessages && (
             <HelpSection hasMessages={false} isSidebarExpanded={isExpanded} />

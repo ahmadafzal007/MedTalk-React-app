@@ -42,12 +42,12 @@ const ChatInput = ({ prompt, setPrompt, handleSendPrompt, isGenerating }) => {
   }
 
   return (
-    <div className='absolute font-poppins mb-12 md:mb-0 bottom-0 left-0 flex flex-col items-center bg-black right-0 mx-auto max-w-screen px-4 py-3 md:px-6 md:py-4 backdrop-blur-sm'>
+    <div className='absolute font-poppins mb-12 md:mb-0 bottom-0 left-0 flex flex-col items-center bg-black right-0 mx-auto max-w-screen  px-4 py-3 md:px-6 md:py-4 backdrop-blur-sm'>
       
       <div className='flex justify-center items-center gap-x-2'>
 
       <div
-        className='flex items-center justify-between gap-3 rounded-lg max-w-[800px] bg-black border border-gray-600 px-4 py-2 md:px-5 md:py-3 shadow-lg'
+        className='flex items-center justify-between gap-3 rounded-lg xl:max-w-[600px] md:max-w-[400px] max-w-[400px] bg-black border border-gray-600 px-4 py-2 lg:px-5 lg:py-3 shadow-lg'
       
       >
         {/* Paperclip Icon for File Upload */}
@@ -112,7 +112,7 @@ const ChatInput = ({ prompt, setPrompt, handleSendPrompt, isGenerating }) => {
         {/* {!showForm && !showViewPatients && ( */}
           <div className=''>
               <button
-                className='bg-black border border-gray-600 text-white py-4 px-4 rounded-lg flex items-center hover:bg-[#1e1e22] transition duration-300 shadow-lg'
+                className='bg-black border border-gray-600 text-white lg:py-4 lg:px-4  px-3 py-3 rounded-lg flex items-center hover:bg-[#1e1e22] transition duration-300 shadow-lg'
                 onClick={() => setShowPDFForm(true)} // Show the modal with the form
               >
                           <FontAwesomeIcon icon={faPrint} className='text-white text-xl' />

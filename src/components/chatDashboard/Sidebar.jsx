@@ -53,8 +53,8 @@ const Sidebar = ({ setShowForm, setShowViewPatients ,setIsExpanded, isExpanded,
 
   return (
     <div
-      className={`z-3 hidden  font-poppins h-screen flex-col justify-between text-white px-4 py-6 backdrop-blur-lg shadow-xl bg-[#151518] border border-gray-700 transform transition-all ${
-        isExpanded ? 'w-[350px]' : 'w-[4.75rem]'
+      className={`z-3 hidden font-poppins h-screen flex-col justify-between text-white px-4 py-6 backdrop-blur-lg shadow-xl bg-[#151518] border border-gray-700 transform transition-all ${
+        isExpanded ? 'max-w-[350px] min-w-[300px]' : 'w-[4.75rem]'
       } overflow-y-auto overflow-x-hidden sm:flex sm:inline-flex`} // Ensure it's visible in larger screens
     >
       <div className='w-full'>
