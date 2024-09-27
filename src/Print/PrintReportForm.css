@@ -1,0 +1,41 @@
+/* Add custom font family for better typography */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body, input, button {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Styling for form inputs */
+.form-group input {
+  padding: 0.75rem; /* Increase padding for a more comfortable input size */
+  border-radius: 0.5rem; /* Smooth rounded corners */
+  border: 1px solid #4A5568; /* Subtle gray border */
+  background-color: #151518; /* Dark background for input field */
+  /* color: #ffffff; White text */
+  transition: all 0.3s ease; /* Smooth transitions on focus */
+  /* box-shadow: 0px 4px 12px rgba(233, 222, 222, 0.1); Light shadow effect */
+}
+
+
+
+/* Adjust form label appearance */
+.form-group label {
+  font-weight: 500; /* Make label bold */
+  color: #E5E7EB; /* Light gray color */
+  margin-bottom: 0.5rem;
+  /* display: inline-block; */
+}
+
+/* Add scrollbar customization */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #4B5563;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #9CA3AF;
+}

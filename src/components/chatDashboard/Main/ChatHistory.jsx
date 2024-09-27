@@ -102,7 +102,7 @@ const ChatHistory = ({ chatHistory, isGenerating, isPending }) => {
             </div>
 
             {/* Render response with HTML formatting */}
-            <div className="max-w-[80%] border bg-[#151518] border-gray-600 p-2 rounded-lg shadow-md">
+            <div className="max-w-[80%]  p-2 rounded-lg shadow-md">
               <p
                 className="text-gray-300 text-xs font-poppins leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: typedResponses[index]?.response }}
