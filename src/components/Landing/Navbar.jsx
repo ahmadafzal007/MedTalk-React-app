@@ -28,7 +28,7 @@ const Header = () => {
         <ul className="flex md:gap-3 text-l  pr-4">
         <li>
   <button
-    className="hover:border-white hidden border-1 font-normal md:block p-2 text-md font-poppins text-white-900 transition-all duration-300 ease-in-out transform hover:bg-black hover:text-white hover:scale-105 hover:shadow-lg"
+    className="hover:border-white hidden border-1 font-light md:block p-2 text-md font-poppins text-white-900 transition-all duration-300 ease-in-out transform hover:bg-black hover:text-white hover:scale-105 hover:shadow-lg"
   >
     Try MedTalk Pro
   </button>
@@ -36,7 +36,7 @@ const Header = () => {
 
           <Link to={"/faq"}>
             <li>
-              <button className="hover:border-white  border-1 md:block p-2 text-md font-poppins text-white-900 transition-all duration-300 ease-in-out transform hover:bg-black hover:text-white hover:scale-105 hover:shadow-lg"
+              <button className="hover:border-white font-light border-1 md:block p-2 text-md font-poppins text-white-900 transition-all duration-300 ease-in-out transform hover:bg-black hover:text-white hover:scale-105 hover:shadow-lg"
   >FAQs
               </button> 
             </li>
@@ -44,7 +44,7 @@ const Header = () => {
           <li>  
             <button
               type="button"
-              className="border-white hidden border-1 rounded-full md:block p-2  font-poppins text-white-900 transition-all duration-300 ease-in-out transform hover:bg-black hover:text-white hover:scale-105 hover:shadow-lg"
+              className=" hidden border-1 rounded-full md:block p-2  font-poppins text-white-900 transition-all duration-300 ease-in-out transform hover:bg-black hover:text-white hover:scale-105 hover:shadow-lg"
               onClick={handleLoginClick} // Call handleLoginClick on button click
             >
               <LoginIcon className="w-[4px] h-[4px]" />{" "}

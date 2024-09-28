@@ -43,11 +43,11 @@ const Banner = () => {
           {/* Button */}
 
           <div className="mt-4">
-          <button onClick={handleLoginClick} className="relative  inline-block p-px font-medium leading-6 text-white no-underline bg-gray-800 hover:bg-gray-900 shadow-2xl cursor-pointer group rounded-xl shadow-zinc-900 animate-float">
+          <button onClick={handleLoginClick} className="relative  inline-block p-px font-medium leading-6 text-white no-underline bg-gray-800 hover:bg-gray-900 shadow-2xl cursor-pointer group rounded-xl shadow-zinc-900/10 animate-float">
               <span className="absolute inset-0 overflow-hidden rounded-lg">
                 <span className="absolute inset-0 rounded-lg opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
               </span>
-              <div className="relative  font-poppins z-10 flex items-center px-4 py-2 space-x-2 rounded-lg bg-gray-950/50 ring-1 ring-white/10   md:px-6 md:py-3 md:space-x-2 md:text-base">
+              <div className="relative font-poppins z-10 text-xs md:text-sm flex items-center px-4 py-2 space-x-2 rounded-lg bg-[#0c0c0e] ring-1 ring-gray-900/10   md:px-6 md:py-3 md:space-x-2 md:text-normal">
                 <span>Let's get started</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

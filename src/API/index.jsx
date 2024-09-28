@@ -1,64 +1,87 @@
-class Authentication {
+import axios from 'axios';
+
+class IndexControllers {
   constructor() {
-    this.url = "http://localhost:3000/api/v1/auth";
+    this.apiUrl = 'http://localhost:3000/api/auth';
+    this.instance = axios.create({
+      baseURL: this.apiUrl,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   }
 
-  async signup(data) {
-    try {
-      const response = await fetch(`${this.url}/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      return {
-        success: true,
-        data: result,
-      };
-    } catch (e) {
-      console.error("Signup error:", e);
-      return {
-        success: false,
-        error: e.message,
-      };
+  setAuthToken(token) {
+    if (token) {
+      this.instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    } else {
+      delete this.instance.defaults.headers.common['Authorization'];
     }
   }
 
-  async login(data) {
+  async registerUser(userData) {
     try {
-      const response = await fetch(`${this.url}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await this.instance.post('/register/user', userData);
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+  async registerDoctor(doctorData) {
+    try {
+      const response = await this.instance.post('/register/doctor', doctorData);
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
 
-      const result = await response.json();
-      console.log(result);
-      return {
-        success: true,
-        data: result,
-      };
-    } catch (e) {
-      console.error("Login error:", e);
-      return {
-        success: false,
-        error: e.message,
-      };
+  async registerHospital(hospitalData) {
+    try {
+      const response = await this.instance.post('/register/hospital', hospitalData);
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  async login(credentials) {
+    try {
+      const response = await this.instance.post('/login', credentials);
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  async logout() {
+    try {
+      const response = await this.instance.post('/logout');
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  async refreshToken() {
+    try {
+      const response = await this.instance.post('/refresh-token');
+      return response.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  handleError(error) {
+    if (error.response) {
+      return { status: error.response.status, message: error.response.data.message || error.message };
+    } else if (error.request) {
+      return { status: 500, message: 'No response from server' };
+    } else {
+      return { status: 500, message: error.message };
     }
   }
 }
 
-export default new Authentication();
+export default new IndexControllers();

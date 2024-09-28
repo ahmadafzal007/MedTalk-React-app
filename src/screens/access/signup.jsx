@@ -70,20 +70,14 @@ const SignUpPage = () => {
   <img
     src="/medtalk-main.png" // Reference to the logo in the public directory
     alt="MedTalk Logo"
-    className="mx-auto h-28 md:h-44" // Adjust size (h-32 = 8rem, md:h-48 = 12rem for larger screens)
+    className="mx-auto h-20 md:h-32" // Adjust size (h-32 = 8rem, md:h-48 = 12rem for larger screens)
   />
 </div>
       <div className="flex items-center justify-center">
         <div className="p-8 rounded-lg shadow-lg w-full max-w-md text-white">
           <h2
-            className="text-xl  font-base text-center mb-12 md:mb-4 "
-            style={{
-              backgroundImage:
-                "linear-gradient(90deg, #d1d5db, #6b7280, #4b5563)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
-            }}
+            className="text-lg  font-normal text-center mb-12 md:mb-8 "
+    
           >
             Ready to Explore? Create an Account Now.
           </h2>
@@ -91,32 +85,25 @@ const SignUpPage = () => {
           {step === 1 && (
             <form onSubmit={handleNameSubmit}>
               <div className="mb-4">
-                <label htmlFor="name" className="block  mb-2">
+                <label htmlFor="name" className="block text-sm mb-2">
                   Name*
                 </label>
                 <input
                   type="text"
                   id="name"
-                  className={`w-full px-4 py-2  border  ${
-                    nameError ? "border-red-500" : "border-gray-300"
-                  } rounded-md focus:outline-none focus:ring-2 focus:ring-green-500`}
+                  className={`w-full text-sm px-4 py-3 bg-black border  ${
+                    nameError ? "border-red-500" : "border-gray-700"
+                  } rounded-lg hover:border-white`}
                   placeholder="Your Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
                   style={{
-                    backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    // backgroundColor: "rgba(255, 255, 255, 0.1)",
                     color: "white",
                     transition: "background-color 0.3s",
                   }}
-                  onFocus={(e) =>
-                    (e.target.style.backgroundColor =
-                      "rgba(255, 255, 255, 0.2)")
-                  }
-                  onBlur={(e) =>
-                    (e.target.style.backgroundColor =
-                      "rgba(255, 255, 255, 0.1)")
-                  }
+           
                 />
                 {nameError && (
                   <p className="text-red-500 text-sm mt-1">{nameError}</p>
@@ -129,7 +116,7 @@ const SignUpPage = () => {
                 <span className="absolute inset-0 overflow-hidden rounded-lg">
                   <span className="absolute inset-0 rounded-lg opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
                 </span>
-                <div className="relative font-inconsolata z-10 px-4 py-2 space-x-2 rounded-lg bg-gray-950/50 ring-1 ring-white/10 sm:px-3 sm:py-1 sm:text-sm md:px-6 md:py-3 md:space-x-2 md:text-base">
+                <div className="relative font-poppins z-10 px-4 py-2 space-x-2 rounded-lg bg-[#151518] ring-1 ring-gray-700 sm:px-3 sm:py-1 sm:text-sm md:px-6 md:py-3 md:space-x-2 md:text-normal">
                   Continue
                 </div>
                 <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-gray-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40"></span>
@@ -139,32 +126,25 @@ const SignUpPage = () => {
           {step === 2 && (
             <form onSubmit={handleEmailSubmit}>
               <div className="mb-4">
-                <label htmlFor="email" className="block  mb-2">
+                <label htmlFor="email" className="block text-sm  mb-2">
                   Email address*
                 </label>
                 <input
                   type="email"
                   id="email"
-                  className={`w-full px-4 py-2 border ${
-                    emailError ? "border-red-500" : "border-gray-300"
-                  } rounded-md focus:outline-none focus:ring-2 focus:ring-green-500`}
+                  className={`w-full text-sm px-4 bg-black py-3 border ${
+                    emailError ? "border-red-500" : "border-gray-700"
+                  } rounded-lg `}
                   placeholder="you@medtalk.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   style={{
-                    backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    // backgroundColor: "rgba(255, 255, 255, 0.1)",
                     color: "white",
                     transition: "background-color 0.3s",
                   }}
-                  onFocus={(e) =>
-                    (e.target.style.backgroundColor =
-                      "rgba(255, 255, 255, 0.2)")
-                  }
-                  onBlur={(e) =>
-                    (e.target.style.backgroundColor =
-                      "rgba(255, 255, 255, 0.1)")
-                  }
+
                 />
                 {emailError && (
                   <p className="text-red-500 text-sm mt-1">{emailError}</p>
@@ -177,7 +157,7 @@ const SignUpPage = () => {
                 <span className="absolute inset-0 overflow-hidden rounded-lg">
                   <span className="absolute inset-0 rounded-lg opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
                 </span>
-                <div className="relative font-inconsolata z-10 px-4 py-2 space-x-2 rounded-lg bg-gray-950/50 ring-1 ring-white/10 sm:px-3 sm:py-1 sm:text-sm md:px-6 md:py-3 md:space-x-2 md:text-base">
+                <div className="relative font-poppins z-10 px-4 py-2 space-x-2 rounded-lg bg-[#151518] ring-1 ring-gray-700 sm:px-3 sm:py-1 sm:text-sm md:px-6 md:py-3 md:space-x-2 md:text-normal">
                   Continue
                 </div>
                 <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-gray-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40"></span>
@@ -191,7 +171,7 @@ const SignUpPage = () => {
                 <span className="absolute inset-0 overflow-hidden rounded-lg">
                   <span className="absolute  inset-0 rounded-lg opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
                 </span>
-                <div className="relative font-inconsolata z-10  px-4 py-2 space-x-2 rounded-lg bg-gray-950/50 ring-1 ring-white/10 sm:px-3 sm:py-1 sm:text-sm md:px-6 md:py-3 md:space-x-2 md:text-base">
+                <div className="relative font-poppins z-10  px-4 py-2 space-x-2 rounded-lg bg-[#151518] ring-1 ring-gray-700 sm:px-3 sm:py-1 sm:text-sm md:px-6 md:py-3 md:space-x-2 md:text-normal">
                   Back
                 </div>
                 <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-gray-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40"></span>
@@ -201,32 +181,25 @@ const SignUpPage = () => {
           {step === 3 && (
             <form onSubmit={handlePasswordSubmit}>
               <div className="">
-                <label htmlFor="password" className="block mb-2">
+                <label htmlFor="password" className="block text-sm mb-2">
                   Password*
                 </label>
                 <input
                   type={showPassword ? "text" : "password"} // Toggle between text and password type
                   id="password"
-                  className={`w-full px-4 py-2 border ${
+                  className={`w-full px-4 py-2 bg-black border ${
                     passwordError ? "border-red-500" : "border-gray-300"
-                  } rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800`}
+                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800`}
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   style={{
-                    backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    // backgroundColor: "rgba(255, 255, 255, 0.1)",
                     color: "white",
                     transition: "background-color 0.3s",
                   }}
-                  onFocus={(e) =>
-                    (e.target.style.backgroundColor =
-                      "rgba(255, 255, 255, 0.2)")
-                  }
-                  onBlur={(e) =>
-                    (e.target.style.backgroundColor =
-                      "rgba(255, 255, 255, 0.1)")
-                  }
+
                 />
                 {passwordError && (
                   <p className="text-red-500 text-sm mt-1">{passwordError}</p>
@@ -234,7 +207,7 @@ const SignUpPage = () => {
               </div>
 
               {/* Show/Hide Password Toggle Icon */}
-              <div className="flex justify-start items-center">
+              <div className="flex justify-end items-center">
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
@@ -250,7 +223,7 @@ const SignUpPage = () => {
                 <span className="absolute inset-0 overflow-hidden rounded-lg">
                   <span className="absolute inset-0 rounded-lg opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
                 </span>
-                <div className="relative font-inconsolata z-10 px-4 py-2 space-x-2 rounded-lg bg-gray-950/50 ring-1 ring-white/10 sm:px-3 sm:py-1 sm:text-sm md:px-6 md:py-3 md:space-x-2 md:text-base">
+                <div className="relative font-poppins z-10 px-4 py-2 space-x-2 rounded-lg bg-[#151518] ring-1 ring-gray-700 sm:px-3 sm:py-1 sm:text-sm md:px-6 md:py-3 md:space-x-2 md:text-normal">
                   Sign Up
                 </div>
                 <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-gray-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40"></span>
@@ -263,7 +236,7 @@ const SignUpPage = () => {
                 <span className="absolute inset-0 overflow-hidden rounded-lg">
                   <span className="absolute  inset-0 rounded-lg opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
                 </span>
-                <div className="relative font-inconsolata z-10  px-4 py-2 space-x-2 rounded-lg bg-gray-950/50 ring-1 ring-white/10 sm:px-3 sm:py-1 sm:text-sm md:px-6 md:py-3 md:space-x-2 md:text-base">
+                <div className="relative font-poppins z-10  px-4 py-2 space-x-2 rounded-lg bg-[#151518] ring-1 ring-gray-700 sm:px-3 sm:py-1 sm:text-sm md:px-6 md:py-3 md:space-x-2 md:text-normal">
                   Back
                 </div>
                 <span className="absolute -bottom-0 left-[1.125rem] h-px w-[calc(100%-2.25rem)] bg-gradient-to-r from-emerald-400/0 via-gray-400/90 to-emerald-400/0 transition-opacity duration-500 group-hover:opacity-40"></span>
@@ -281,7 +254,7 @@ const SignUpPage = () => {
               Continue with Google
             </button>
           </div>
-          <div className="mt-6 text-center">
+          <div className="mt-6 text-sm text-center">
             <p>
               Already have an account?{" "}
               <a

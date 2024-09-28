@@ -30,7 +30,7 @@ const Header = () => {
             <button
               type="button"
               onClick={handleLoginClick}
-              className="border-white hidden border-1 md:block p-2 rounded-full font-poppins text-white-900 transition-all duration-300 ease-in-out transform hover:bg-black hover:text-white hover:scale-105 hover:shadow-lg"
+              className="hidden border-1 md:block p-2 rounded-full font-poppins text-white-900 transition-all duration-300 ease-in-out transform hover:bg-black hover:text-white hover:scale-105 hover:shadow-lg"
               >
               <LoginIcon className="w-[8px] h-[8px]" />{" "}
               {/* Use the MUI Login icon */}

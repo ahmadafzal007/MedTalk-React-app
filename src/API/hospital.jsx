@@ -1,63 +1,100 @@
-class HospitalController {
+import axios from 'axios';
+
+class HospitalControllers {
   constructor() {
-    this.url = "http://localhost:3000/api/v1/healthCareCenter";
+    this.apiUrl = 'http://localhost:3000/api/hospital';
+    this.token = localStorage.getItem('token'); // Assuming you store JWT in localStorage
   }
-  async getAllHospitals() {
+
+  // Set default headers for axios
+  setHeaders() {
+    return {
+      headers: {
+        'Authorization': `Bearer ${this.token}`,
+        'Content-Type': 'application/json',
+      },
+    };
+  }
+
+  // View unauthorized doctors
+  async viewUnauthorizedDoctors() {
     try {
-      const response = await fetch(`${this.url}/hospitals`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      console.log(result);
-      return {
-        success: true,
-        data: result,
-      };
-    } catch (e) {
-      console.error("Login error:", e);
-      return {
-        success: false,
-        error: e.message,
-      };
+      const response = await axios.get(`${this.apiUrl}/unauthorizedDoctors`, this.setHeaders());
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching unauthorized doctors:', error);
+      throw error;
     }
   }
 
-  async getPendingProfessionals(token) {
+  // View authorized doctors
+  async viewAuthorizedDoctors() {
     try {
-      const response = await fetch(`${this.url}/pendingDoctors`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+      const response = await axios.get(`${this.apiUrl}/authorizedDoctors`, this.setHeaders());
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching authorized doctors:', error);
+      throw error;
+    }
+  }
+
+  // Authorize a doctor
+  async authorizeDoctor(doctorId) {
+    try {
+      const response = await axios.patch(`${this.apiUrl}/authorizeDoctor`, { doctorId }, this.setHeaders());
+      return response.data;
+    } catch (error) {
+      console.error('Error authorizing doctor:', error);
+      throw error;
+    }
+  }
+
+  // Unauthorize a doctor
+  async unauthorizeDoctor(doctorId) {
+    try {
+      const response = await axios.patch(`${this.apiUrl}/unauthorizeDoctor`, { doctorId }, this.setHeaders());
+      return response.data;
+    } catch (error) {
+      console.error('Error unauthorizing doctor:', error);
+      throw error;
+    }
+  }
+
+  // Delete an unauthorized doctor
+  async deleteDoctor(doctorId) {
+    try {
+      const response = await axios.delete(`${this.apiUrl}/deleteDoctor`, {
+        ...this.setHeaders(),
+        data: { doctorId }
       });
+      return response.data;
+    } catch (error) {
+      console.error('Error deleting doctor:', error);
+      throw error;
+    }
+  }
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+  // View authorized hospitals
+  async viewAuthorizedHospitals() {
+    try {
+      const response = await axios.get(`${this.apiUrl}/viewAuthorizedHospitals`, this.setHeaders());
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching authorized hospitals:', error);
+      throw error;
+    }
+  }
 
-      const result = await response.json();
-      console.log(result);
-      return {
-        success: true,
-        data: result,
-      };
-    } catch (e) {
-      console.error("Get pending professionals error:", e);
-      return {
-        success: false,
-        error: e.message,
-      };
+  // View hospital profile
+  async viewHospitalProfile() {
+    try {
+      const response = await axios.get(`${this.apiUrl}/profile`, this.setHeaders());
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching hospital profile:', error);
+      throw error;
     }
   }
 }
 
-export default new HospitalController();
+export default new HospitalControllers();

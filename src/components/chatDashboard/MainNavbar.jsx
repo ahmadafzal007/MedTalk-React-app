@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { ChevronDown, UserRound } from 'lucide-react' // Import icons
+import { useNavigate } from "react-router-dom"; // For navigation
+
 
 const MainNavbar = ({ setShowPDFForm }) => {
   const [isOpen, setIsOpen] = useState(false) // For dropdown menu
-
+  const navigate = useNavigate(); // Hook for navigation
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
   }
@@ -40,7 +42,9 @@ const MainNavbar = ({ setShowPDFForm }) => {
       <div>
         <ul className='flex items-center gap-2 md:gap-3 text-sm md:text-lg '>
           <li>
-            <button className='hidden p-2 font-poppins text-sm md:block md:mr-4'>
+            <button 
+            onClick={() => navigate("/avatar")} // Redirects to the main route
+            className='hidden p-2 font-poppins text-sm md:block md:mr-4'>
               Talk to MedX
             </button>
           </li>

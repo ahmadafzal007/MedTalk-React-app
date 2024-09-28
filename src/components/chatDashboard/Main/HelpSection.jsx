@@ -45,7 +45,7 @@ const HelpSection = ({ hasMessages , isExpanded}) => {
         <img
           src='/medtalk-circle.png'
           alt='MedTalk Logo'
-          className='w-20 h-20 object-contain mb-8'
+          className='w-10 h-10 md:w-20 md:h-20 object-contain mb-8'
         />
       </div>
 
