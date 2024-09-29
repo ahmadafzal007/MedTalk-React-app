@@ -6,6 +6,8 @@
 
 body {
   font-family: "Poppins", monospace;
+  overflow-x: hidden; /* Prevent horizontal scrollbar */
+  margin: 0; /* Remove default body margin */
 }
 
 /* In your global CSS file or Tailwind CSS configuration */
@@ -56,3 +58,10 @@ body {
 .form-container::-webkit-scrollbar-thumb:hover {
   background-color: #2d3748; /* Darker thumb color on hover */
 }
+
+
+select option:hover {
+  background-color: #1e1e22; /* gray-700 */
+  color: white; /* Optional: Change text color */
+}
+

@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css';
-import { AiOutlineCamera, AiOutlineClose, AiOutlineArrowLeft } from "react-icons/ai"; // Added Arrow Icon
+import Select from "react-select";
+import countryList from "react-select-country-list";
+import { AiOutlineCamera, AiOutlineClose } from "react-icons/ai";
+import WorldFlag from 'react-world-flags'; // Import your flag component
+import {  AiOutlineArrowLeft } from "react-icons/ai"; // Added Arrow Icon
 import { useNavigate } from "react-router-dom"; // For navigation
 
 export default function DoctorRegistrationForm() {
-  const navigate = useNavigate(); // Use navigation for redirecting to the home page
-
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -19,7 +21,33 @@ export default function DoctorRegistrationForm() {
     department: "",
     hospital: "",
     profilePicture: null,
+    country: "",
   });
+  
+
+const navigate = useNavigate();
+// Generate the full country list using react-select-country-list
+const countryOptions = countryList().getData().map((country) => ({
+  value: country.value,
+  label: country.label,
+}));
+
+// Create country options with flags
+const countriesWithFlags = countryOptions.map((country) => ({
+  value: country.value,
+  label: (
+    <div className="flex items-center space-x-2">
+      <WorldFlag
+        code={country.value}
+        style={{
+          width: '1.5em',
+          height: '1.5em',
+        }}
+      />
+      <span>{country.label}</span>
+    </div>
+  ),
+}));
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -52,12 +80,6 @@ export default function DoctorRegistrationForm() {
       profilePicture: null,
     }));
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-  };
-
   const handleSelectChange = (selectedOption) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -65,29 +87,35 @@ export default function DoctorRegistrationForm() {
     }));
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+  };
+
   return (
-    <div className="min-h-screen  pt-10 bg-black text-white flex flex-col items-center justify-center p-4">
-        <div className="absolute top-5 left-5">
+    <div className="min-h-screen pt-10 bg-black text-white flex flex-col items-center justify-center p-4">
+       <div className="absolute top-5 left-5">
           <AiOutlineArrowLeft
             className="text-2xl text-white cursor-pointer"
             onClick={() => navigate("/")} // Navigate to the home page
           />
         </div>
           <div className="text-center mb-2">
-            <h2 className="text-lg font-poppins font-normal mb-2">
-            <img src='/medtalk-main.png'  className="mx-auto h-28 w-36 mb-4" />
-            <div className="border  px-4 py-2 max-w-7xl rounded-lg text-xs text-start"><span className="font-extrabold">Note:</span><span> </span>
-            By registering for MedTalk Pro, you will gain access to a suite of premium features tailored to support your medical practice. These include advanced tools for ECG analysis, X-ray analysis, and CT scan interpretation. MedTalk Pro also offers streamlined management of patient data, enabling you to keep records organized and efficiently generate automated reports. Additionally, you can engage in AI-driven conversations with Large Language Models (LLMs) to enhance your clinical decision-making. Join MedTalk Pro today to elevate your practice with cutting-edge technology.             </div>            </h2>
+          <h2 className="text-lg font-poppins font-normal mb-2">
+            <img src='/medtalk-main.png'  className="mx-auto  h-28 w-36 mb-4" />
+             <div className="border  px-4 py-2 max-w-7xl rounded-lg text-xs text-start"><span className="font-extrabold">Note:</span><span> </span>
+             By registering your hospital on MedTalk, you are taking the first step to authorize your institution for participation in our professional healthcare network. Once your hospital is successfully registered and verified, you will have the ability to grant access to your licensed doctors, enabling them to join MedTalk Pro. This platform is designed exclusively for healthcare professionals, offering a space for collaboration, medical discussions, and professional growth. Please ensure all provided information is accurate to facilitate a smooth verification process.
+             </div>
+            </h2>
           </div>
-      <div className="w-full bg-[#151518] p-5 border rounded- border-gray-700 max-w-7xl relative">
-        {/* Back Icon */}
 
+      <div className="w-full p-5 border border-gray-700 bg-[#151518] max-w-7xl relative">
         <form onSubmit={handleSubmit} className="relative z-10">
 
           {/* Profile Picture Upload */}
           <div className="flex justify-center items-center mb-9">
-            <div className="relative w-28 h-28 border-2 bg-black border-dashed border-gray-700 hover:border-white rounded-full flex items-center justify-center">
-              {!formData.profilePicture ? (
+          <div className="relative w-28 h-28 border-2 bg-black border-dashed border-gray-700 hover:border-white rounded-full flex items-center justify-center">
+          {!formData.profilePicture ? (
                 <label htmlFor="profile-upload" className="flex items-center justify-center h-full w-full cursor-pointer">
                   <AiOutlineCamera className="text-white text-3xl" />
                 </label>
@@ -175,9 +203,63 @@ export default function DoctorRegistrationForm() {
               />
               <p className="text-xs text-gray-500 mt-1">Password should be at least 8 characters long</p>
             </div>
+            {/* Country Field */}
+          <div className="mt-0">
+            <label className="  bg-transpart block text-sm font-medium ">Country</label>
+            <Select
+  name="country"
+  value={countriesWithFlags.find(option => option.value === formData.country)}
+  onChange={handleSelectChange}
+  options={countriesWithFlags}
+  styles={{
+    control: (provided) => ({
+      ...provided,
+      backgroundColor: '#151518', // Background color of the dropdown
+      border: '0px solid #151518', // Border color gray-700
+      boxShadow: 'none',          // Remove shadow
+      '&:hover': {
+        borderColor: '#4B5563',   // Border color on hover (gray-700)
+      },
+      minHeight: '30px',          // Reduce the height to fit the text
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: 'white',            // Text color
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      color: 'white',            // Placeholder text color
+    }),
+    menu: (provided) => ({
+      ...provided,
+      backgroundColor: '#151518', // Background color of the dropdown options
+      color: 'white',            // Text color of the dropdown options
+      border: '1px solid #4B5563', // Border for the dropdown list
+      minWidth: 'fit-content',   // Decrease the width to fit the text
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isFocused ? '#4B5563' : '#151518', // Change background color on hover (gray-700)
+      color: 'white',            // Text color for options
+      padding: '8px 12px',       // Adjust padding for text
+    }),
+    dropdownIndicator: (provided) => ({
+      ...provided,
+      color: 'white',            // Dropdown indicator color
+      '&:hover': {
+        color: 'gray',           // Indicator color on hover
+      },
+    }),
+  }}
+/>
+
+<div className="w-full bg-white border-b " />
+
+
+          </div>
             {/* Phone Number Field */}
             <div>
-              <label className="block text-sm font-medium mb-1">Phone Number</label>
+            <label className="block text-sm font-medium mb-1">Phone Number</label>
               <PhoneInput
   country={'pk'}
   value={formData.phoneNumber}
@@ -219,9 +301,6 @@ export default function DoctorRegistrationForm() {
     },
   }}
 />
-
-
-
               <p className="text-xs text-gray-500 mt-1">Please enter a valid phone number</p>
             </div>
             {/* License Number Field */}
@@ -238,9 +317,25 @@ export default function DoctorRegistrationForm() {
               />
               <p className="text-xs text-gray-500 mt-1">XXXXXXXX</p>
             </div>
-            {/* CNIC Field */}
             <div>
-              <label className="block text-sm font-medium mb-1">CNIC</label>
+             <label className="block text-sm font-medium mb-1">Hospital Type</label>
+          <select
+              name="hospitalType" // Changed name to follow camelCase convention
+                value={formData.hospitalType} // Adjusted value to match the correct formData property
+                   onChange={handleInputChange}
+              className="w-full bg-[#151518]  border-b-2 border-gray-700 hover:border-white px-3 py-2 text-sm focus:outline-none"
+              required
+                  >
+                    <option value="" disabled>Select Hospital</option>
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                    <option value="non-profit">Non-Profit</option>
+                  </select>
+                </div>
+
+            {/* Hospital Address Field */}
+            <div>
+              <label className="block text-sm font-medium mb-1">Hospital Address</label>
               <input
                 type="text"
                 name="cnic"
@@ -248,67 +343,16 @@ export default function DoctorRegistrationForm() {
                 onChange={handleInputChange}
                 className="w-full bg-transparent border-b-2 border-gray-700 hover:border-white px-3 py-2 text-sm focus:outline-none"
                 required
-                placeholder="XXXXX-XXXXXXX-X"
+                placeholder="XXXXXXXXXXXXX"
               />
               <p className="text-xs text-gray-500 mt-1">XXXXXXXXXXXXX</p>
             </div>
           </div>
 
-          {/* Gender and Department Fields */}
-          <div className="grid grid-cols-2 gap-6 mt-6">
-          <div>
-    <label className="block text-sm font-medium mb-1">Gender</label>
-      <select
-        name="gender"
-        value={formData.gender}
-        onChange={handleInputChange}
-        className="w-full bg-[#151518] border-b-2 border-gray-700 hover:border-white px-3 py-2 text-sm focus:outline-none"
-        required
-      >
-        <option value="" disabled>Select Gender</option>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="other">Other</option>
-      </select>
-    </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Department</label>
-              <select
-                name="department"
-                value={formData.department}
-                onChange={handleInputChange}
-                className="w-full bg-[#151518] border-b-2 border-gray-700 hover:border-white px-3 py-2 text-sm focus:outline-none"
-                required
-              >
-                <option value="" disabled>Select Department</option>
-                <option value="cardiology">Cardiology</option>
-                <option value="neurology">Neurology</option>
-                <option value="pediatrics">Pediatrics</option>
-                <option value="orthopedics">Orthopedics</option>
-              </select>
-            </div>
-            {/* Hospital Field with Dropdown */}
-            <div>
-              <label className="block text-sm font-medium mb-1">Hospital</label>
-              <select
-                name="hospital"
-                value={formData.hospital}
-                onChange={handleInputChange}
-                className="w-full bg-[#151518] border-b-2 border-gray-700 hover:border-white px-3 py-2 text-sm focus:outline-none"
-                required
-              >
-                <option value="" disabled>Select Hospital</option>
-                <option value="hospital_a">Hospital A</option>
-                <option value="hospital_b">Hospital B</option>
-                <option value="hospital_c">Hospital C</option>
-                <option value="hospital_d">Hospital D</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="mt-8 flex justify-center">
-            <button
+          
+                 {/* Submit Button */}
+          <div className="mt-8 text-center">
+          <button
               type="submit"
               className="px-8 py-3 rounded-lg bg-[#151518]  border border-gray-700 hover:border-white text-white text-sm "
             >
@@ -320,3 +364,5 @@ export default function DoctorRegistrationForm() {
     </div>
   );
 }
+
+

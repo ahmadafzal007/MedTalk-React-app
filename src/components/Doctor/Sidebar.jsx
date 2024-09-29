@@ -1,69 +1,76 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import {
   FaUserMd,
-  FaUserPlus,
   FaUsers,
-  FaChevronLeft,
-  FaChevronRight,
-} from 'react-icons/fa'
+  FaAngleDoubleLeft,
+  FaAngleDoubleRight,
+  FaUserCircle, // Import profile icon
+} from 'react-icons/fa';
 
 const Sidebar = ({ setActiveComponent }) => {
-  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const toggleSidebar = () => {
-    setIsCollapsed(!isCollapsed)
-  }
+    setIsExpanded(!isExpanded);
+    localStorage.setItem('isExpanded', !isExpanded);
+  };
 
   return (
     <div
-      className={`bg-gray-800 text-white h-full  ${
-        isCollapsed ? 'w-20' : 'w-64'
-      } transition-all duration-300`}
+      className={`z-3 font-poppins h-screen flex-col justify-between text-white px-4 py-6 backdrop-blur-lg shadow-xl bg-[#151518] border border-gray-700 transform transition-all ${
+        isExpanded ? 'w-[300px] max-w-[320px]' : 'w-[4.75rem]'
+      } overflow-y-auto overflow-x-hidden sm:flex sm:inline-flex`}
     >
-      <div className='flex justify-between items-center p-4 border-b border-gray-700'>
-        <h2 className={`${isCollapsed ? 'hidden' : ''} text-xl font-bold`}>
-          Dashboard
-        </h2>
+      <div className='w-full'>
+        {/* Fixed toggle button at the top left */}
         <button
           onClick={toggleSidebar}
-          className='text-white focus:outline-none transition-transform duration-300'
+          className='absolute top-4 left-4 text-white focus:outline-none transition-transform duration-300'
         >
-          {isCollapsed ? (
-            <FaChevronRight className='text-lg' />
+          {isExpanded ? (
+            <FaAngleDoubleLeft className='text-lg' />
           ) : (
-            <FaChevronLeft className='text-lg' />
+            <FaAngleDoubleRight className='text-lg' />
           )}
         </button>
-      </div>
-      <ul className='p-4'>
-        <li
-          className='mb-6 flex items-center cursor-pointer transition-colors hover:text-blue-400'
-          onClick={() => setActiveComponent('AuthorizedDoctors')}
-        >
-          <FaUserMd className='mr-3 text-lg' />
-          <span className={`${isCollapsed ? 'hidden' : ''}`}>
-            Authorized Doctors
-          </span>
-        </li>
-        <li
-          className='mb-6 flex items-center cursor-pointer transition-colors hover:text-blue-400'
-          onClick={() => setActiveComponent('UnauthorizedDoctors')}
-        >
-          <FaUsers className='mr-3 text-lg' />
-          <span className={`${isCollapsed ? 'hidden' : ''}`}>
-            Unauthorized Doctors
-          </span>
-        </li>
-        <li
-          className='flex items-center cursor-pointer transition-colors hover:text-blue-400'
-          onClick={() => setActiveComponent('Signup')}
-        >
-          <FaUserPlus className='mr-3 text-lg' />
-          <span className={`${isCollapsed ? 'hidden' : ''}`}>Signup</span>
-        </li>
-      </ul>
-    </div>
-  )
-}
 
-export default Sidebar
+        <div className='flex justify-between items-center p-6 border-b border-gray-700'>
+          <h2 className={`${isExpanded ? 'block' : 'hidden'} text-lg font-normal`}>
+            <span className='font-bold text-2xl'>D</span>ashboard
+          </h2>
+        </div>
+        <ul className='p-4 pl-0 '>
+          <li
+            className='mb-2 hover:bg-[#1e1e22] p-2 rounded-lg flex items-center cursor-pointer transition-colors'
+            onClick={() => setActiveComponent('AuthorizedDoctors')}
+          >
+            <FaUserMd className='mr-3 ml-2 text-sm' />
+            <span className={`${isExpanded ? 'block text-xs font-normal' : 'hidden'}`}>
+              Authorized Doctors
+            </span>
+          </li>
+          <li
+            className='hover:bg-[#1e1e22] p-2 rounded-lg flex items-center cursor-pointer transition-colors'
+            onClick={() => setActiveComponent('UnauthorizedDoctors')}
+          >
+            <FaUsers className='mr-3 ml-2 text-sm' />
+            <span className={`${isExpanded ? 'block text-xs' : 'hidden'}`}>
+              Unauthorized Doctors
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      {/* Profile Button at the bottom of the sidebar */}
+      <li
+       onClick={() => setActiveComponent('Signup')}
+
+       className='flex  item-center p-2 pl-0 mt-auto cursor-pointer transition-colors hover:bg-[#1e1e22] rounded-lg'>
+        <FaUserCircle className='mr-3 ml-2 text-sm' />
+        <span className={`${isExpanded ? 'block text-xs' : 'hidden'}`}>Profile</span>
+      </li>
+    </div>
+  );
+};
+
+export default Sidebar;

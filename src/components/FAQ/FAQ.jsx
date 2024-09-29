@@ -65,7 +65,7 @@ const FAQ = () => {
   ];
 
   return (
-    <div className="hh-custom-height w-full bg-black text-white    overflow-hidden  ">
+    <div className="hh-custom-height w-full bg-black text-white">
       <div className="max-w-screen-xl mx-auto px-4 py-8 sm:px-6 lg:px-8 lg:py-8">
         <div className="grid md:grid-cols-5 gap-10">
           <div className="flex justify-center md:col-span-2">

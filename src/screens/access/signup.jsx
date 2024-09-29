@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"; // Import the back icon from MUI
 import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"; // Import the visibility icons
+import CloudUploadIcon from "@mui/icons-material/CloudUpload"; // Import the upload icon
 
 const SignUpPage = () => {
   const [step, setStep] = useState(1); // 1: Name, 2: Email, 3: Password
+  const [profileImage, setProfileImage] = useState(null);
+  const [profileImageError, setProfileImageError] = useState("");
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const [email, setEmail] = useState("");
@@ -15,6 +18,7 @@ const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   const navigate = useNavigate(); // Initialize useNavigate
+  const fileInputRef = useRef(null); // Ref for the hidden file input
 
   const handleLoginClick = () => {
     navigate("/login"); // Navigate to the "login" route
@@ -67,23 +71,61 @@ const SignUpPage = () => {
       </div>
 
       <div className="text-center pt-16 mb-8 md:mb-0">
-  <img
-    src="/medtalk-main.png" // Reference to the logo in the public directory
-    alt="MedTalk Logo"
-    className="mx-auto h-20 md:h-32" // Adjust size (h-32 = 8rem, md:h-48 = 12rem for larger screens)
-  />
-</div>
+        <img
+          src="/medtalk-main.png" // Reference to the logo in the public directory
+          alt="MedTalk Logo"
+          className="mx-auto h-20 md:h-32" // Adjust size (h-32 = 8rem, md:h-48 = 12rem for larger screens)
+        />
+      </div>
       <div className="flex items-center justify-center">
         <div className="p-8 rounded-lg shadow-lg w-full max-w-md text-white">
-          <h2
-            className="text-lg  font-normal text-center mb-12 md:mb-8 "
-    
-          >
+          <h2 className="text-lg font-normal text-center mb-12 md:mb-8 ">
             Ready to Explore? Create an Account Now.
           </h2>
 
           {step === 1 && (
             <form onSubmit={handleNameSubmit}>
+              {/* Profile Image Upload Circle */}
+              <div className=" flex justify-center relative">
+                <div
+                  className="w-32 h-32 rounded-full bg-black border border-gray-700 flex items-center justify-center cursor-pointer overflow-hidden"
+                  onClick={() => fileInputRef.current.click()}
+                >
+                  {profileImage ? (
+                    <img
+                      src={URL.createObjectURL(profileImage)}
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center">
+                      <CloudUploadIcon className="text-gray-400" fontSize="large" />
+                      <span className="text-gray-400 text-sm">Upload</span>
+                    </div>
+                  )}
+                </div>
+                {profileImage && (
+                  <button
+                    type="button"
+                    className="absolute top-0 right-24 bg-[#151518] text-white rounded-full w-6 h-6 flex items-center justify-center"
+                    onClick={() => setProfileImage(null)}
+                  >
+                    ×
+                  </button>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      setProfileImage(e.target.files[0]);
+                    }
+                  }}
+                />
+              </div>
+
               <div className="mb-4">
                 <label htmlFor="name" className="block text-sm mb-2">
                   Name*
@@ -99,11 +141,9 @@ const SignUpPage = () => {
                   onChange={(e) => setName(e.target.value)}
                   required
                   style={{
-                    // backgroundColor: "rgba(255, 255, 255, 0.1)",
                     color: "white",
                     transition: "background-color 0.3s",
                   }}
-           
                 />
                 {nameError && (
                   <p className="text-red-500 text-sm mt-1">{nameError}</p>
@@ -140,11 +180,9 @@ const SignUpPage = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   style={{
-                    // backgroundColor: "rgba(255, 255, 255, 0.1)",
                     color: "white",
                     transition: "background-color 0.3s",
                   }}
-
                 />
                 {emailError && (
                   <p className="text-red-500 text-sm mt-1">{emailError}</p>
@@ -184,38 +222,42 @@ const SignUpPage = () => {
                 <label htmlFor="password" className="block text-sm mb-2">
                   Password*
                 </label>
-                <input
-                  type={showPassword ? "text" : "password"} // Toggle between text and password type
-                  id="password"
-                  className={`w-full px-4 py-2 bg-black border ${
-                    passwordError ? "border-red-500" : "border-gray-300"
-                  } rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800`}
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  style={{
-                    // backgroundColor: "rgba(255, 255, 255, 0.1)",
-                    color: "white",
-                    transition: "background-color 0.3s",
-                  }}
-
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"} // Toggle between text and password type
+                    id="password"
+                    className={`w-full px-4 py-2 bg-black border ${
+                      passwordError ? "border-red-500" : "border-gray-300"
+                    } rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800`}
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    style={{
+                      color: "white",
+                      transition: "background-color 0.3s",
+                    }}
+                  />
+                  {/* Show/Hide Password Toggle Icon Inside Input Field */}
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-300 focus:outline-none"
+                  >
+                    {showPassword ? (
+                      <VisibilityOffIcon />
+                    ) : (
+                      <VisibilityIcon />
+                    )}
+                  </button>
+                </div>
                 {passwordError && (
-                  <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+                  <p className="text-red-500 text-sm mt-1">
+                    {passwordError}
+                  </p>
                 )}
               </div>
 
-              {/* Show/Hide Password Toggle Icon */}
-              <div className="flex justify-end items-center">
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="text-gray-400  hover:text-gray-300 focus:outline-none"
-                >
-                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                </button>
-              </div>
               <button
                 type="submit"
                 className="relative w-full mt-3 inline-block p-px font-semibold leading-6 text-white no-underline bg-gray-800 hover:bg-gray-900 shadow-2xl cursor-pointer group rounded-xl shadow-zinc-900"

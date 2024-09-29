@@ -113,3 +113,17 @@ button:focus-visible {
   background-color: #888; /* Thumb color */
   border-radius: 10px; /* Rounded corners */
 }
+
+
+
+* {
+  box-sizing: border-box;
+}
+
+
+
+select option:hover {
+  background-color: #1e1e22; /* gray-700 */
+  color: white; /* Optional: Change text color */
+}
+

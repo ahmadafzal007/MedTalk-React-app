@@ -4,7 +4,7 @@ import Header from "../components/FAQ/FAQnav.jsx";
 import ParticlesComponent from "../components/Landing/particles.jsx";
 const FAQpage = () => {
   return (
-    <div>
+    <div >
       <div>
         <ParticlesComponent id="particles" />
         <Header />

@@ -73,7 +73,7 @@ export const UI = ({ hidden, ...props }) => {
           {/* Back Button */}
           <button
             onClick={() => navigate("/main")} // Redirects to the main route
-            className="pointer-events-auto border border-gray-700 hover:border-white text-white p-2 rounded-md"
+            className="pointer-events-auto border bg-black border-gray-700 hover:border-white text-white p-2 rounded-md"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

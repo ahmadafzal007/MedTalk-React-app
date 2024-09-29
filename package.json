@@ -46,6 +46,7 @@
     "react-slick": "^0.30.2",
     "react-spinners": "^0.14.1",
     "react-tsparticles": "^2.12.2",
+    "react-world-flags": "^1.6.0",
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
     "select": "^1.1.2",
