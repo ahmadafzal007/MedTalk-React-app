@@ -15,7 +15,7 @@ import { ChatProvider } from './components/Avatar/hooks/useChat'; // Import Chat
 import React, { Suspense } from 'react';
 import { Loader } from "@react-three/drei"; // Import Loader
 import "./index.css";
-//added no no chnages
+
 function App() {
   return (
     <Provider store={store}>
