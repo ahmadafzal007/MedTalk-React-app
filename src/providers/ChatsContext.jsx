@@ -11,6 +11,7 @@ export const ChatContext = createContext({
   startNewChat: () => {},
   setChatHistory: () => {},
   setPreview: ()=>{},
+  refreshSideBar: false,
   prevPrompts: [],
   chatHistory: [],
   recentPrompt: '',
@@ -35,7 +36,8 @@ export const ChatContextProvider = ({ children }) => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [output, setOutput] = useState([]);
   const [showResult, setShowResult] = useState(false);
-  const [chatId, setChatId] = useState(params.chatId || '');
+  const [chatId, setChatId] = useState('');
+  const [refreshSideBar , setRefreshSideBar] = useState(false);
 
 
   // Function to create a new chat window and set chatId
@@ -54,7 +56,8 @@ export const ChatContextProvider = ({ children }) => {
         setShowResult(false);
         navigate(`/chat/${newChatId}`);
         console.log("chat id after creating ", chatId)
-        handleSendPrompt(prompt,image,csv);
+        handleSendPrompt(prompt,image,csv, "jh",newChatId);
+        setRefreshSideBar(true)
 
       } catch (err) {
         console.error('Failed to create a new chat:', err);
@@ -63,7 +66,15 @@ export const ChatContextProvider = ({ children }) => {
   };
 
   // Updated handleSendPrompt function to accept imagePreview
-  const handleSendPrompt = async (newPrompt, image = null, csv = null, imagePreview = null ) => {
+  const handleSendPrompt = async (newPrompt, image = null, csv = null, imagePreview = null , newChatId) => {
+    let localChatId = newChatId || chatId
+
+    console.log("new chat id " , newChatId)
+
+    if (newChatId){
+      console.log("chat id updated ", newChatId)
+      setChatId(newChatId)
+    }
     console.log('handleSendPrompt called with prompt:', newPrompt);
     console.log("chat id in handlesend prompt , ", chatId)
     console.log("image preview ", preview)
@@ -90,7 +101,7 @@ export const ChatContextProvider = ({ children }) => {
     try {
       const formData = new FormData();
       formData.append('prompt', newPrompt);
-      formData.append('chatId', params.chatId || chatId);
+      formData.append('chatId',  localChatId);
 
       // Append image and csv if they are provided
       if (image !== null) {
@@ -194,6 +205,7 @@ export const ChatContextProvider = ({ children }) => {
         setPrompt,
         startNewChat: handleNewChat,
         setChatHistory,
+        refreshSideBar,
         chatId,
         prevPrompts,
         chatHistory,

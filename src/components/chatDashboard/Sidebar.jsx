@@ -15,7 +15,7 @@ const Sidebar = ({
   setIsExpanded,
   isExpanded,
 }) => {
-  const { startNewChat, isGenerating, setChatHistory } = useContext(ChatContext);
+  const { startNewChat, isGenerating, setChatHistory , refreshSideBar } = useContext(ChatContext);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -37,7 +37,7 @@ const Sidebar = ({
   useEffect(() => {
     console.log('fetching chats in sidebar');
     getUserChats();
-  }, [chatHistory]);
+  }, [chatHistory , refreshSideBar , chatId]);
 
   // Function to load chat into main chat window
   const handleChatClick = (chat) => {
@@ -54,7 +54,7 @@ const Sidebar = ({
   };
 
   const handleNewChat = () => {
-    startNewChat();
+    // startNewChat();
     setShowForm(false);
     setShowViewPatients(false);
   };
