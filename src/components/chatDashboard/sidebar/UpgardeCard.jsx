@@ -10,7 +10,7 @@ const UpgradeCard = () => {
   };
 
   return (
-    <div className="mt-6 p-4 font-poppins bg-[#1e1e22] border border-gray-700 rounded-lg shadow-md">
+    <div className="mt-1 p-4 font-poppins bg-[#1e1e22] border border-gray-700 rounded-lg shadow-md">
       <h3 className="text-lg font-semibold pb-2 text-white">Upgrade!</h3>
       <p className="text-xs text-gray-400">
         Get access to premium features by upgrading your plan.

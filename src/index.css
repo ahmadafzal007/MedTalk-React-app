@@ -79,10 +79,7 @@ button:focus-visible {
 }
 
 
-/* .text-glow {
-  text-shadow: 0 0 2px rgba(255, 255, 255, 0.2), 0 0 8px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.3), 0 0 10px rgba(255, 255, 255, 0.1);
-}
- */
+
 
 
 /* Custom Tailwind utility for hiding scrollbar */
@@ -127,3 +124,30 @@ select option:hover {
   color: white; /* Optional: Change text color */
 }
 
+
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+
+
+
+.typing-effect {
+  overflow: hidden;
+  max-height: 0;
+  animation: typing 2s steps(50, end) forwards;
+}
+
+@keyframes typing {
+  to {
+    max-height: 1000px; /* Adjust to accommodate content */
+  }
+}

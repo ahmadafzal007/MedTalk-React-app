@@ -47,13 +47,19 @@ class IndexControllers {
   }
 
   async login(credentials) {
+    console.log("login credentials ->",credentials)
     try {
-      const response = await this.instance.post('/login', credentials);
+      const response = await this.instance.post('/login', JSON.stringify(credentials), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       return response.data;
     } catch (error) {
       throw this.handleError(error);
     }
   }
+  
 
   async logout() {
     try {

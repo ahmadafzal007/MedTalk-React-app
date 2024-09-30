@@ -1,74 +1,87 @@
+// ChatHistory.jsx
 import { useEffect, useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faCopy } from '@fortawesome/free-solid-svg-icons';
+import ReactMarkdown from 'react-markdown';
 
 const ChatHistory = ({ chatHistory, isGenerating, isPending }) => {
-  const [typedResponses, setTypedResponses] = useState([]);
-  const chatEndRef = useRef(null); // Ref to track the bottom of the chat
+ 
+
+  const [typedResponse, setTypedResponse] = useState('');
+  const chatContainerRef = useRef(null); // Ref for the chat container
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]
+    console.log('file -> ', file)
+    if (file) {
+      setImage(file)
+      setPreview(URL.createObjectURL(file))
+      console.log('File selected:', file)
+    } else {
+      console.error('No file selected')
+    }
+  }
+
+  const handleCopy = (text) => {
+    const plainText = text.replace(/\*\*(.*?)\*\*/g, '$1');
+    navigator.clipboard
+      .writeText(plainText)
+      .then(() => {
+        console.log('Copied to clipboard');
+      })
+      .catch((err) => {
+        console.error('Failed to copy: ', err);
+      });
+  };
 
   useEffect(() => {
-    setTypedResponses((prevResponses) => {
-      const updatedResponses = chatHistory.map(({ response }, index) => {
-        if (prevResponses[index]) {
-          return prevResponses[index]; // Keep existing typed responses
+    // Apply typing effect only if generating a new response
+    if ((isGenerating || isPending) && chatHistory.length > 0) {
+      const lastMessageIndex = chatHistory.length - 1;
+      const response = chatHistory[lastMessageIndex]?.response || '';
+      let charIndex = 0;
+
+      setTypedResponse(''); // Reset typed response
+
+      const intervalId = setInterval(() => {
+        if (charIndex < response.length) {
+          setTypedResponse((prev) => prev + response.charAt(charIndex));
+          charIndex++;
         } else {
-          return { response: '', fullResponse: response || '' }; // Initialize new responses
+          clearInterval(intervalId);
         }
-      });
-      return updatedResponses;
-    });
+      }, 8); // Adjust typing speed here
 
-    chatHistory.forEach((entry, index) => {
-      if (
-        entry.response &&
-        (!typedResponses[index] || typedResponses[index].response.length < entry.response.length)
-      ) {
-        let charIndex = typedResponses[index]?.response.length || 0;
-
-        const intervalId = setInterval(() => {
-          if (charIndex < entry.response.length) {
-            setTypedResponses((prevResponses) => {
-              const updatedResponses = [...prevResponses];
-              updatedResponses[index].response += entry.response[charIndex];
-
-              // Check if the newly added character causes a line break
-              const newResponse = updatedResponses[index].response;
-              const div = document.createElement('div');
-              div.style.visibility = 'hidden';
-              div.style.position = 'absolute';
-              div.style.width = 'auto'; // Match your chat width
-              div.innerHTML = newResponse;
-              document.body.appendChild(div);
-
-              // Calculate line count based on the new response
-              const lineCount = div.clientHeight / parseFloat(getComputedStyle(div).lineHeight);
-              document.body.removeChild(div);
-
-              // If the new character causes an additional line, scroll to the bottom
-              if (lineCount > Math.floor((chatEndRef.current.clientHeight / parseFloat(getComputedStyle(chatEndRef.current).lineHeight)))) {
-                chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
-              }
-
-              return updatedResponses;
-            });
-
-            charIndex++;
-          } else {
-            clearInterval(intervalId); // Clear interval when done typing
-          }
-        }, 8); // Adjust typing speed here
+      return () => clearInterval(intervalId);
+    } else {
+      // Ensure the typed response is set when not generating
+      if (chatHistory.length > 0) {
+        const lastMessageIndex = chatHistory.length - 1;
+        const response = chatHistory[lastMessageIndex]?.response || '';
+        setTypedResponse(response);
       }
-    });
-  }, [chatHistory]);
+    }
+  }, [chatHistory, isGenerating, isPending]);
 
   // Scroll to bottom when the chat history changes
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [typedResponses]);
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [chatHistory]);
+
+  // Log the chat history for debugging
+  useEffect(() => {
+    console.log('ChatHistory updated:', chatHistory);
+  }, [chatHistory]);
 
   return (
-    <section className="h-[470px] font-poppins md:h-[480px] lg:w-[1100px] md:w-[700px] w-[360px] overflow-y-auto scrollbar-hide">
-      {chatHistory.map(({ prompt, response }, index) => (
+    <section
+      ref={chatContainerRef}
+      className="h-[470px] font-poppins md:h-[480px] lg:w-[1100px] md:w-[700px] w-[360px] overflow-y-auto scrollbar-hide"
+    >
+      {chatHistory.map(({ prompt, response, plot_url, image_url, image_local_preview }, index) => (
+        console.log('recieving local image: ',image_local_preview),
         <div key={index} className="mb-4">
           {/* User's prompt */}
           <div className="flex flex-row-reverse justify-start items-start animate-fadeIn gap-2">
@@ -78,6 +91,25 @@ const ChatHistory = ({ chatHistory, isGenerating, isPending }) => {
             </div>
             {/* Prompt content */}
             <div className="max-w-[75%] bg-[#151518] border border-gray-600 p-2 rounded-lg shadow-md text-right text-xs">
+              {/* Display image at the top with consistent size */}
+              {image_url ? (
+                <div className="mb-2">
+                  <img
+                    src={image_url}
+                    alt="Uploaded"
+                    className="w-full max-h-[280px] object-contain rounded-lg shadow-md"
+                  />
+                </div>
+              ) : image_local_preview ? (
+                <div className="mb-2">
+                  <img
+                    src={image_local_preview}
+                    alt="Preview"
+                    className="w-full max-h-[200px] object-contain rounded-lg shadow-md"
+                  />
+                </div>
+              ) : null}
+
               <p className="text-gray-300">{prompt}</p>
             </div>
           </div>
@@ -85,34 +117,58 @@ const ChatHistory = ({ chatHistory, isGenerating, isPending }) => {
           {/* AI's response */}
           <div
             className={`flex justify-start items-start animate-fadeInWithTyping mt-2 gap-2 ${
-              isPending || isGenerating ? 'animate-pulse' : ''
+              index === chatHistory.length - 1 && (isPending || isGenerating) ? 'animate-pulse' : ''
             }`}
           >
             <div className="flex items-center justify-center h-5 w-5 md:h-5 md:w-5 rounded-full bg-[#151518] border border-gray-600">
               <img
                 className={`w-4 min-w-4 md:w-3 md:min-w-3 transition-transform duration-500 ${
-                  isPending || isGenerating ? 'animate-pulse' : ''
+                  index === chatHistory.length - 1 && (isPending || isGenerating) ? 'animate-pulse' : ''
                 }`}
                 src="/medtalk-circle.png"
-                alt="gemini icon"
+                alt="medtalk icon"
                 style={{
                   filter: 'drop-shadow(0 0 5px rgba(255, 255, 255, 0.3))',
                 }}
               />
             </div>
 
-            {/* Render response with HTML formatting */}
-            <div className="max-w-[80%]  p-2 rounded-lg shadow-md">
-              <p
-                className="text-gray-300 text-xs font-poppins leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: typedResponses[index]?.response }}
-              />
+            {/* Render plot image (if available) and response */}
+            <div className="max-w-[80%] p-2 rounded-lg shadow-md relative">
+              {/* Copy button */}
+              <button
+                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 rounded p-1"
+                onClick={() => handleCopy(response)}
+              >
+                <FontAwesomeIcon icon={faCopy} size="sm" />
+              </button>
+
+              <div className="text-gray-300 text-xs font-poppins leading-relaxed">
+                {/* If plot_url exists, show the plot image */}
+                {plot_url && (
+                  <div className="mb-2">
+                    <img
+                      src={plot_url}
+                      alt="Plot"
+                      className="w-full max-h-[200px] object-contain rounded-lg shadow-md"
+                    />
+                  </div>
+                )}
+
+                {index === chatHistory.length - 1 && (isGenerating || isPending) ? (
+                  // Show typing effect for the last message during generation
+                  <ReactMarkdown>{typedResponse}</ReactMarkdown>
+                ) : (
+                  // Show full response for previous messages
+                  <ReactMarkdown>{response}</ReactMarkdown>
+                )}
+              </div>
             </div>
           </div>
         </div>
       ))}
       {/* Invisible div to keep track of the bottom of the chat */}
-      <div ref={chatEndRef} />
+      <div />
     </section>
   );
 };

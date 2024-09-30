@@ -7,8 +7,8 @@ import SignUp from './screens/access/signup';
 import Main from './screens/MainScreen';
 import Dashboard from './screens/Dashboard/Dashboard';
 import RadiologistData from './screens/RadiologistData';
-import { Provider } from 'react-redux';
-import store from './redux/store';
+
+
 import HospitalDashboard from './components/Doctor/DoctorDashboard';
 import Avatar from './screens/Avatar';
 import { ChatProvider } from './components/Avatar/hooks/useChat'; // Import ChatProvider
@@ -23,7 +23,6 @@ import HospitalRegistration from './screens/access/hospitalRegistration'
 
 function App() {
   return (
-    <Provider store={store}>
       <Router>
         <Routes>
           <Route exact path='/' element={<Landing />} />
@@ -31,6 +30,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/main' element={<Main />} />
+          <Route path='/chat/:chatId' element={<Main />} />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/radiologist' element={<RadiologistData />} />
           <Route path='/hospitaldashboard' element={<HospitalDashboard />} />
@@ -53,7 +53,6 @@ function App() {
           />
         </Routes>
       </Router>
-    </Provider>
   );
 }
 

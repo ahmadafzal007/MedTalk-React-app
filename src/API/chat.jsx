@@ -7,6 +7,7 @@ class ChatControllers {
 
   // Method to create a chat window
   async createChatWindow(patientId) {
+    console.log("Access token", localStorage.getItem('accessToken'))
     try {
       const response = await axios.post(`${this.apiBaseUrl}/create`, { patientId }, {
         headers: {
@@ -38,13 +39,13 @@ class ChatControllers {
   // Method to handle chat requests (upload files, etc.)
   async handleChatRequest(formData) {
     try {
-      const response = await axios.post(`${this.apiBaseUrl}/handle-chat`, formData, {
+      const response = await axios.post(`${this.apiBaseUrl}/generate-response`, formData, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
           'Content-Type': 'multipart/form-data' // Important for file uploads
         }
       });
-      return response.data;
+      return response.data; 
     } catch (error) {
       console.error('Error handling chat request:', error);
       throw error;

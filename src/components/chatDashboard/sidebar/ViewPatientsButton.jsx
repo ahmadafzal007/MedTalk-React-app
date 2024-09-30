@@ -1,9 +1,15 @@
 import { Users } from 'lucide-react' // Icon for the button
 
-const ViewPatientsButton = ({ setShowViewPatients, isExpanded }) => {
+const ViewPatientsButton = ({ setShowForm , setShowViewPatients , isExpanded }) => {
   return (
     <div
-      onClick={() => setShowViewPatients(true)} // Trigger the view patients component
+    onClick={() => {
+      setShowForm(false)
+      setShowViewPatients(true)
+    }
+  }
+    
+    // Trigger the view patients component
       className={`mt-1 rounded-md  hover:border-white border-gray-700  inline-flex h-8 cursor-pointer items-center gap-2 p-3 text-sm text-white font-semibold duration-300 transition-all ease-in-out transform ${
         isExpanded ? 'w-[100%]' : 'w-11' // Stretch to full width when expanded
       } hover:bg-[#1e1e22] hover:scale-105 shadow-md`}

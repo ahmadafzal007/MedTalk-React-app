@@ -1,11 +1,15 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
 import { AiOutlineMessage } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
+import ChatController from '../../API/doctor'; // Import your API service to fetch data
 
 const ViewPatients = () => {
-  const patients = useSelector((state) => state.patients.patientList);
   const navigate = useNavigate();
+
+  // Patients state
+  const [patients, setPatients] = useState([]);
+  const [loading, setLoading] = useState(true); // Loading state to show while fetching
+  const [error, setError] = useState(null); // Error state to handle errors
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,16 +18,33 @@ const ViewPatients = () => {
   // Search state
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Calculate the current patients to display based on pagination
+  // Fetch patients from backend when component mounts
+  useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        const response = await ChatController.getAllPatients(); // Fetch patients from backend
+        console.log("fetching patients: ",response)
+        setPatients(response.patients); // Assuming 'response.patients' contains the patient data
+        setLoading(false); // Set loading to false after fetching
+      } catch (err) {
+        setError(err.message || 'Failed to fetch patients');
+        setLoading(false); // Stop loading if error occurs
+      }
+    };
+
+    fetchPatients(); // Call the function when component mounts
+  }, []);
+
+  // Pagination logic
   const indexOfLastPatient = currentPage * patientsPerPage;
   const indexOfFirstPatient = indexOfLastPatient - patientsPerPage;
 
-  // Filtered patients by CNIC based on search term
+  // Filter patients by CNIC based on search term
   const filteredPatients = patients.filter((patient) =>
     patient.cnic.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Current patients to display on the page
+  // Current patients to display based on pagination
   const currentPatients = filteredPatients.slice(indexOfFirstPatient, indexOfLastPatient);
 
   // Calculate total pages
@@ -36,6 +57,14 @@ const ViewPatients = () => {
   const handleChatClick = (patientId) => {
     navigate(`/chat/${patientId}`);
   };
+
+  if (loading) {
+    return <p className="text-center text-gray-500">Loading patients...</p>;
+  }
+
+  if (error) {
+    return <p className="text-center text-red-500">{error}</p>;
+  }
 
   return (
     <div className='w-full max-w-screen-lg mx-auto border border-gray-700 font-poppins p-8 bg-[#151518] text-gray-200 rounded-lg shadow-lg'>

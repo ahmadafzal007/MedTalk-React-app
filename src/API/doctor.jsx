@@ -13,7 +13,11 @@ class DoctorsControllers {
     // Method to create a new patient
     async createPatient(patientData) {
         try {
-            const response = await axios.post(`${this.apiUrl}/createPatient`, patientData, { headers: this.headers });
+            const response = await axios.post(`${this.apiUrl}/createPatient`, patientData, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                  }
+             });
             return response.data;
         } catch (error) {
             console.error('Error creating patient:', error.response.data);
@@ -38,7 +42,11 @@ class DoctorsControllers {
     // Method to get all patients for the authenticated doctor
     async getAllPatients() {
         try {
-            const response = await axios.get(`${this.apiUrl}/allpatients`, { headers: this.headers });
+            const response = await axios.get(`${this.apiUrl}/allpatients`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+                  }
+             });
             return response.data;
         } catch (error) {
             console.error('Error fetching all patients:', error.response.data);

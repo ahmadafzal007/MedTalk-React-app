@@ -1,17 +1,19 @@
-import { useContext, useState } from 'react'
-import ChatContext from '../../providers/ChatsContext'
-import HelpSection from './Main/HelpSection'
-import ChatHistory from './Main/ChatHistory'
-import ChatInput from './Main/ChatInput'
-import AddPatientForm from './AddPatientForm'
-import ViewPatients from './ViewPatients'
-import PrintReportForm from '../../Print/PrintReportForm'
-import Navbar from './MainNavbar'
+import { useContext, useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import ChatContext from '../../providers/ChatsContext';
+import HelpSection from './Main/HelpSection';
+import ChatHistory from './Main/ChatHistory';
+import ChatInput from './Main/ChatInput';
+import AddPatientForm from './AddPatientForm';
+import ViewPatients from './ViewPatients';
+import PrintReportForm from '../../Print/PrintReportForm';
+import Navbar from './MainNavbar';
 
 const Main = ({
   showForm,
   setShowForm,
   showViewPatients,
+  setShowViewPatients,
   isExpanded,
 }) => {
   const {
@@ -21,20 +23,46 @@ const Main = ({
     isPending,
     isGenerating,
     chatHistory,
-  } = useContext(ChatContext)
+    setPreview,
+    startNewChat,
+  } = useContext(ChatContext);
 
-  const [showPDFForm, setShowPDFForm] = useState(false)
+  const [showPDFForm, setShowPDFForm] = useState(false);
 
-  const handleSendPrompt = () => {
-    if (prompt.trim()) {
-      sendPrompt(prompt)
+  // New state variables for image and csv files
+  const [image, setImage] = useState(null);
+  const [csv, setCsv] = useState(null);
+
+  // Get chatId from the URL using useParams
+  const params = useParams();
+  const chatId = params.chatId;
+
+  const handleSendPrompt = async () => {
+    
+    console.log('Sending prompttttttttttttttttttttttttttt');
+    // Check if chatId exists, if not create one
+    if (!chatId) {
+      const newChat = await startNewChat(prompt, image, csv);
+      console.log("new chat",newChat);
     }
-  }
 
-  const hasMessages = chatHistory && chatHistory.length > 0
+    else if (prompt.trim()) {
+      
+      // Pass image and csv to sendPrompt
+      await sendPrompt(prompt, image, csv);
+    
+      console.log('Sending prompttttt', prompt);
+      // Reset image and csv after sending
+      setImage(null);
+      setCsv(null);
+    }
+  };
+
+  const hasMessages = chatHistory && chatHistory.length > 0;
 
   return (
-    <div className='md:relative relative  w-full h-screen bg-black text-white'>
+    <div className='md:relative relative w-full h-screen text-white'>
+      <h1></h1>
       {/* Navigation Bar */}
       <Navbar setShowPDFForm={setShowPDFForm} />
 
@@ -53,15 +81,19 @@ const Main = ({
         </div>
       )}
 
-      <main className={`flex-1 items-center justify-center overflow-y-auto px-4 py-5 md:px-6 md:py-8 ${isExpanded ? "" : ""}`}>
+      <main
+        className={`flex-1 items-center justify-center overflow-y-auto px-4 py-5 md:px-6 md:py-8 ${
+          isExpanded ? '' : ''
+        }`}
+      >
         <div className='flex items-center justify-center'>
           {/* Render HelpSection if no chat messages are present */}
-          {!showForm && !showViewPatients && !hasMessages && (
+          {!chatId && (
             <HelpSection hasMessages={false} isSidebarExpanded={isExpanded} />
           )}
 
           {/* Render chat messages when chat has started */}
-          {!showForm && !showViewPatients && hasMessages && (
+          {!showForm && !showViewPatients && hasMessages && chatId && (
             <ChatHistory
               chatHistory={chatHistory}
               isPending={isPending}
@@ -70,28 +102,30 @@ const Main = ({
           )}
 
           {/* Show Add Patient Form */}
-          {showForm && <AddPatientForm setShowForm={setShowForm} />}
+          {showForm && <AddPatientForm setShowForm={setShowForm} x />}
 
           {/* Show View Patients */}
-          <div>
-            
-          </div>
           {showViewPatients && <ViewPatients />}
 
           {/* Chat Input Section */}
           {!showForm && !showViewPatients && (
             <ChatInput
-              prompt={prompt}
+              setPreview={setPreview}
+              prompt={prompt}   
               setPrompt={setPrompt}
               handleSendPrompt={handleSendPrompt}
               isGenerating={isGenerating}
               setShowPDFForm={setShowPDFForm}
+              image={image}
+              setImage={setImage}
+              csv={csv}
+              setCsv={setCsv}
             />
           )}
         </div>
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default Main
+export default Main;
