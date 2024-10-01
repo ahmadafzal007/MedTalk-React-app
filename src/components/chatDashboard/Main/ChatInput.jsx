@@ -171,7 +171,7 @@ const ChatInput = ({
           </div>
           <input
             type='file'
-            accept='image/*'
+            accept=".png, .jpg" // Restrict to PNG and JPG formats
             ref={imageInputRef}
             style={{ display: 'none' }}
             onChange={(e)=> {
