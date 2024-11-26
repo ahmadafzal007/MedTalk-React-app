@@ -1,5 +1,5 @@
 // ChatInput.jsx
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPaperclip,
@@ -9,6 +9,7 @@ import {
   faFileCsv,
   faImage,
 } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux'; // Import useSelector to get user role
 
 const ChatInput = ({
   prompt,
@@ -29,12 +30,14 @@ const ChatInput = ({
   const csvInputRef = useRef(null);
   const inputRef = useRef(null);
 
-  const [imagee, setImagee] = useState(null)
-  const [url, setUrl] = useState('')
-  // const [preview, setPreview] = useState('')
-
+  const [imagee, setImagee] = useState(null);
+  const [url, setUrl] = useState('');
+  // const [preview, setPreview] = useState('');
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Access user role from Redux store
+  const userRole = useSelector((state) => state.user.role || '');
 
   // Focus the text input field after each render
   useEffect(() => {
@@ -56,16 +59,17 @@ const ChatInput = ({
   };
 
   const handleShowImageChange = (e) => {
-    const file = e.target.files[0]
-    console.log('file -> ', file)
+    const file = e.target.files[0];
+    console.log('file -> ', file);
     if (file) {
-      setImagee(file)
-      setPreview(URL.createObjectURL(file))
-      console.log('File selected:', file)
+      setImagee(file);
+      setPreview(URL.createObjectURL(file));
+      console.log('File selected:', file);
     } else {
-      console.error('No file selected')
+      console.error('No file selected');
     }
-  }
+  };
+
   // File upload handler for image
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -126,8 +130,8 @@ const ChatInput = ({
   // Handle prompt submission and clear inputs
   const handleSubmitPrompt = () => {
     console.log('Submitting prompt with image preview:', selectedImagePreview);
-    console.log("image going to model: ", image)
-    handleSendPrompt(prompt, image, csv, selectedImagePreview ); // Pass selectedImagePreview
+    console.log('image going to model: ', image);
+    handleSendPrompt(prompt, image, csv, selectedImagePreview); // Pass selectedImagePreview
     // Clear prompt and files
     setPrompt('');
     handleRemoveImage();
@@ -138,54 +142,63 @@ const ChatInput = ({
     <div className='absolute mb-16 font-poppins md:pb-0 sm:mb-0 bottom-0 left-0 flex flex-col items-center bg-black right-0 mx-auto max-w-screen px-4 py-0 md:px-6 md:py-4 backdrop-blur-sm'>
       <div className='flex justify-center items-center gap-x-2'>
         <div className='flex items-center justify-between gap-3 rounded-lg xl:max-w-[600px] md:max-w-[400px] max-w-[400px] bg-black border border-gray-600 px-4 py-2 lg:px-5 lg:py-3 shadow-lg relative'>
-          {/* Single Upload Icon */}
-          <div className='cursor-pointer relative' onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            <FontAwesomeIcon icon={faPaperclip} className='text-white text-xl' />
-            {/* Show menu when isMenuOpen is true */}
-            {isMenuOpen && (
-              <div className='absolute left-0 bottom-full mb-4 bg-black border border-gray-700 rounded-md shadow-lg z-10 p-2'>
-                <button
-                  className='absolute border-0 top-0 right-0 text-white p-1'
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  <FontAwesomeIcon icon={faTimes} size='sm' />
-                </button>
-                <div className='flex space-x-0'>
-                  <div
-                    className='cursor-pointer flex flex-col rounded-lg hover:border hover:border-gray-700 p-2 mt-2 items-center'
-                    onClick={handleImageIconClick}
+          
+          {/* Conditionally render Upload Icon for doctors only */}
+          {userRole === 'doctor' && (
+            <div className='cursor-pointer relative' onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              <FontAwesomeIcon icon={faPaperclip} className='text-white text-xl' />
+              {/* Show menu when isMenuOpen is true */}
+              {isMenuOpen && (
+                <div className='absolute left-0 bottom-full mb-4 bg-black border border-gray-700 rounded-md shadow-lg z-10 py-4 px-2 w-60'>
+                  <button
+                    className='absolute border-0 top-0 right-1 text-white p-1'
+                    onClick={() => setIsMenuOpen(false)}
                   >
-                    <FontAwesomeIcon icon={faImage} className='text-white text-md' />
-                    <span className='text-white text-[8px] mt-1'>Image</span>
-                  </div>
-                  <div
-                    className='cursor-pointer flex flex-col rounded-lg hover:border hover:border-gray-700 p-2 ml-4 mt-2 items-center'
-                    onClick={handleCsvIconClick}
-                  >
-                    <FontAwesomeIcon icon={faFileCsv} className='text-white text-md' />
-                    <span className='text-white text-[8px] mt-1'>CSV</span>
+                    <FontAwesomeIcon icon={faTimes} size='lg' />
+                  </button>
+                  <div className='flex flex-col '>
+                    <button
+                      className='flex items-center mb-2 mt-2 justify-center w-full p-2 bg-black border border-gray-700 hover:bg-[#1e1e22] rounded-md'
+                      onClick={handleImageIconClick}
+                    >
+                      <FontAwesomeIcon icon={faImage} className='text-white text-sm mr-2' />
+                      <span className='text-white text-xs'>Upload Image</span>
+                    </button>
+                    <button
+                      className='flex items-center justify-center w-full p-2 bg-black border border-gray-700 hover:bg-[#1e1e22] rounded-md'
+                      onClick={handleCsvIconClick}
+                    >
+                      <FontAwesomeIcon icon={faFileCsv} className='text-white mr-2' />
+                      <span className='text-white text-xs'>Upload CSV</span>
+                    </button>
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
-          <input
-            type='file'
-            accept=".png, .jpg" // Restrict to PNG and JPG formats
-            ref={imageInputRef}
-            style={{ display: 'none' }}
-            onChange={(e)=> {
-              handleImageChange(e);
-              handleShowImageChange(e);
-            }}
-          />
-          <input
-            type='file'
-            accept='.csv,text/csv'
-            ref={csvInputRef}
-            style={{ display: 'none' }}
-            onChange={handleCsvChange}
-          />
+              )}
+            </div>
+          )}
+
+          {/* Hidden file inputs */}
+          {userRole === 'doctor' && (
+            <>
+              <input
+                type='file'
+                accept=".png, .jpg, .jpeg, .gif, .bmp, .webp" // Expanded to include more image formats
+                ref={imageInputRef}
+                style={{ display: 'none' }}
+                onChange={(e) => {
+                  handleImageChange(e);
+                  handleShowImageChange(e);
+                }}
+              />
+              <input
+                type='file'
+                accept='.csv,text/csv'
+                ref={csvInputRef}
+                style={{ display: 'none' }}
+                onChange={handleCsvChange}
+              />
+            </>
+          )}
 
           {/* Display Uploaded Image Preview */}
           {selectedImagePreview && (
@@ -197,7 +210,7 @@ const ChatInput = ({
               />
               {/* X icon to remove the image */}
               <button
-                className='absolute top-1 right-1 bg-opacity-60 text-white rounded-full p-1'
+                className='absolute top-0 right-0 bg-opacity-60 text-white rounded-full p-1'
                 onClick={handleRemoveImage}
               >
                 <FontAwesomeIcon icon={faTimes} size='sm' />
@@ -208,7 +221,7 @@ const ChatInput = ({
           {/* Display Selected CSV File Name */}
           {selectedCsvName && (
             <div className='relative flex items-center bg-black border border-white px-2 py-1 rounded-md'>
-              <FontAwesomeIcon icon={faFileCsv} className='text-white  mr-2' />
+              <FontAwesomeIcon icon={faFileCsv} className='text-white mr-2' />
               <span className='text-white text-sm'>{selectedCsvName}</span>
               {/* X icon to remove the CSV */}
               <button
@@ -225,7 +238,6 @@ const ChatInput = ({
             ref={inputRef}
             onChange={(e) => setPrompt(e.target.value)}
             onKeyDown={(e) => {
-              
               if (e.key === 'Enter') {
                 e.preventDefault(); // Prevent form submission
                 handleSubmitPrompt();
@@ -252,17 +264,20 @@ const ChatInput = ({
           </div>
         </div>
 
-        {/* Print Button */}
-        <div className=''>
-          <button
-            className='bg-black border border-gray-600 text-white lg:py-4 lg:px-4 px-3 py-3 rounded-lg flex items-center hover:bg-[#1e1e22] transition duration-300 shadow-lg'
-            onClick={() => setShowPDFForm(true)} // Show the modal with the form
-          >
-            <FontAwesomeIcon icon={faPrint} className='text-white text-xl' />
-          </button>
-        </div>
+        {/* Conditionally render Print Button for doctors only */}
+        {userRole === 'doctor' && (
+          <div className=''>
+            <button
+              className='bg-black border border-gray-600 text-white lg:py-4 lg:px-4 px-3 py-3 rounded-lg flex items-center hover:bg-[#1e1e22] transition duration-300 shadow-lg'
+              onClick={() => setShowPDFForm(true)} // Show the modal with the form
+            >
+              <FontAwesomeIcon icon={faPrint} className='text-white text-xl' />
+            </button>
+          </div>
+        )}
       </div>
 
+      {/* Warning Message */}
       <p className='mt-2 mb-1 w-[300px] md:w-[400px] lg:w-[600px] md:ml-4 text-center md:text-[9px] text-[8px] text-gray-300'>
         MedTalk may display inaccurate info, including about diagnosis, so if you are using it as a patient, must refer to your doctor.
       </p>

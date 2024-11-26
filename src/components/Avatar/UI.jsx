@@ -72,7 +72,7 @@ export const UI = ({ hidden, ...props }) => {
         <div className="w-full flex items-center justify-between gap-4">
           {/* Back Button */}
           <button
-            onClick={() => navigate("/main")} // Redirects to the main route
+             onClick={() => navigate(-1)}  // Redirects to the main route
             className="pointer-events-auto border bg-black border-gray-700 hover:border-white text-white p-2 rounded-md"
           >
             <svg

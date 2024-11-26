@@ -1,9 +1,14 @@
+// SignUpPage.jsx
 import React, { useState, useRef } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"; // Import the back icon from MUI
 import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"; // Import the visibility icons
 import CloudUploadIcon from "@mui/icons-material/CloudUpload"; // Import the upload icon
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/userSlice";
+import IndexController from "../../API/index";
+import axios from "axios";
 
 const SignUpPage = () => {
   const [step, setStep] = useState(1); // 1: Name, 2: Email, 3: Password
@@ -18,12 +23,12 @@ const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   const navigate = useNavigate(); // Initialize useNavigate
+  const dispatch = useDispatch(); // Initialize useDispatch
   const fileInputRef = useRef(null); // Ref for the hidden file input
 
   const handleLoginClick = () => {
     navigate("/login"); // Navigate to the "login" route
   };
-  const validPassword = "securepassword"; // Replace with your desired valid password
 
   const handleNameSubmit = (e) => {
     e.preventDefault();
@@ -47,14 +52,70 @@ const SignUpPage = () => {
     }
   };
 
-  const handlePasswordSubmit = (e) => {
+  const handlePasswordSubmit = async (e) => {
     e.preventDefault();
-    if (password === validPassword) {
-      setPasswordError("");
-      // Proceed with successful sign-up (e.g., redirect, store auth tokens, etc.)
-      alert("Sign-Up successful!");
-    } else {
-      setPasswordError("Password does not meet the criteria.");
+
+    if (password.trim() === "") {
+      setPasswordError("Please enter a password.");
+      return;
+    }
+
+    try {
+      let profileImageUrl = null;
+
+      if (profileImage) {
+        // Upload profile image to Cloudinary
+        const imageFormData = new FormData();
+        imageFormData.append("file", profileImage);
+        imageFormData.append("upload_preset", "kmzzjyam"); // Replace with your upload preset
+        imageFormData.append("cloud_name", "dj3p3xvrj"); // Replace with your cloud name
+
+        const cloudinaryResponse = await axios.post(
+          "https://api.cloudinary.com/v1_1/dj3p3xvrj/image/upload",
+          imageFormData
+        );
+
+        profileImageUrl = cloudinaryResponse.data.secure_url;
+      }
+
+      // Prepare user data
+      const userData = {
+        name,
+        email,
+        password,
+        profileImage: profileImageUrl, // Include the image URL
+      };
+
+      console.log("User Data:", userData);
+
+      // Call the API to register the user
+      const response = await IndexController.registerUser(userData);
+
+      if (response) {
+        console.log("Sign-Up successful");
+        localStorage.setItem("accessToken", response.accessToken);
+
+        // Dispatch login action to save user state in Redux store
+        dispatch(
+          login({
+            _id: response.user.id,
+            name: response.user.name,
+            email: response.user.email,
+            auth: true,
+            role: response.user.role,
+            profileImage: response.user.profileImage,
+          })
+        );
+
+        // Redirect to the main page
+        navigate("/main");
+      } else {
+        // Handle the case where response is falsy
+        setPasswordError("Sign-Up failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Sign-Up failed", error);
+      setPasswordError("Sign-Up failed. Please try again.");
     }
   };
 
@@ -74,19 +135,19 @@ const SignUpPage = () => {
         <img
           src="/medtalk-main.png" // Reference to the logo in the public directory
           alt="MedTalk Logo"
-          className="mx-auto h-20 md:h-32" // Adjust size (h-32 = 8rem, md:h-48 = 12rem for larger screens)
+          className="mx-auto h-20 md:h-32" // Adjust size
         />
       </div>
       <div className="flex items-center justify-center">
         <div className="p-8 rounded-lg shadow-lg w-full max-w-md text-white">
-          <h2 className="text-lg font-normal text-center mb-12 md:mb-8 ">
+          <h2 className="text-lg font-normal text-center mb-12 md:mb-8">
             Ready to Explore? Create an Account Now.
           </h2>
 
           {step === 1 && (
             <form onSubmit={handleNameSubmit}>
               {/* Profile Image Upload Circle */}
-              <div className=" flex justify-center relative">
+              <div className="flex justify-center relative">
                 <div
                   className="w-32 h-32 rounded-full bg-black border border-gray-700 flex items-center justify-center cursor-pointer overflow-hidden"
                   onClick={() => fileInputRef.current.click()}
@@ -125,6 +186,12 @@ const SignUpPage = () => {
                   }}
                 />
               </div>
+
+              {profileImageError && (
+                <p className="text-red-500 text-sm mt-1 text-center">
+                  {profileImageError}
+                </p>
+              )}
 
               <div className="mb-4">
                 <label htmlFor="name" className="block text-sm mb-2">
@@ -227,7 +294,7 @@ const SignUpPage = () => {
                     type={showPassword ? "text" : "password"} // Toggle between text and password type
                     id="password"
                     className={`w-full px-4 py-2 bg-black border ${
-                      passwordError ? "border-red-500" : "border-gray-300"
+                      passwordError ? "border-red-500" : "border-gray-700"
                     } rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800`}
                     placeholder="••••••••"
                     value={password}
@@ -252,9 +319,7 @@ const SignUpPage = () => {
                   </button>
                 </div>
                 {passwordError && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {passwordError}
-                  </p>
+                  <p className="text-red-500 text-sm mt-1">{passwordError}</p>
                 )}
               </div>
 

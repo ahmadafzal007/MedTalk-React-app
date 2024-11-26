@@ -1,6 +1,4 @@
 import React from 'react'
-import RegisterHospital from './RegisterHospital'
-import ApproveHospitals from './ApproveHospitals'
 import TrainModel from './TrainModel'
 import UnauthorizedHospitals from './UnauthorizedHospitals'
 import UnprocessedDatasets from './UnprocessedDatasets'
@@ -14,8 +12,6 @@ const MainScreen = ({ activeScreen, setActiveScreen }) => {
   return (
     <div className='flex-1 p-8 bg-black'>
       {!activeScreen && <DashboardOverview setActiveScreen={setActiveScreen} />}
-      {activeScreen === 'RegisterHospital' && <RegisterHospital />}
-      {activeScreen === 'ApproveHospitals' && <ApproveHospitals />}
       {activeScreen === 'TrainModel' && <TrainModel />}
       {activeScreen === 'UnauthorizedHospitals' && <UnauthorizedHospitals />}
       {activeScreen === 'UnprocessedDatasets' && <UnprocessedDatasets />}

@@ -65,3 +65,11 @@ select option:hover {
   color: white; /* Optional: Change text color */
 }
 
+
+
+
+/* Add this to your CSS file */
+.chart-container {
+  position: relative;
+  width: 100%; /* Full width */
+}

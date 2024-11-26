@@ -51,6 +51,7 @@ const LoginPage = () => {
             email: response.user.email,
             auth: true,
             role: response.user.role,
+            profileImage: response.user.profileImage
           })
         );
         if (response.user.role === "user" || response.user.role === "doctor")

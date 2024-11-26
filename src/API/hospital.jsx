@@ -77,7 +77,7 @@ class HospitalControllers {
   // View authorized hospitals
   async viewAuthorizedHospitals() {
     try {
-      const response = await axios.get(`${this.apiUrl}/viewAuthorizedHospitals`, this.setHeaders());
+      const response = await axios.get(`${this.apiUrl}/viewAuthorizedHospitals`);
       return response.data;
     } catch (error) {
       console.error('Error fetching authorized hospitals:', error);

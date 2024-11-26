@@ -1,105 +1,119 @@
-import React from 'react'
-import { Bar } from 'react-chartjs-2'
+import React from 'react';
+import { Line } from 'react-chartjs-2';
 import {
   Chart,
   CategoryScale,
   LinearScale,
-  BarElement,
+  LineElement,
+  PointElement,
   Title,
   Tooltip,
   Legend,
-} from 'chart.js' // Import required components from Chart.js
-import { UserPlus, Hospital, Layers, Settings } from 'lucide-react' // Icons
+} from 'chart.js';
+import { UserPlus, Hospital, Layers, Settings } from 'lucide-react';
 
 // Register the necessary Chart.js components
-Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+Chart.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
 
 const DashboardOverview = ({ setActiveScreen }) => {
   // Sample data for the graph
-  const barData = {
+  const lineData = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     datasets: [
       {
         label: 'Hospitals Registered',
-        backgroundColor: '#FF776F',
-        data: [10, 15, 8, 25, 12, 30],
+        backgroundColor: 'rgba(255, 119, 111, 0.5)',
+        borderColor: '#FF776F',
+        fill: true,
+        data: [10, 15, 8, 45, 12, 30],
       },
       {
         label: 'Radiologists Registered',
-        backgroundColor: '#7ADB78',
+        backgroundColor: 'rgba(125, 219, 120, 0.5)',
+        borderColor: '#7ADB78',
+        fill: true,
         data: [5, 8, 12, 20, 9, 15],
       },
     ],
-  }
+  };
 
   const options = {
     scales: {
-      y: { beginAtZero: true },
+      y: {
+        beginAtZero: true,
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)', // Adjust grid color for dark theme
+        },
+        ticks: {
+          color: 'white', // Change tick color
+        },
+      },
+      x: {
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)', // Adjust grid color for dark theme
+        },
+        ticks: {
+          color: 'white', // Change tick color
+        },
+      },
     },
-  }
+    plugins: {
+      legend: {
+        labels: {
+          color: 'white', // Change legend text color
+        },
+      },
+    },
+  };
 
   return (
-    <div className='p-8'>
-      <h1 className='text-4xl font-bold text-white mb-8'>Hello, Admin!</h1>
+    <div className="p-8 bg-black min-h-screen">
+      <div className="text-4xl font-bold text-white mb-4">H<span className='font-normal'>ello,</span> A<span className='font-normal'>dmin</span>!</div>
 
       {/* Icons linking to different dashboard functionalities */}
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
+      <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 gap-8">
         <div
-          className='bg-gray-800 p-6 rounded-lg shadow-lg text-white cursor-pointer hover:bg-gray-700'
+          className="hover:bg-[#1e1e22] border border-gray-700 p-4 rounded-lg flex items-center cursor-pointer transition-colors"
           onClick={() => setActiveScreen('RegisterHospital')}
         >
-          <div className='flex items-center justify-center'>
-            <Hospital size={40} className='text-white' />
-          </div>
-          <h3 className='text-xl text-center font-bold mt-4'>
-            Registered Hospitals
-          </h3>
+          <UserPlus size={20} className="mr-3 text-white" />
+          <span className="text-xs font-normal">Register Hospital</span>
         </div>
 
         <div
-          className='bg-gray-800 p-6 rounded-lg shadow-lg text-white cursor-pointer hover:bg-gray-700'
-          onClick={() => setActiveScreen('RegisterRadiologist')}
+          className="hover:bg-[#1e1e22] p-4 border border-gray-700 rounded-lg flex items-center cursor-pointer transition-colors"
+          onClick={() => setActiveScreen('ApproveHospitals')}
         >
-          <div className='flex items-center justify-center'>
-            <UserPlus size={40} className='text-white' />
-          </div>
-          <h3 className='text-xl text-center font-bold mt-4'>
-            Registered Radiologists
-          </h3>
+          <Hospital size={20} className="mr-3 text-white" />
+          <span className="text-xs font-normal">Approve Hospitals</span>
         </div>
 
         <div
-          className='bg-gray-800 p-6 rounded-lg shadow-lg text-white cursor-pointer hover:bg-gray-700'
+          className="hover:bg-[#1e1e22] p-4 border border-gray-700 rounded-lg flex items-center cursor-pointer transition-colors"
           onClick={() => setActiveScreen('Datasets')}
         >
-          <div className='flex items-center justify-center'>
-            <Layers size={40} className='text-white' />
-          </div>
-          <h3 className='text-xl text-center font-bold mt-4'>Datasets</h3>
+          <Layers size={20} className="mr-3 text-white" />
+          <span className="text-xs font-normal">Datasets</span>
         </div>
 
         <div
-          className='bg-gray-800 p-6 rounded-lg shadow-lg text-white cursor-pointer hover:bg-gray-700'
-          onClick={() => setActiveScreen('TrainModel')}
+          className="hover:bg-[#1e1e22] p-4 border border-gray-700 rounded-lg flex items-center cursor-pointer transition-colors"
+          onClick={() => setActiveScreen('UnprocessedDatasets')}
         >
-          <div className='flex items-center justify-center'>
-            <Settings size={40} className='text-white' />
-          </div>
-          <h3 className='text-xl text-center font-bold mt-4'>Train Model</h3>
+          <Settings size={20} className="mr-3 text-white" />
+          <span className="text-xs font-normal">Unprocessed Datasets</span>
         </div>
       </div>
 
-      {/* Placeholder Bar Chart for Random Stats */}
-      <div className='mt-10'>
-        <h2 className='text-2xl font-bold text-white mb-6'>
-          Monthly Statistics
-        </h2>
-        <div className='bg-gray-800 p-6 rounded-lg shadow-lg'>
-          <Bar data={barData} options={options} />
+      {/* Line Chart for Monthly Statistics */}
+      <div className="mt-6">
+        <h2 className="text-lg font-poppins font-semibold ml-1 text-white mb-3">Monthly Statistics</h2>
+        <div className="bg-black p-6 rounded-lg shadow-lg">
+          <Line data={lineData} options={options} width={900} height={400} /> {/* Set width and height here */}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default DashboardOverview
+export default DashboardOverview;

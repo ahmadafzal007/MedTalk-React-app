@@ -5,7 +5,7 @@ import axios from 'axios';
 class UserControllers {
   constructor() {
     this.apiUrl = 'http://localhost:3000/api/users'; // Base URL for your API
-    this.token = localStorage.getItem('token'); // Assuming you store JWT in local storage
+    this.token = localStorage.getItem('accessToken'); // Assuming you store JWT in local storage
   }
 
   // Set headers for the requests
@@ -43,11 +43,11 @@ class UserControllers {
   }
 
   // Method to upgrade user to doctor
-  async upgradeToDoctor(phoneNumber, gender, medicalLicenseNumber, specialization, department, hospitalName, profileImage, cnic) {
+  async upgradeToDoctor(phoneNumber, gender, medicalLicenseNumber,  department, hospitalName,  cnic) {
     try {
       const response = await axios.post(
         `${this.apiUrl}/profile/upgrade`,
-        { phoneNumber, gender, medicalLicenseNumber, specialization, department, hospitalName, profileImage, cnic },
+        { phoneNumber, gender, medicalLicenseNumber,  department, hospitalName, cnic },
         this.getHeaders()
       );
       return response.data; // Returns success message and doctor data

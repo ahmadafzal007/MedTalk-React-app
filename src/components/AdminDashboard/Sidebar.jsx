@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom' // Import useNavigate
+import { useState } from 'react'; 
+import { useNavigate } from 'react-router-dom';
 import {
   Menu,
   UserPlus,
@@ -10,175 +10,126 @@ import {
   AlertTriangle,
   Database,
   BarChart,
-} from 'lucide-react'
+  CheckSquare,
+} from 'lucide-react';
 
 const Sidebar = ({ setActiveScreen }) => {
-  const [isExpanded, setIsExpanded] = useState(true) // Sidebar expansion state
-  const navigate = useNavigate() // Initialize navigate
+  const [isExpanded, setIsExpanded] = useState(true);
+  const navigate = useNavigate();
 
-  // Toggle sidebar expansion
   const toggleSidebarExpand = () => {
-    setIsExpanded(!isExpanded)
-  }
+    setIsExpanded(!isExpanded);
+    localStorage.setItem('isExpanded', !isExpanded);
+  };
 
   return (
     <div
-      className={`min-h-screen bg-[#131314] text-white px-4 py-6 transition-all duration-300 ${
-        isExpanded ? 'w-64' : 'w-16'
-      } relative`}
-      style={{
-        boxShadow:
-          'inset 0 0 15px rgba(255, 255, 255, 0.1), 0 4px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 255, 255, 0.1)',
-      }}
+      className={`font-poppins h-screen flex-col justify-between text-white px-4 py-6 backdrop-blur-lg shadow-xl bg-[#151518] border border-gray-700 transform transition-all ${
+        isExpanded ? 'w-[300px] max-w-[320px]' : 'w-[4.75rem]'
+      } overflow-y-auto overflow-x-hidden sm:flex sm:inline-flex`}
     >
-      {/* MedTalk Icon and Toggle Button */}
-      <div className='flex justify-between items-center'>
-        <div className='flex items-center'>
-          {isExpanded && <h1 className='ml-4 text-2xl font-bold'>MedTalk</h1>}
-        </div>
-
-        {/* Toggle Sidebar Button */}
+      <div className="w-full">
+        {/* Fixed toggle button */}
         <button
           onClick={toggleSidebarExpand}
-          className='p-2 rounded-full bg-black hover:bg-gray-800 transition-all ease-in-out shadow-lg'
-          style={{
-            boxShadow: '0 0 10px rgba(255, 255, 255, 0.3)',
-          }}
+          className="absolute top-4 left-4 text-white focus:outline-none transition-transform duration-300"
         >
-          <Menu size={20} />
+          <Menu size={20} className="text-white" />
         </button>
-      </div>
 
-      {/* Menu Options */}
-      <div className='mt-8 flex flex-col space-y-4'>
-        {/* Register Hospital */}
-        <div
-          className={`flex items-center gap-4 bg-black p-3 rounded-full shadow-lg hover:bg-gray-800 transition-all ease-in-out ${
-            isExpanded ? 'w-full' : 'w-12'
-          } cursor-pointer`}
-          onClick={() => setActiveScreen('RegisterHospital')}
-          style={{
-            boxShadow: '0 0 15px rgba(255, 255, 255, 0.3)',
-          }}
-        >
-          <UserPlus size={20} className='text-white' />
-          {isExpanded && <span>Register Hospital</span>}
+        <div className="flex justify-between items-center p-6 border-b border-gray-700">
+          <h2 className={`${isExpanded ? 'block' : 'hidden'} text-lg font-normal`}>
+            <span className="font-bold text-2xl">M</span>ed<span className="font-bold text-2xl">T</span>alk
+          </h2>
         </div>
 
-        {/* Approve Hospitals */}
-        <div
-          className={`flex items-center gap-4 bg-black p-3 rounded-full shadow-lg hover:bg-gray-800 transition-all ease-in-out ${
-            isExpanded ? 'w-full' : 'w-12'
-          } cursor-pointer`}
-          onClick={() => setActiveScreen('ApproveHospitals')}
-          style={{
-            boxShadow: '0 0 15px rgba(255, 255, 255, 0.3)',
-          }}
-        >
-          <Hospital size={20} className='text-white' />
-          {isExpanded && <span>Approve Hospitals</span>}
-        </div>
+        <ul className="p-4 pl-0 space-y-3">
+          
 
-        {/* Datasets */}
-        <div
-          className={`flex items-center gap-4 bg-black p-3 rounded-full shadow-lg hover:bg-gray-800 transition-all ease-in-out ${
-            isExpanded ? 'w-full' : 'w-12'
-          } cursor-pointer`}
-          onClick={() => setActiveScreen('Datasets')}
-          style={{
-            boxShadow: '0 0 15px rgba(255, 255, 255, 0.3)',
-          }}
-        >
-          <Layers size={20} className='text-white' />
-          {isExpanded && <span>Datasets</span>}
-        </div>
+          <li
+            className="hover:bg-[#1e1e22] p-2 rounded-lg flex items-center cursor-pointer transition-colors"
+            onClick={() => setActiveScreen('Datasets')}
+          >
+            <Layers size={20} className="mr-3 text-white" />
+            <span className={`${isExpanded ? 'block text-xs font-normal' : 'hidden'}`}>
+              Datasets
+            </span>
+          </li>
 
-        {/* Unprocessed Datasets */}
-        <div
-          className={`flex items-center gap-4 bg-black p-3 rounded-full shadow-lg hover:bg-gray-800 transition-all ease-in-out ${
-            isExpanded ? 'w-full' : 'w-12'
-          } cursor-pointer`}
-          onClick={() => setActiveScreen('UnprocessedDatasets')}
-          style={{
-            boxShadow: '0 0 15px rgba(255, 255, 255, 0.3)',
-          }}
-        >
-          <File size={20} className='text-white' />
-          {isExpanded && <span>Unprocessed Datasets</span>}
-        </div>
+          <li
+            className="hover:bg-[#1e1e22] p-2 rounded-lg flex items-center cursor-pointer transition-colors"
+            onClick={() => setActiveScreen('UnprocessedDatasets')}
+          >
+            <File size={20} className="mr-3 text-white" />
+            <span className={`${isExpanded ? 'block text-xs font-normal' : 'hidden'}`}>
+              Unprocessed Datasets
+            </span>
+          </li>
 
-        {/* Register Radiologist */}
-        <div
-          className={`flex items-center gap-4 bg-black p-3 rounded-full shadow-lg hover:bg-gray-800 transition-all ease-in-out ${
-            isExpanded ? 'w-full' : 'w-12'
-          } cursor-pointer`}
-          onClick={() => setActiveScreen('RegisterRadiologist')}
-          style={{
-            boxShadow: '0 0 15px rgba(255, 255, 255, 0.3)',
-          }}
-        >
-          <UserPlus size={20} className='text-white' />
-          {isExpanded && <span>Register Radiologist</span>}
-        </div>
+          <li
+            className="hover:bg-[#1e1e22] p-2 rounded-lg flex items-center cursor-pointer transition-colors"
+            onClick={() => setActiveScreen('RegisterRadiologist')}
+          >
+            <UserPlus size={20} className="mr-3 text-white" />
+            <span className={`${isExpanded ? 'block text-xs font-normal' : 'hidden'}`}>
+              Register Radiologist
+            </span>
+          </li>
 
-        {/* Radiologist Dashboard */}
-        <div
-          className={`flex items-center gap-4 bg-black p-3 rounded-full shadow-lg hover:bg-gray-800 transition-all ease-in-out ${
-            isExpanded ? 'w-full' : 'w-12'
-          } cursor-pointer`}
-          onClick={() => navigate('/radiologist')} // Navigate to Radiologist Dashboard
-          style={{
-            boxShadow: '0 0 15px rgba(255, 255, 255, 0.3)',
-          }}
-        >
-          <BarChart size={20} className='text-white' />
-          {isExpanded && <span>Radiologist Dashboard</span>}
-        </div>
+          <li
+            className="hover:bg-[#1e1e22] p-2 rounded-lg flex items-center cursor-pointer transition-colors"
+            onClick={() => navigate('/radiologist')}
+          >
+            <BarChart size={20} className="mr-3 text-white" />
+            <span className={`${isExpanded ? 'block text-xs font-normal' : 'hidden'}`}>
+              Radiologist Dashboard
+            </span>
+          </li>
 
-        {/* Train Model */}
-        <div
-          className={`flex items-center gap-4 bg-black p-3 rounded-full shadow-lg hover:bg-gray-800 transition-all ease-in-out ${
-            isExpanded ? 'w-full' : 'w-12'
-          } cursor-pointer`}
-          onClick={() => setActiveScreen('TrainModel')}
-          style={{
-            boxShadow: '0 0 15px rgba(255, 255, 255, 0.3)',
-          }}
-        >
-          <Settings size={20} className='text-white' />
-          {isExpanded && <span>Train Model</span>}
-        </div>
+          <li
+            className="hover:bg-[#1e1e22] p-2 rounded-lg flex items-center cursor-pointer transition-colors"
+            onClick={() => setActiveScreen('TrainModel')}
+          >
+            <Settings size={20} className="mr-3 text-white" />
+            <span className={`${isExpanded ? 'block text-xs font-normal' : 'hidden'}`}>
+              Train Model
+            </span>
+          </li>
 
-        {/* Unauthorized Hospitals */}
-        <div
-          className={`flex items-center gap-4 bg-black p-3 rounded-full shadow-lg hover:bg-gray-800 transition-all ease-in-out ${
-            isExpanded ? 'w-full' : 'w-12'
-          } cursor-pointer`}
-          onClick={() => setActiveScreen('UnauthorizedHospitals')}
-          style={{
-            boxShadow: '0 0 15px rgba(255, 255, 255, 0.3)',
-          }}
-        >
-          <AlertTriangle size={20} className='text-white' />
-          {isExpanded && <span>Unauthorized Hospitals</span>}
-        </div>
+          <li
+            className="hover:bg-[#1e1e22] p-2 rounded-lg flex items-center cursor-pointer transition-colors"
+            onClick={() => setActiveScreen('UnauthorizedHospitals')}
+          >
+            <AlertTriangle size={20} className="mr-3 text-white" />
+            <span className={`${isExpanded ? 'block text-xs font-normal' : 'hidden'}`}>
+              Unauthorized Hospitals
+            </span>
+          </li>
 
-        {/* Registered Hospitals */}
-        <div
-          className={`flex items-center gap-4 bg-black p-3 rounded-full shadow-lg hover:bg-gray-800 transition-all ease-in-out ${
-            isExpanded ? 'w-full' : 'w-12'
-          } cursor-pointer`}
-          onClick={() => setActiveScreen('RegisteredHospitals')}
-          style={{
-            boxShadow: '0 0 15px rgba(255, 255, 255, 0.3)',
-          }}
-        >
-          <Database size={20} className='text-white' />
-          {isExpanded && <span>Registered Hospitals</span>}
-        </div>
+          <li
+            className="hover:bg-[#1e1e22] p-2 rounded-lg flex items-center cursor-pointer transition-colors"
+            onClick={() => setActiveScreen('RegisteredHospitals')}
+          >
+            <Database size={20} className="mr-3 text-white" />
+            <span className={`${isExpanded ? 'block text-xs font-normal' : 'hidden'}`}>
+              Registered Hospitals
+            </span>
+          </li>
+
+          {/* New Model Evaluation Option */}
+          <li
+            className="hover:bg-[#1e1e22] p-2 rounded-lg flex items-center cursor-pointer transition-colors"
+            onClick={() => setActiveScreen('ModelEvaluation')}
+          >
+            <CheckSquare size={20} className="mr-3 text-white" />
+            <span className={`${isExpanded ? 'block text-xs font-normal' : 'hidden'}`}>
+              Model Evaluation
+            </span>
+          </li>
+        </ul>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

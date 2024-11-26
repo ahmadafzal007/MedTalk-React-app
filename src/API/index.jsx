@@ -20,8 +20,13 @@ class IndexControllers {
   }
 
   async registerUser(userData) {
+    console.log("user credentials ->",userData)
     try {
-      const response = await this.instance.post('/register/user', userData);
+      const response = await this.instance.post('/register/user', JSON.stringify(userData),{
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       return response.data;
     } catch (error) {
       throw this.handleError(error);
@@ -29,8 +34,13 @@ class IndexControllers {
   }
 
   async registerDoctor(doctorData) {
+    console.log("doctor credentials ->",doctorData)
     try {
-      const response = await this.instance.post('/register/doctor', doctorData);
+      const response = await this.instance.post('/register/doctor', JSON.stringify(doctorData),{
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       return response.data;
     } catch (error) {
       throw this.handleError(error);
@@ -38,8 +48,13 @@ class IndexControllers {
   }
 
   async registerHospital(hospitalData) {
+    console.log("hospital credentials ->",hospitalData)
     try {
-      const response = await this.instance.post('/register/hospital', hospitalData);
+      const response = await this.instance.post('/register/hospital', JSON.stringify(hospitalData),{
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       return response.data;
     } catch (error) {
       throw this.handleError(error);

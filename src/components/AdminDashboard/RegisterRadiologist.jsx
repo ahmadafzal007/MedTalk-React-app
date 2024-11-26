@@ -1,12 +1,4 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-  registerRadiologist,
-  deleteRadiologist,
-  updateRadiologist,
-} from '../../redux/radiologistSlice'
-import { shareImagesWithRadiologist } from '../../redux/radiologistSlice'
-
 import ConfirmationModal from './ConfirmationModal' // Import the confirmation modal
 
 const RegisterRadiologist = () => {
@@ -15,11 +7,9 @@ const RegisterRadiologist = () => {
     email: '',
     phone: '',
   })
-
+  const [radiologists, setRadiologists] = useState([]) // Dummy data array for radiologists
   const [editMode, setEditMode] = useState(null) // To track if we're in edit mode and which radiologist is being edited
   const [showConfirmation, setShowConfirmation] = useState(false) // To control the confirmation modal
-  const dispatch = useDispatch()
-  const radiologists = useSelector((state) => state.radiologist.radiologists) // Fetching radiologists from Redux
 
   const handleChange = (e) => {
     setFormData({
@@ -31,13 +21,21 @@ const RegisterRadiologist = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (editMode) {
-      // If we're in edit mode, update the radiologist
-      dispatch(updateRadiologist({ id: editMode, updatedData: formData }))
+    if (editMode !== null) {
+      // Update existing radiologist in dummy data
+      setRadiologists((prevRadiologists) =>
+        prevRadiologists.map((radiologist) =>
+          radiologist.id === editMode ? { ...radiologist, ...formData } : radiologist
+        )
+      )
       setEditMode(null) // Exit edit mode
     } else {
-      // If not in edit mode, register a new radiologist
-      dispatch(registerRadiologist(formData))
+      // Register a new radiologist in dummy data
+      const newRadiologist = {
+        id: Date.now(), // Generate a unique ID
+        ...formData,
+      }
+      setRadiologists([...radiologists, newRadiologist])
     }
 
     setFormData({ radiologistName: '', email: '', phone: '' }) // Clear the form
@@ -54,7 +52,10 @@ const RegisterRadiologist = () => {
   }
 
   const handleDelete = (id) => {
-    dispatch(deleteRadiologist({ id })) // Dispatch the delete action to remove the radiologist
+    // Remove radiologist from dummy data
+    setRadiologists((prevRadiologists) =>
+      prevRadiologists.filter((radiologist) => radiologist.id !== id)
+    )
   }
 
   return (

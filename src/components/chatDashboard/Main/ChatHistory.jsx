@@ -78,7 +78,7 @@ const ChatHistory = ({ chatHistory, isGenerating, isPending }) => {
   return (
     <section
       ref={chatContainerRef}
-      className="h-[470px] font-poppins md:h-[480px] lg:w-[1100px] md:w-[700px] w-[360px] overflow-y-auto scrollbar-hide"
+      className="h-[470px]  font-poppins md:h-[580px] lg:w-[1100px] md:w-[700px] w-[360px] overflow-y-auto scrollbar-hide"
     >
       {chatHistory.map(({ prompt, response, plot_url, image_url, image_local_preview }, index) => (
         console.log('recieving local image: ',image_local_preview),
@@ -90,8 +90,8 @@ const ChatHistory = ({ chatHistory, isGenerating, isPending }) => {
               <FontAwesomeIcon icon={faUserCircle} className="text-gray-300" size="sm" />
             </div>
             {/* Prompt content */}
-            <div className="max-w-[75%] bg-[#151518] border border-gray-600 p-2 rounded-lg shadow-md text-right text-xs">
               {/* Display image at the top with consistent size */}
+            <div className="max-w-[75%] bg-[#151518] border border-gray-600 p-2 rounded-lg shadow-md text-right text-xs">
               {image_url ? (
                 <div className="mb-2">
                   <img
@@ -150,7 +150,7 @@ const ChatHistory = ({ chatHistory, isGenerating, isPending }) => {
                     <img
                       src={plot_url}
                       alt="Plot"
-                      className="w-full max-h-[200px] object-contain rounded-lg shadow-md"
+                      className="max-w-full max-h-[200px] bg-white object-contain rounded-lg shadow-md"
                     />
                   </div>
                 )}

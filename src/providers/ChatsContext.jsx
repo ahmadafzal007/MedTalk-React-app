@@ -69,7 +69,7 @@ export const ChatContextProvider = ({ children }) => {
   const handleSendPrompt = async (newPrompt, image = null, csv = null, imagePreview = null , newChatId) => {
     let localChatId = newChatId || chatId
 
-    console.log("new chat id " , newChatId)
+    console.log("chat id " , newChatId)
 
     if (newChatId){
       console.log("chat id updated ", newChatId)
@@ -223,100 +223,3 @@ export const ChatContextProvider = ({ children }) => {
 };
 
 export default ChatContext;
-
-
-
-
-
-
-
-
-
-
-  // Function to send prompt, ensures chatId is created first if it doesn't exist
-  // const handleSendPrompt = async (newPrompt) => {
-  //   if (!newPrompt.trim()) return // Prevent sending empty prompts
-
-  //   setIsGenerating(true)
-  //   setIsPending(true)
-  //   setRecentPrompt(newPrompt)
-  //   setShowResult(true)
-
-  //   // // Create chatId if it doesn't exist yet
-  //   // if (!chatId) {
-  //   //   await handleNewChat()
-  //   // }
-
-  //   // Add the new prompt to the previous prompts list
-  //   setPrevPrompts((prev) => [
-  //     ...prev.filter((p) => p !== newPrompt),
-  //     newPrompt,
-  //   ])
-
-  //   // Add the prompt to the chat history
-  //   setChatHistory((prev) => [
-  //     ...prev,
-  //     { prompt: newPrompt, response: null }, // Initial response is null
-  //   ])
-
-  //   try {
-  //     const formData = new FormData()
-  //     formData.append('prompt', newPrompt)
-  //     formData.append('chatId', chatId)
-
-  //     // Simulate running the chat prompt (this would be your actual API call)
-  //     const { data, error } = await runChat(newPrompt);
-  //     const response = await ChatController.handleChatRequest(formData);
-
-  //     console.log("Chat response", response)
-
-  //     // Handle error case
-  //     if (!response) {
-  //       setChatHistory((prev) => [
-  //         ...prev,
-  //         {
-  //           prompt: newPrompt,
-  //           response: `<span class="text-red-500">${error}</span>`,
-  //         },
-  //       ])
-  //       setIsPending(false)
-  //       setIsGenerating(false)
-  //       return
-  //     }
-
-  //     // Format the response with strong tags and line breaks
-  //     let formattedResponse = ''
-  //     data.split('**').forEach((word, idx) => {
-  //       if (idx % 2 === 0) {
-  //         formattedResponse += word
-  //       } else {
-  //         formattedResponse  += `<strong>${word}</strong>`
-  //       }
-  //     })
-  //     formattedResponse = formattedResponse.split('*').join('<br />')
-
-  //     // Simulate typing effect by splitting the response into words
-  //     const newOutput = []
-  //     await Promise.all(
-  //       formattedResponse
-  //         .split(' ')
-  //         .map((word, idx) => simulateTypingEffect(idx, word + ' ', newOutput))
-  //     )
-
-  //     const finalOutput = newOutput.join('')
-
-  //     // Update chat history with the final response
-  //     setChatHistory((prev) =>
-  //       prev.map((entry, index) =>
-  //         index === prev.length - 1 ? { ...entry, response: finalOutput } : entry
-  //       )
-  //     )
-
-  //   } catch (err) {
-  //     console.error('Error while sending the prompt:', err)
-  //   } finally {
-  //     setPrompt('')
-  //     setIsPending(false)
-  //     setIsGenerating(false)
-  //   }
-  // }

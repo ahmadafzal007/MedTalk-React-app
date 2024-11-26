@@ -1,44 +1,50 @@
-import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { deleteHospital, updateHospital } from '../../redux/hospitalSlice' // Import delete and update actions
+import React, { useState } from 'react';
 
 const HospitalList = () => {
-  const hospitals = useSelector((state) => state.hospital.hospitals)
-  const dispatch = useDispatch()
+  // Dummy data for hospitals
+  const [hospitals, setHospitals] = useState([
+    { id: 1, hospitalName: 'City Hospital', address: '123 Main St', phone: '123-456-7890', email: 'cityhospital@example.com' },
+    { id: 2, hospitalName: 'Green Valley Medical', address: '456 Elm St', phone: '987-654-3210', email: 'greenvalley@example.com' },
+    { id: 3, hospitalName: 'Lakeside Clinic', address: '789 Lake Ave', phone: '555-555-5555', email: 'lakeside@example.com' },
+  ]);
 
-  const [editMode, setEditMode] = useState(null) // Keep track of which hospital is being edited
+  const [editMode, setEditMode] = useState(null); // Track which hospital is being edited
   const [editFormData, setEditFormData] = useState({
     hospitalName: '',
     address: '',
     phone: '',
     email: '',
-  })
+  });
 
   const handleDelete = (id) => {
-    dispatch(deleteHospital({ id }))
-  }
+    setHospitals(hospitals.filter(hospital => hospital.id !== id));
+  };
 
   const handleEdit = (hospital) => {
-    setEditMode(hospital.id)
+    setEditMode(hospital.id);
     setEditFormData({
       hospitalName: hospital.hospitalName,
       address: hospital.address,
       phone: hospital.phone,
       email: hospital.email,
-    })
-  }
+    });
+  };
 
   const handleUpdate = (id) => {
-    dispatch(updateHospital({ id, updatedData: editFormData }))
-    setEditMode(null) // Exit edit mode after updating
-  }
+    setHospitals(
+      hospitals.map(hospital =>
+        hospital.id === id ? { ...hospital, ...editFormData } : hospital
+      )
+    );
+    setEditMode(null); // Exit edit mode after updating
+  };
 
   const handleInputChange = (e) => {
     setEditFormData({
       ...editFormData,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
   return (
     <div className='p-8'>
@@ -130,7 +136,7 @@ const HospitalList = () => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default HospitalList
+export default HospitalList;

@@ -38,12 +38,6 @@ export const userSlice = createSlice({
     }
 });
 
-// export const jobseekerSlice = createSlice({
-//     name:"jobseeker",
-//     initialState:{
-//         _id:"",
-//     },
 
-// })
 export const {login,logout,updateUser} = userSlice.actions;
 export default userSlice.reducer;

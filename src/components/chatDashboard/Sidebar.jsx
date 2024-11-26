@@ -1,3 +1,4 @@
+// Import useSelector from react-redux
 import { useContext, useState, useEffect } from 'react';
 import ChatContext from '../../providers/ChatsContext';
 import SidebarToggle from './sidebar/SidebarToggle';
@@ -7,6 +8,7 @@ import ViewPatientsButton from './sidebar/ViewPatientsButton';
 import UpgradeCard from './sidebar/UpgardeCard';
 import ChatController from '../../API/chat';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux'; // Import useSelector to get user role from Redux
 
 const Sidebar = ({
   setShowForm,
@@ -15,7 +17,7 @@ const Sidebar = ({
   setIsExpanded,
   isExpanded,
 }) => {
-  const { startNewChat, isGenerating, setChatHistory , refreshSideBar } = useContext(ChatContext);
+  const { startNewChat, isGenerating, setChatHistory, refreshSideBar } = useContext(ChatContext);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -23,6 +25,9 @@ const Sidebar = ({
 
   // Extract chatId from the current URL
   const chatId = location.pathname.split('/chat/')[1];
+
+  // Get the user role from Redux store
+  const userRole = useSelector((state) => state.user.role);
 
   // Function to fetch user chat history
   const getUserChats = async () => {
@@ -37,7 +42,7 @@ const Sidebar = ({
   useEffect(() => {
     console.log('fetching chats in sidebar');
     getUserChats();
-  }, [chatHistory , refreshSideBar , chatId]);
+  }, [chatHistory, refreshSideBar, chatId]);
 
   // Function to load chat into main chat window
   const handleChatClick = (chat) => {
@@ -54,7 +59,6 @@ const Sidebar = ({
   };
 
   const handleNewChat = () => {
-    // startNewChat();
     setShowForm(false);
     setShowViewPatients(false);
   };
@@ -69,6 +73,7 @@ const Sidebar = ({
       <div className="w-full">
         <SidebarToggle toggleSidebarExpand={toggleSidebarExpand} />
       </div>
+
       {/* Scrollable Content */}
       <div className="overflow-y-auto hide-scrollbar flex-grow">
         <div className="w-full">
@@ -79,16 +84,22 @@ const Sidebar = ({
                 handleNewChat={handleNewChat}
                 isExpanded={isExpanded}
               />
-              <AddPatientButton
-                isExpanded={isExpanded}
-                setShowForm={setShowForm}
-                setShowViewPatients={setShowViewPatients}
-              />
-              <ViewPatientsButton
-                isExpanded={isExpanded}
-                setShowForm={setShowForm}
-                setShowViewPatients={setShowViewPatients}
-              />
+
+              {/* Conditionally render AddPatient and ViewPatients buttons for doctors */}
+              {userRole === 'doctor' && (
+                <>
+                  <AddPatientButton
+                    isExpanded={isExpanded}
+                    setShowForm={setShowForm}
+                    setShowViewPatients={setShowViewPatients}
+                  />
+                  <ViewPatientsButton
+                    isExpanded={isExpanded}
+                    setShowForm={setShowForm}
+                    setShowViewPatients={setShowViewPatients}
+                  />
+                </>
+              )}
 
               {/* Render the chat history */}
               <div className="mt-4">
@@ -102,7 +113,7 @@ const Sidebar = ({
                         key={chat._id}
                         className={`rounded-md cursor-pointer p-1 hover:bg-[#1e1e22] transition ${
                           chat._id === chatId
-                            ? 'bg-[#1e1e22] border-2 border-white'
+                            ? 'bg-[#1e1e22] border-4 border-gray-700'
                             : 'border border-gray-700'
                         }`}
                         onClick={() => handleChatClick(chat)}
@@ -127,8 +138,9 @@ const Sidebar = ({
           )}
         </div>
       </div>
-      {/* Upgrade Card */}
-      {isExpanded && <UpgradeCard />}
+
+      {/* Conditionally render UpgradeCard for non-doctors */}
+      {isExpanded && userRole !== 'doctor' && <UpgradeCard />}
     </div>
   );
 };

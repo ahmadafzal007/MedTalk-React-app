@@ -1,57 +1,63 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react';
 
 const RadiologistPage = ({ selectedFolder }) => {
-  const radiologistId = 1 // Hardcoded for now
+  const radiologistId = 1; // Hardcoded for now
 
-  // Fetch the radiologist data from the Redux store
-  const radiologist = useSelector((state) =>
-    state.radiologist.radiologists.find((r) => r.id === radiologistId)
-  )
+  // Dummy radiologist data
+  const radiologist = {
+    id: radiologistId,
+    radiologistName: 'Dr. Smith',
+    sharedImages: [
+      {
+        datasetType: 'Chest',
+        images: [
+          { url: 'https://example.com/image1.jpg', name: 'Image 1' },
+          { url: 'https://example.com/image2.jpg', name: 'Image 2' },
+          { url: 'https://example.com/image3.jpg', name: 'Image 3' },
+        ],
+      },
+    ],
+  };
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0) // State to track the current image index
+  const [currentImageIndex, setCurrentImageIndex] = useState(0); // State to track the current image index
 
   if (!radiologist || radiologist.sharedImages.length === 0) {
-    return (
-      <p className='text-white'>
-        No datasets shared with this radiologist yet.
-      </p>
-    )
+    return <p className='text-white'>No datasets shared with this radiologist yet.</p>;
   }
 
   // Assuming we're showing images from the first dataset for now
-  const dataset = radiologist.sharedImages[0]
-  const images = dataset.images
+  const dataset = radiologist.sharedImages[0];
+  const images = dataset.images;
 
   // Determine datasetType from the shared dataset (Chest or Kidney)
-  const datasetType = dataset.datasetType
+  const datasetType = dataset.datasetType;
 
   // Handle next image
   const handleNextImage = () => {
     setCurrentImageIndex((prevIndex) =>
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    )
-  }
+    );
+  };
 
   // Handle previous image
   const handlePrevImage = () => {
     setCurrentImageIndex((prevIndex) =>
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    )
-  }
+    );
+  };
 
   // Function to move the current image to the selected folder
   const moveToFolder = (classification) => {
     if (!selectedFolder) {
-      alert('Please select a folder first.')
-      return
+      alert('Please select a folder first.');
+      return;
     }
-    const currentImage = images[currentImageIndex]
+    const currentImage = images[currentImageIndex];
     console.log(
       `Moved ${currentImage.name} to ${selectedFolder} as ${classification}`
-    )
+    );
     // Logic to handle moving the image to the selected folder
-  }
+  };
 
   return (
     <div className='flex-1 p-8 bg-gray-900 min-h-screen flex flex-col items-center justify-center'>
@@ -148,7 +154,7 @@ const RadiologistPage = ({ selectedFolder }) => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default RadiologistPage
+export default RadiologistPage;
