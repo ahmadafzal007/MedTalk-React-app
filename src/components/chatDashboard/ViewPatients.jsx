@@ -101,7 +101,7 @@ const ViewPatients = () => {
                   <td className='py-3 px-6'>{patient.age}</td>
                   <td className='py-3 px-6'>{patient.cnic}</td>
                   <td className='py-3 px-6'>
-                    <button onClick={() => handleChatClick(patient.id)} className='text-white hover:text-gray-300'>
+                    <button onClick={() => handleChatClick(patient._id)} className='text-white hover:text-gray-300'>
                       <AiOutlineMessage size={18} />
                     </button>
                   </td>

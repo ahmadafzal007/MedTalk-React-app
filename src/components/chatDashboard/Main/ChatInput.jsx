@@ -129,9 +129,12 @@ const ChatInput = ({
 
   // Handle prompt submission and clear inputs
   const handleSubmitPrompt = () => {
-    console.log('Submitting prompt with image preview:', selectedImagePreview);
-    console.log('image going to model: ', image);
-    handleSendPrompt(prompt, image, csv, selectedImagePreview); // Pass selectedImagePreview
+    const currentUrl = window.location.href;
+    const chatIdMatch = currentUrl.match(/\/chat\/([a-zA-Z0-9]+)/);
+    const extractedChatId = chatIdMatch ? chatIdMatch[1] : null;
+  
+    console.log('Extracted chatId:', extractedChatId);
+    handleSendPrompt(prompt, image, csv, extractedChatId); // Pass selectedImagePreview
     // Clear prompt and files
     setPrompt('');
     handleRemoveImage();

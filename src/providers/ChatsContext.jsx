@@ -47,7 +47,11 @@ export const ChatContextProvider = ({ children }) => {
       counter += 1;
       try {
         const response = await ChatController.createChatWindow();
-        const newChatId = response.chatWindow._id;
+        const currentUrl = window.location.href;
+        const chatIdMatch = currentUrl.match(/\/chat\/([a-zA-Z0-9]+)/);
+        const extractedChatId = chatIdMatch ? chatIdMatch[1] : null;
+      
+        const newChatId = extractedChatId;
         console.log('New chat created', response);
         setChatId(newChatId);
         setRecentPrompt('');
@@ -66,15 +70,14 @@ export const ChatContextProvider = ({ children }) => {
   };
 
   // Updated handleSendPrompt function to accept imagePreview
-  const handleSendPrompt = async (newPrompt, image = null, csv = null, imagePreview = null , newChatId) => {
-    let localChatId = newChatId || chatId
-
-    console.log("chat id " , newChatId)
-
-    if (newChatId){
-      console.log("chat id updated ", newChatId)
-      setChatId(newChatId)
-    }
+  const handleSendPrompt = async (newPrompt, image = null, csv = null) => {
+    const currentUrl = window.location.href;
+    const chatIdMatch = currentUrl.match(/\/chat\/([a-zA-Z0-9]+)/);
+    const extractedChatId = chatIdMatch ? chatIdMatch[1] : null;
+  
+    let localChatId =  extractedChatId;
+    console.log("local chat id ", localChatId)
+ 
     console.log('handleSendPrompt called with prompt:', newPrompt);
     console.log("chat id in handlesend prompt , ", chatId)
     console.log("image preview ", preview)
@@ -148,7 +151,7 @@ export const ChatContextProvider = ({ children }) => {
           ...prev,
           {
             prompt: newPrompt,
-            response: `<span class="text-red-500">No response from server</span>`,
+            response: <span class="text-red-500">No response from server</span>,
           },
         ]);
       }
@@ -158,7 +161,7 @@ export const ChatContextProvider = ({ children }) => {
         ...prev,
         {
           prompt: newPrompt,
-          response: `<span class="text-red-500">Error occurred: ${err.message}</span>`,
+          response: <span class="text-red-500">Error occurred: ${err.message}</span>,
         },
       ]);
     } finally {
@@ -223,3 +226,10 @@ export const ChatContextProvider = ({ children }) => {
 };
 
 export default ChatContext;
+
+
+
+
+
+
+

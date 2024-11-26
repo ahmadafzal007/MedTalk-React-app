@@ -35,15 +35,21 @@ const Main = ({
 
   // Get chatId from the URL using useParams
   const params = useParams();
-  const chatId = params.chatId;
+
+
+  const currentUrl = window.location.href;
+  const chatIdMatch = currentUrl.match(/\/chat\/([a-zA-Z0-9]+)/);
+  const extractedChatId = chatIdMatch ? chatIdMatch[1] : null;
+
+  
+  const chatId = extractedChatId;
 
   const handleSendPrompt = async () => {
     
-    console.log('Sending prompttttttttttttttttttttttttttt');
     // Check if chatId exists, if not create one
     if (!chatId) {
       const newChat = await startNewChat(prompt, image, csv);
-      console.log("new chat",newChat);
+      console.log("the following chatid is passing: ",newChat);
     }
 
     else if (prompt.trim()) {
@@ -51,7 +57,7 @@ const Main = ({
       // Pass image and csv to sendPrompt
       await sendPrompt(prompt, image, csv);
     
-      console.log('Sending prompttttt', prompt);
+      console.log('Sending prompt', prompt);
       // Reset image and csv after sending
       setImage(null);
       setCsv(null);

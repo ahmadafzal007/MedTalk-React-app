@@ -12,8 +12,7 @@ const MainNavbar = ({ setShowPDFForm }) => {
   
   // Get user data from Redux store
   const user = useSelector((state) => state.user);
-  console.log("username: ", user.name)
-  console.log("profile: ", user.profile)
+ 
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);

@@ -81,7 +81,6 @@ const ChatHistory = ({ chatHistory, isGenerating, isPending }) => {
       className="h-[470px]  font-poppins md:h-[580px] lg:w-[1100px] md:w-[700px] w-[360px] overflow-y-auto scrollbar-hide"
     >
       {chatHistory.map(({ prompt, response, plot_url, image_url, image_local_preview }, index) => (
-        console.log('recieving local image: ',image_local_preview),
         <div key={index} className="mb-4">
           {/* User's prompt */}
           <div className="flex flex-row-reverse justify-start items-start animate-fadeIn gap-2">
