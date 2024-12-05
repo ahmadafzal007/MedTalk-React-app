@@ -17,6 +17,7 @@ export const userSlice = createSlice({
             state.email = action.payload.email;
             state.auth = true;
             state.role = action.payload.role;
+            state.profileImage = action.payload.profileImage;
         },
         logout:(state)=>{
             state._id = "";
@@ -31,6 +32,7 @@ export const userSlice = createSlice({
             state.email = action.payload.email;
             state.auth = true;
             state.role = action.payload.role;
+            state.profileImage = action.payload.profileImage
 
 
         }

@@ -12,6 +12,8 @@ const MainNavbar = ({ setShowPDFForm }) => {
   
   // Get user data from Redux store
   const user = useSelector((state) => state.user);
+  console.log('the user in main screen:', user);
+  console.log('profile image of the user:', user.profileImage);
  
 
   const toggleDropdown = () => {
@@ -91,6 +93,7 @@ const MainNavbar = ({ setShowPDFForm }) => {
               {user.profileImage ? (
                 <img
                   src={user.profileImage}
+
                   alt='Profile'
                   className='h-full w-full object-cover'
                 />

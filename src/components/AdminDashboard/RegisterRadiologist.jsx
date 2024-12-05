@@ -1,188 +1,138 @@
-import React, { useState } from 'react'
-import ConfirmationModal from './ConfirmationModal' // Import the confirmation modal
+import { useState } from 'react';
+// import './chat.css';
 
-const RegisterRadiologist = () => {
-  const [formData, setFormData] = useState({
-    radiologistName: '',
-    email: '',
-    phone: '',
-  })
-  const [radiologists, setRadiologists] = useState([]) // Dummy data array for radiologists
-  const [editMode, setEditMode] = useState(null) // To track if we're in edit mode and which radiologist is being edited
-  const [showConfirmation, setShowConfirmation] = useState(false) // To control the confirmation modal
+const RadiologistRegistrationForm = ({ setShowForm }) => {
+  const [name, setName] = useState(''); // State for name
+  const [email, setEmail] = useState(''); // State for email
+  const [password, setPassword] = useState(''); // State for password
+  const [phone, setPhone] = useState(''); // State for phone number
+  const [loading, setLoading] = useState(false); // State for handling loading
+  const [error, setError] = useState(''); // State for handling errors
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+    const newRadiologist = { name, email, password, phone };
 
-    if (editMode !== null) {
-      // Update existing radiologist in dummy data
-      setRadiologists((prevRadiologists) =>
-        prevRadiologists.map((radiologist) =>
-          radiologist.id === editMode ? { ...radiologist, ...formData } : radiologist
-        )
-      )
-      setEditMode(null) // Exit edit mode
-    } else {
-      // Register a new radiologist in dummy data
-      const newRadiologist = {
-        id: Date.now(), // Generate a unique ID
-        ...formData,
-      }
-      setRadiologists([...radiologists, newRadiologist])
+    try {
+      setLoading(true); // Start loading
+
+      // API call to register a new radiologist (placeholder for actual API call)
+      // await RadiologistController.register(newRadiologist);
+
+      // Reset the form after successful submission
+      setName('');
+      setEmail('');
+      setPassword('');
+      setPhone('');
+
+      setShowForm(false); // Close the form
+    } catch (error) {
+      setError('Failed to register radiologist. Please try again.'); // Handle error
+      console.error('Error registering radiologist:', error);
+    } finally {
+      setLoading(false); // Stop loading
     }
-
-    setFormData({ radiologistName: '', email: '', phone: '' }) // Clear the form
-    setShowConfirmation(true) // Show confirmation modal
-  }
-
-  const handleEdit = (radiologist) => {
-    setFormData({
-      radiologistName: radiologist.radiologistName,
-      email: radiologist.email,
-      phone: radiologist.phone,
-    })
-    setEditMode(radiologist.id) // Enter edit mode
-  }
-
-  const handleDelete = (id) => {
-    // Remove radiologist from dummy data
-    setRadiologists((prevRadiologists) =>
-      prevRadiologists.filter((radiologist) => radiologist.id !== id)
-    )
-  }
+  };
 
   return (
-    <div className='min-h-screen bg-gray-900 flex flex-col items-center justify-center'>
-      <div className='bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md'>
-        <h2 className='text-2xl font-bold mb-6 text-center text-white'>
-          {editMode ? 'Edit Radiologist' : 'Register a New Radiologist'}
-        </h2>
-        <form onSubmit={handleSubmit}>
-          <div className='mb-4'>
-            <label
-              htmlFor='radiologistName'
-              className='block text-sm font-medium text-gray-300 mb-2'
-            >
-              Radiologist Name
+    <div className="max-w-full  font-poppins mx-auto p-8  text-gray-200 rounded-lg shadow-lg">
+      <h2 className="text-2xl font-bold mb-6 text-white text-center">
+        R<span className="font-normal">adiologist</span> R<span className="font-normal">egistration</span>
+      </h2>
+      <div className="form-container">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Display error message */}
+          {error && <p className="text-red-500 text-xs mb-4">{error}</p>}
+
+          {/* Name Input */}
+          <div className="mb-4">
+            <label htmlFor="name" className="block mb-2 text-xs font-normal text-white">
+              Full Name
             </label>
             <input
-              type='text'
-              id='radiologistName'
-              name='radiologistName'
-              value={formData.radiologistName}
-              onChange={handleChange}
-              className='w-full p-2 border border-gray-600 rounded-lg bg-gray-700 text-white'
-              placeholder="Enter radiologist's name"
+              type="text"
+              id="name"
+              className="w-full p-4 border text-xs border-gray-700 bg-[#151518] text-gray-200 rounded-lg transition"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter radiologist's full name"
               required
             />
           </div>
 
-          <div className='mb-4'>
-            <label
-              htmlFor='email'
-              className='block text-sm font-medium text-gray-300 mb-2'
-            >
+          {/* Email Input */}
+          <div className="mb-4">
+            <label htmlFor="email" className="block mb-2 text-xs font-normal text-white">
               Email
             </label>
             <input
-              type='email'
-              id='email'
-              name='email'
-              value={formData.email}
-              onChange={handleChange}
-              className='w-full p-2 border border-gray-600 rounded-lg bg-gray-700 text-white'
-              placeholder="Enter radiologist's email"
+              type="email"
+              id="email"
+              className="w-full p-4 border text-xs border-gray-700 bg-[#151518] text-gray-200 rounded-lg transition"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter email address"
               required
             />
           </div>
 
-          <div className='mb-4'>
-            <label
-              htmlFor='phone'
-              className='block text-sm font-medium text-gray-300 mb-2'
-            >
-              Phone
+          {/* Phone Number Input */}
+          <div className="mb-4">
+            <label htmlFor="phone" className="block mb-2 text-xs font-normal text-white">
+              Phone Number
             </label>
             <input
-              type='tel'
-              id='phone'
-              name='phone'
-              value={formData.phone}
-              onChange={handleChange}
-              className='w-full p-2 border border-gray-600 rounded-lg bg-gray-700 text-white'
-              placeholder="Enter radiologist's phone number"
+              type="tel"
+              id="phone"
+              className="w-full p-4 border text-xs border-gray-700 bg-[#151518] text-gray-200 rounded-lg transition"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Enter phone number"
+              required
+            />
+          </div>
+          {/* Password Input */}
+          <div className="mb-4">
+            <label htmlFor="password" className="block mb-2 text-xs font-normal text-white">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              className="w-full p-4 border text-xs border-gray-700 bg-[#151518] text-gray-200 rounded-lg transition"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter password"
               required
             />
           </div>
 
-          <button
-            type='submit'
-            className='w-full bg-blue-500 text-white py-2 rounded-lg'
-          >
-            {editMode ? 'Update Radiologist' : 'Register Radiologist'}
-          </button>
+
+          {/* Note Card */}
+          <div className="bg-[#151518] border border-gray-700 p-4 rounded-lg text-xs">
+            <h3 className="font-semibold text-white">Note:</h3>
+            <p className="text-gray-300">
+              Please ensure the information provided is accurate. This data will be used for registration purposes
+              and must not be shared with unauthorized entities.
+            </p>
+          </div>
+
+          {/* Submit and Cancel Buttons */}
+          <div className="flex justify-between mt-8">
+            <button
+              type="submit"
+              className="bg-[#151518] text-xs border border-gray-700 hover:border-white text-white py-2 px-4 mr-40 rounded-lg shadow-md transition ease-in-out"
+              disabled={loading} // Disable button when loading
+            >
+              {loading ? 'Registering...' : 'Register'}
+            </button>
+         
+          </div>
         </form>
       </div>
-
-      {/* Show Confirmation Modal after submission */}
-      {showConfirmation && (
-        <ConfirmationModal
-          message={
-            editMode
-              ? 'Radiologist Updated Successfully'
-              : 'Radiologist Registered Successfully'
-          }
-          onClose={() => setShowConfirmation(false)}
-        />
-      )}
-
-      {/* Display the registered radiologists */}
-      <div className='bg-gray-800 p-6 mt-8 rounded-lg shadow-lg w-full max-w-lg'>
-        <h2 className='text-xl font-bold mb-6 text-center text-white'>
-          Registered Radiologists
-        </h2>
-        {radiologists.length > 0 ? (
-          <ul className='space-y-4'>
-            {radiologists.map((radiologist) => (
-              <li
-                key={radiologist.id}
-                className='bg-gray-700 p-4 rounded-lg shadow-md text-white'
-              >
-                <p className='font-bold'>{radiologist.radiologistName}</p>
-                <p className='text-gray-400'>Email: {radiologist.email}</p>
-                <p className='text-gray-400'>Phone: {radiologist.phone}</p>
-                <div className='mt-4 flex space-x-2'>
-                  <button
-                    onClick={() => handleEdit(radiologist)}
-                    className='bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-lg'
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(radiologist.id)}
-                    className='bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg'
-                  >
-                    Delete
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className='text-gray-400 text-center'>
-            No radiologists registered yet.
-          </p>
-        )}
-      </div>
     </div>
-  )
-}
+  );
+};
 
-export default RegisterRadiologist
+export default RadiologistRegistrationForm;

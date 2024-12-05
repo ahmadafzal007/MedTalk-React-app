@@ -41,7 +41,7 @@ const HelpSection = ({ hasMessages , isExpanded}) => {
       }`}
     >
       {/* Logo centered above the card options */}
-      <div className='mb-8'>
+      {/* <div className='mb-8'>
         <img
           src='/medtalk-circle.png'
           alt='MedTalk Logo'
@@ -70,7 +70,7 @@ const HelpSection = ({ hasMessages , isExpanded}) => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

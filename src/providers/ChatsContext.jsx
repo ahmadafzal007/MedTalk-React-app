@@ -23,7 +23,6 @@ export const ChatContext = createContext({
 });
 
 export const ChatContextProvider = ({ children }) => {
-  let counter = 1;
 
   const params = useParams();
   const navigate = useNavigate();
@@ -43,8 +42,7 @@ export const ChatContextProvider = ({ children }) => {
   // Function to create a new chat window and set chatId
   const handleNewChat = async (prompt,image,csv) => {
     console.log("calling handle new chat")
-    if (counter === 1) {
-      counter += 1;
+    
       try {
         const response = await ChatController.createChatWindow();
         const currentUrl = window.location.href;
@@ -66,7 +64,7 @@ export const ChatContextProvider = ({ children }) => {
       } catch (err) {
         console.error('Failed to create a new chat:', err);
       }
-    }
+    
   };
 
   // Updated handleSendPrompt function to accept imagePreview

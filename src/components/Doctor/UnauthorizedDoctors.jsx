@@ -1,32 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import ClipLoader from 'react-spinners/ClipLoader';
 import PropTypes from 'prop-types';
+import HospitalControllers from '../../API/hospital'; // Import your API controller
 
 const UnauthorizedDoctors = ({ onSelectDoctor }) => {
-  const unauthorizedDoctors = [
-      { email: 'doctor1@example.com', name: 'Dr. John Smith', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Cardiology', hospital: 'City Hospital' },
-      { email: 'doctor2@example.com', name: 'Dr. Jane Doe', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Neurology', hospital: 'Green Valley Clinic' },
-      { email: 'doctor3@example.com', name: 'Dr. Mike Johnson', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Orthopedics', hospital: 'Sunrise Hospital' },
-      { email: 'doctor4@example.com', name: 'Dr. Emily Clark', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Dermatology', hospital: 'Blue Lake Hospital' },
-      { email: 'doctor5@example.com', name: 'Dr. Sarah Brown', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Pediatrics', hospital: 'City Clinic' },
-      { email: 'doctor6@example.com', name: 'Dr. Peter Williams', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Oncology', hospital: 'Metro Health' },
-      { email: 'doctor7@example.com', name: 'Dr. Anna Lee', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Psychiatry', hospital: 'Green Valley Clinic' },
-      { email: 'doctor8@example.com', name: 'Dr. Bob Martin', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Neurology', hospital: 'City Hospital' },
-      { email: 'doctor9@example.com', name: 'Dr. Carla Diaz', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Gastroenterology', hospital: 'Blue Lake Hospital' },
-      { email: 'doctor10@example.com', name: 'Dr. Eric Green', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Cardiology', hospital: 'Sunrise Hospital' },
-      { email: 'doctor11@example.com', name: 'Dr. Sophia King', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Orthopedics', hospital: 'City Clinic' },
-      { email: 'doctor12@example.com', name: 'Dr. William Wright', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Oncology', hospital: 'Metro Health' },
-  ];
-  
+  const [unauthorizedDoctors, setUnauthorizedDoctors] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedDoctor, setExpandedDoctor] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true); // For fetching data
+  const [actionLoading, setActionLoading] = useState(false); // For approve/reject actions
   const doctorsPerPage = 6;
-  const loading = false;
+
+  // Fetch unauthorized doctors on component mount
+  useEffect(() => {
+    const fetchUnauthorizedDoctors = async () => {
+      try {
+        setLoading(true);
+        const data = await HospitalControllers.viewUnauthorizedDoctors();
+        setUnauthorizedDoctors(data.unauthorizedDoctors || []);
+      } catch (error) {
+        console.error('Error fetching unauthorized doctors:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUnauthorizedDoctors();
+  }, []);
 
   const filteredDoctors = unauthorizedDoctors.filter((doctor) =>
-    doctor.name.toLowerCase().includes(searchQuery.toLowerCase())
+    doctor.user.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const startIndex = (currentPage - 1) * doctorsPerPage;
@@ -38,6 +43,34 @@ const UnauthorizedDoctors = ({ onSelectDoctor }) => {
   const handlePageChange = (page) => setCurrentPage(page);
   const handleToggleProfile = (doctor) => {
     setExpandedDoctor(expandedDoctor === doctor ? null : doctor);
+  };
+
+  const handleApproveDoctor = async (doctorId) => {
+    try {
+      setActionLoading(true);
+      await HospitalControllers.authorizeDoctor(doctorId);
+      setUnauthorizedDoctors((prev) =>
+        prev.filter((doctor) => doctor._id !== doctorId)
+      );
+    } catch (error) {
+      console.error('Error approving doctor:', error);
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleRejectDoctor = async (doctorId) => {
+    try {
+      setActionLoading(true);
+      await HospitalControllers.deleteDoctor(doctorId);
+      setUnauthorizedDoctors((prev) =>
+        prev.filter((doctor) => doctor._id !== doctorId)
+      );
+    } catch (error) {
+      console.error('Error rejecting doctor:', error);
+    } finally {
+      setActionLoading(false);
+    }
   };
 
   return (
@@ -68,44 +101,46 @@ const UnauthorizedDoctors = ({ onSelectDoctor }) => {
             <ul className='space-y-2'>
               {paginatedDoctors.map((doctor) => (
                 <li
-                  key={doctor.email}
+                  key={doctor._id}
                   onClick={() => onSelectDoctor(doctor)}
                   className='bg-[#151518] border border-gray-700 py-4 px-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:scale-105 cursor-pointer'
                 >
                   <div className='flex items-center justify-between'>
                     <div className='flex items-center'>
                       <img
-                        src={doctor.profilePicture || 'default-profile.png'}
-                        alt={doctor.name}
+                        src={doctor.user.profileImage || 'default-profile.png'}
+                        alt={doctor.user.name}
                         className='w-12 h-12 object-contain bg-black rounded-full border-2 border-gray-200 mr-4'
                       />
                       <div>
                         <p className='text-md font-semibold text-gray-100'>
-                          {doctor.name}
+                          {doctor.user.name}
                         </p>
-                        <p className='text-gray-400 text-sm'>{doctor.email}</p>
+                        <p className='text-gray-400 text-sm'>{doctor.user.email}</p>
                       </div>
                     </div>
                     <div className='flex lg:space-x-2 space-x-1'>
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          console.log('Approved doctor:', doctor);
+                          handleApproveDoctor(doctor._id);
                         }}
+                        disabled={actionLoading}
                         className='flex items-center bg-green-600 hover:bg-green-700 text-white lg:px-3 py-1 rounded-lg transition duration-200 lg:text-base text-xs px-2'
                       >
                         <FaCheckCircle className='mr-1' />
-                        Accept
+                        {actionLoading ? 'Processing...' : 'Accept'}
                       </button>
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          console.log('Declined doctor:', doctor.email);
+                          handleRejectDoctor(doctor._id);
                         }}
+                        disabled={actionLoading}
                         className='flex items-center bg-red-600 hover:bg-red-700 text-white lg:px-3 py-1 rounded-lg transition duration-200 lg:text-base text-xs px-2'
                       >
                         <FaTimesCircle className='mr-1' />
-                        Reject
+                        {actionLoading ? 'Processing...' : 'Reject'}
                       </button>
                     </div>
                   </div>

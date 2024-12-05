@@ -1,36 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ClipLoader from 'react-spinners/ClipLoader';
+import HospitalControllers from '../../API/hospital'; // Update the import path
 
-const AuthorizedDoctors = ({ loading, onSelectDoctor }) => {
-  const doctorsData = [
-    { email: 'doctor1@example.com', name: 'Dr. John Smith', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Cardiology', hospital: 'City Hospital' },
-    { email: 'doctor2@example.com', name: 'Dr. Jane Doe', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Neurology', hospital: 'Green Valley Clinic' },
-    { email: 'doctor3@example.com', name: 'Dr. Mike Johnson', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Orthopedics', hospital: 'Sunrise Hospital' },
-    { email: 'doctor4@example.com', name: 'Dr. Emily Clark', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Dermatology', hospital: 'Blue Lake Hospital' },
-    { email: 'doctor5@example.com', name: 'Dr. Sarah Brown', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Pediatrics', hospital: 'City Clinic' },
-    { email: 'doctor6@example.com', name: 'Dr. Peter Williams', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Oncology', hospital: 'Metro Health' },
-    { email: 'doctor7@example.com', name: 'Dr. Anna Lee', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Psychiatry', hospital: 'Green Valley Clinic' },
-    { email: 'doctor8@example.com', name: 'Dr. Bob Martin', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Neurology', hospital: 'City Hospital' },
-    { email: 'doctor9@example.com', name: 'Dr. Carla Diaz', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Gastroenterology', hospital: 'Blue Lake Hospital' },
-    { email: 'doctor10@example.com', name: 'Dr. Eric Green', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Cardiology', hospital: 'Sunrise Hospital' },
-    { email: 'doctor11@example.com', name: 'Dr. Sophia King', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Orthopedics', hospital: 'City Clinic' },
-    { email: 'doctor12@example.com', name: 'Dr. William Wright', profilePicture: 'https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg', specialization: 'Oncology', hospital: 'Metro Health' },
-  ];
-
+const AuthorizedDoctors = ({ onSelectDoctor }) => {
+  const [doctorsData, setDoctorsData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const doctorsPerPage = 6;
 
-  const filteredDoctors = doctorsData.filter((doctor) =>
-    doctor.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Fetch data from the API on component mount
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const data = await HospitalControllers.viewAuthorizedDoctors();
 
+        // Handle the response format where authorizedDoctors is the key
+        if (data && Array.isArray(data.authorizedDoctors)) {
+          setDoctorsData(data.authorizedDoctors); // Access authorizedDoctors property
+        } else {
+          setDoctorsData([]); // Fallback if structure is unexpected
+          console.error('Unexpected response format:', data);
+        }
+      } catch (error) {
+        console.error('Error fetching authorized doctors:', error);
+        setDoctorsData([]); // Fallback in case of error
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDoctors();
+  }, []);
+
+  // Filter doctors based on search query
+  const filteredDoctors = Array.isArray(doctorsData)
+    ? doctorsData.filter((doctor) =>
+        doctor.user.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : [];
+
+  // Pagination logic
   const startIndex = (currentPage - 1) * doctorsPerPage;
   const endIndex = startIndex + doctorsPerPage;
   const paginatedDoctors = filteredDoctors.slice(startIndex, endIndex);
   const totalPages = Math.ceil(filteredDoctors.length / doctorsPerPage);
 
+  // Handlers
   const handleSearchChange = (e) => setSearchQuery(e.target.value);
   const handlePageChange = (page) => setCurrentPage(page);
 
@@ -62,28 +79,28 @@ const AuthorizedDoctors = ({ loading, onSelectDoctor }) => {
             <ul className='space-y-2'>
               {paginatedDoctors.map((doctor) => (
                 <li
-                  key={doctor.email}
+                  key={doctor.user.email}
                   onClick={() => onSelectDoctor(doctor)} // Added onClick handler here
                   className='bg-[#151518] border border-gray-700 py-4 px-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:scale-105 cursor-pointer' 
                 >
                   <div className='flex items-center'>
                     <img
-                      src={doctor.profilePicture || 'default-profile.png'}
-                      alt={doctor.name}
+                      src={doctor.user.profileImage || 'default-profile.png'}
+                      alt={doctor.user.name}
                       className='w-12 h-12 object-contain bg-black rounded-full border-2 border-gray-200 mr-4'
                     />
                     <div>
                       <p className='text-md font-semibold text-gray-100'>
-                        {doctor.name}
+                        {doctor.user.name}
                       </p>
-                      <p className='text-gray-400 text-sm'>{doctor.email}</p>
+                      <p className='text-gray-400 text-sm'>{doctor.user.email}</p>
                     </div>
                   </div>
                 </li>
               ))}
             </ul>
           )}
-          
+
           {totalPages > 1 && (
             <div className='flex justify-center mt-4 space-x-2'>
               {Array.from({ length: totalPages }, (_, index) => (
@@ -104,7 +121,6 @@ const AuthorizedDoctors = ({ loading, onSelectDoctor }) => {
 };
 
 AuthorizedDoctors.propTypes = {
-  loading: PropTypes.bool.isRequired,
   onSelectDoctor: PropTypes.func.isRequired,
 };
 

@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 const DoctorProfile = ({ doctor, onBack }) => {
   const [profileImageUrl, setProfileImageUrl] = useState('default-profile.png');
+  console.log('the doctor in doctor profile:', doctor);
 
   useEffect(() => {
     if (doctor && doctor.profilePicture) {
       if (doctor.profilePicture instanceof File || doctor.profilePicture instanceof Blob) {
-        const objectUrl = URL.createObjectURL(doctor.profilePicture);
+        const objectUrl = doctor.profileImage;
         setProfileImageUrl(objectUrl);
         return () => URL.revokeObjectURL(objectUrl);
       } else {
@@ -24,17 +25,17 @@ const DoctorProfile = ({ doctor, onBack }) => {
       <h2 className='text-2xl font-semibold mb-4 text-center text-gray-100'>Doctor Profile</h2>
       <div className='flex flex-col items-center mb-6'>
         <img
-          src={profileImageUrl}
+          src={doctor.user.profileImage}
           alt='Profile'
           className='w-32 h-32 object-contain rounded-full border-2 border-gray-500 mb-3 shadow'
         />
-        <h3 className='text-lg font-medium'>{doctor.name}</h3>
-        <p className='text-sm text-gray-400'>{doctor.specialization} - {doctor.department}</p>
+        <h3 className='text-lg font-medium'>{doctor.user.name}</h3>
+        <p className='text-sm text-gray-400'> {doctor.department}</p>
       </div>
       <div className='space-y-3 text-sm'>
         <p className='flex justify-between text-gray-300'>
           <span className='font-medium'>Email:</span>
-          <span>{doctor.email}</span>
+          <span>{doctor.user.email}</span>
         </p>
         <p className='flex justify-between text-gray-300'>
           <span className='font-medium'>Phone Number:</span>
@@ -48,10 +49,7 @@ const DoctorProfile = ({ doctor, onBack }) => {
           <span className='font-medium'>Medical License:</span>
           <span>{doctor.medicalLicenseNumber}</span>
         </p>
-        <p className='flex justify-between text-gray-300'>
-          <span className='font-medium'>Hospital:</span>
-          <span>{doctor.hospital}</span>
-        </p>
+      
       </div>
       <button
         onClick={onBack}

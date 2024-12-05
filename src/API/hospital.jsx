@@ -3,14 +3,18 @@ import axios from 'axios';
 class HospitalControllers {
   constructor() {
     this.apiUrl = 'http://localhost:3000/api/hospital';
-    this.token = localStorage.getItem('token'); // Assuming you store JWT in localStorage
   }
 
-  // Set default headers for axios
+  // Dynamically fetch token for each request
   setHeaders() {
+    const token = localStorage.getItem('accessToken'); // Always get the latest token
+    if (!token) {
+      throw new Error('Authorization token not found');
+    }
+
     return {
       headers: {
-        'Authorization': `Bearer ${this.token}`,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
     };
@@ -65,7 +69,7 @@ class HospitalControllers {
     try {
       const response = await axios.delete(`${this.apiUrl}/deleteDoctor`, {
         ...this.setHeaders(),
-        data: { doctorId }
+        data: { doctorId },
       });
       return response.data;
     } catch (error) {
@@ -77,7 +81,7 @@ class HospitalControllers {
   // View authorized hospitals
   async viewAuthorizedHospitals() {
     try {
-      const response = await axios.get(`${this.apiUrl}/viewAuthorizedHospitals`);
+      const response = await axios.get(`${this.apiUrl}/viewAuthorizedHospitals`, this.setHeaders());
       return response.data;
     } catch (error) {
       console.error('Error fetching authorized hospitals:', error);

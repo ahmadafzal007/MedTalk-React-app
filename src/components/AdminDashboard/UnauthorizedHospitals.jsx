@@ -15,36 +15,43 @@ const UnauthorizedHospitals = () => {
     } else {
       alert(`Hospital with ID ${id} has been declined.`);
     }
-    setHospitals(hospitals.filter(hospital => hospital.id !== id)); // Remove the hospital from the list
+    setHospitals(hospitals.filter((hospital) => hospital.id !== id)); // Remove the hospital from the list
   };
 
   return (
-    <div className='p-8'>
-      <h2 className='text-2xl font-bold mb-6 text-white'>
-        Unauthorized Hospitals
+    <div className="max-w-full  font-poppins mx-auto p-8 text-gray-200 rounded-lg shadow-lg">
+      <h2 className="text-2xl font-bold mb-6 text-white text-center">
+        U<span className="font-normal">nauthorized</span> H<span className="font-normal">ospitals</span>
       </h2>
-      <div className='space-y-6'>
+      <div className="space-y-6">
         {hospitals.length > 0 ? (
           hospitals.map((hospital) => (
             <div
               key={hospital.id}
-              className='bg-[#1a1a1a] p-6 rounded-lg shadow-lg text-white w-full transform transition-all duration-300 hover:scale-105 hover:shadow-xl'
+              className="bg-[#1a1a1a] border border-gray-700 p-6 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
             >
-              <h3 className='text-lg font-bold mb-2'>{hospital.hospitalName}</h3>
-              <p className='text-gray-400'>Address: {hospital.address}</p>
-              <p className='text-gray-400'>Phone: {hospital.phone}</p>
-              <p className='text-gray-400'>Email: {hospital.email}</p>
-
-              <div className='mt-4'>
+              <h3 className="text-lg font-bold mb-2 text-white">{hospital.hospitalName}</h3>
+              <div className="space-y-2 text-xs text-gray-300">
+                <p>
+                  <span className="font-medium text-white">Address:</span> {hospital.address}
+                </p>
+                <p>
+                  <span className="font-medium text-white">Phone:</span> {hospital.phone}
+                </p>
+                <p>
+                  <span className="font-medium text-white">Email:</span> {hospital.email}
+                </p>
+              </div>
+              <div className="mt-4 flex justify-between">
                 <button
                   onClick={() => handleApproval(hospital.id, true)}
-                  className='bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg mr-2'
+                  className="bg-[#151518] border border-gray-700 hover:border-green-500 text-white text-xs px-4 py-2 rounded-lg shadow-md transition ease-in-out"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => handleApproval(hospital.id, false)}
-                  className='bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg'
+                  className="bg-[#151518] border border-gray-700 hover:border-red-500 text-white text-xs px-4 py-2 rounded-lg shadow-md transition ease-in-out"
                 >
                   Decline
                 </button>
@@ -52,7 +59,9 @@ const UnauthorizedHospitals = () => {
             </div>
           ))
         ) : (
-          <p className='text-gray-200'>No unauthorized hospitals at the moment.</p>
+          <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg text-center">
+            <p className="text-gray-300">No unauthorized hospitals at the moment.</p>
+          </div>
         )}
       </div>
     </div>

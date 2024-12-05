@@ -1,37 +1,55 @@
-import React, { useState } from 'react';
-import JSZip from 'jszip';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 // Component for viewing images within a selected folder
-const FolderView = ({ folderName, images, onClose }) => (
-  <div className="fixed inset-0 bg-black bg-opacity-90 p-8 overflow-y-auto">
-    <button onClick={onClose} className="text-white text-xl mb-4">&#8592; Back</button>
-    <h3 className="text-2xl font-bold text-white mb-4">{folderName} Images:</h3>
-    <div className="grid grid-cols-2 gap-4">
-      {images.map((image, index) => (
-        <div key={index} className="bg-gray-800 p-4 rounded-lg">
-          <p className="text-white mb-2">{image.name}</p>
-          <img src={image.url} alt={image.name} className="w-full h-32 object-cover rounded-lg" />
-        </div>
-      ))}
+const FolderView = ({ folderName, images, onClose }) => {
+  const getFolderPath = (folderName) => {
+    if (folderName === 'Chest') {
+      return 'chest_xray';
+    } else if (folderName === 'Kidney') {
+      return 'kidney_scan';
+    }
+    return folderName;
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-70 p-8 overflow-y-auto backdrop-blur-sm">
+      <button onClick={onClose} className="text-white mb-4 transition-all  hover:scale-105">
+        &#8592; Back
+      </button>
+      <h3 className="text-2xl font-medium text-white mb-6 animate__animated animate__fadeIn">{folderName} Images:</h3>
+      <div className="grid grid-cols-2 text-xs sm:grid-cols-3 lg:grid-cols-4 gap-6">
+        {images.map((image, index) => {
+          const folderPath = getFolderPath(folderName);
+          const imagePath = `/datasets/${folderPath}/${image}`;
+          return (
+            <div key={index} className="bg-[#151518] p-6 rounded-xl shadow-lg transform transition-all hover:scale-105 hover:shadow-2xl">
+              <p className="text-white mb-4 text-center">{image}</p>
+              <img
+                src={imagePath}
+                alt={image}
+                className="w-full h-32 object-cover rounded-lg transition-transform transform hover:scale-105"
+              />
+            </div>
+          );
+        })}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const UnprocessedDatasets = () => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [datasetType, setDatasetType] = useState();
   const [folders, setFolders] = useState({});
-  const [datasetType, setDatasetType] = useState('');
-  const [selectedRadiologist, setSelectedRadiologist] = useState('');
   const [selectedFolder, setSelectedFolder] = useState(null);
-  const [sharingFolder, setSharingFolder] = useState(null);
 
-  const radiologists = [
-    { id: 1, radiologistName: 'Dr. Alice Johnson' },
-    { id: 2, radiologistName: 'Dr. Bob Smith' },
-    { id: 3, radiologistName: 'Dr. Clara Lee' },
-  ];
+  useEffect(() => {
+    fetchFolders();
+  }, []);
 
   const handleFileChange = (e) => setSelectedFile(e.target.files[0]);
+
   const handleDatasetTypeChange = (e) => setDatasetType(e.target.value);
 
   const handleFileUpload = async () => {
@@ -40,61 +58,45 @@ const UnprocessedDatasets = () => {
       return;
     }
 
-    const zip = new JSZip();
-    const extractedImages = [];
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+    formData.append('datasetType', datasetType);
+
     try {
-      const content = await zip.loadAsync(selectedFile);
-      for (const fileName in content.files) {
-        const file = content.files[fileName];
-        if (!file.dir && /\.(png|jpe?g|gif)$/i.test(file.name)) {
-          const imageBlob = await file.async('blob');
-          const imageUrl = URL.createObjectURL(imageBlob);
-          extractedImages.push({ name: file.name, url: imageUrl });
-        }
-      }
+      const response = await axios.post('http://localhost:3000/api/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
 
-      if (extractedImages.length > 0) {
-        const folderCount = Object.keys(folders).filter(folder => folder.startsWith(datasetType)).length + 1;
-        const newFolderName = `${datasetType}-set${folderCount}`;
-
-        setFolders(prevFolders => ({
-          ...prevFolders,
-          [newFolderName]: extractedImages,
-        }));
-        alert(`Images extracted and organized into folder: ${newFolderName}`);
-      } else {
-        alert('No images found in the zip file.');
+      if (response.data && response.data.message) {
+        alert(response.data.message);
       }
+      fetchFolders(); 
     } catch (error) {
-      console.error('Error extracting files:', error);
-      alert('Failed to extract the zip file.');
+      console.error('Error uploading file:', error.response ? error.response.data : error.message);
+      alert(`Failed to upload the file. Error: ${error.response ? error.response.data.message : error.message}`);
     }
   };
 
-  const handleShareWithRadiologist = () => {
-    if (!selectedRadiologist || !sharingFolder) {
-      alert('Please select a radiologist and ensure a folder is selected for sharing.');
-      return;
+  const fetchFolders = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/api/folder');
+      setFolders(response.data);
+    } catch (error) {
+      console.error('Error fetching folders:', error.response ? error.response.data : error.message);
+      alert('Failed to fetch folder data.');
     }
-
-    console.log('Selected radiologistId:', selectedRadiologist);
-    console.log('Sharing Folder:', sharingFolder);
-    console.log('Images to be shared:', folders[sharingFolder]);
-
-    alert(`Folder ${sharingFolder} shared with ${radiologists.find(r => r.id === Number(selectedRadiologist)).radiologistName} successfully!`);
   };
 
   return (
-    <div className="p-8 bg-black min-h-screen max-h-screen overflow-hidden relative">
-      <h2 className="text-2xl font-bold mb-6 text-white">Unprocessed Datasets</h2>
+    <div className="p-10 bg-gradient-to-br  to-black min-h-screen max-h-screen overflow-hidden relative text-white">
+      <h2 className="text-4xl font-bold mb-8 text-center text-white animate__animated animate__fadeIn">U<span className='font-normal'>nprocessed</span> D<span className='font-normal'>atasets</span></h2>
 
-      {/* Dataset Type Selection */}
-      <div className="mb-6">
-        <label className="text-white block mb-2">Select Dataset Type:</label>
+      <div className="mb-8 ">
+        <label className="text-sm  font-medium">Select Dataset Type:</label>
         <select
           value={datasetType}
           onChange={handleDatasetTypeChange}
-          className="text-white bg-gray-700 border border-gray-600 p-2 rounded-lg w-full"
+          className="text-white text-xs mt-2 bg-[#151518] border border-gray-700 p-3 rounded-lg w-full transition-all hover:bg-[#313138]"
         >
           <option value="">Select</option>
           <option value="Chest">Chest</option>
@@ -102,79 +104,42 @@ const UnprocessedDatasets = () => {
         </select>
       </div>
 
-      {/* File Upload Section */}
-      <div className="mb-6">
+      <div className="mb-8">
         <input
           type="file"
           accept=".zip"
           onChange={handleFileChange}
-          className="text-white bg-gray-700 p-2 rounded-lg w-full"
+          className="text-white text-xs bg-[#151518] border border-gray-700 p-3 rounded-lg w-full transition-all hover:bg-[#313138]"
         />
         <button
           onClick={handleFileUpload}
-          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg mt-4"
+          className="bg-[#151518] boder text-xs mt-8 border-gray-700 hover:bg-[#313138] text-white px-6 py-3 rounded-lg  transition-all hover:scale-105"
         >
           Upload ZIP
         </button>
       </div>
 
-      {/* Display Folders with Share Options */}
       {Object.keys(folders).length > 0 && (
         <div>
-          <h3 className="text-xl font-bold mb-4 text-white">Folders:</h3>
-          <div className="grid grid-cols-2 gap-4 overflow-hidden">
+          <h3 className="text-2xl font-bold mb-6 text-center">F<span className='font-normal'>olders:</span></h3>
+          <div className="grid grid-cols-2 text-xs sm:grid-cols-3 lg:grid-cols-4 gap-6">
             {Object.keys(folders).map((folderName, index) => (
-              <div
+              <button
+                onClick={() => setSelectedFolder(folderName)}
                 key={index}
-                className="bg-gray-800 p-4 rounded-lg flex justify-between items-center"
+                className="bg-[#151518] border border-gray-700 hover:bg-[#313138] p-6 rounded-lg flex justify-between items-center transform transition-all hover:scale-105 hover:shadow-lg"
               >
                 <p
-                  onClick={() => setSelectedFolder(folderName)}
-                  className="text-white cursor-pointer hover:underline"
+                  className="text-white cursor-pointer text-center "
                 >
                   {folderName}
                 </p>
-                <button
-                  onClick={() => setSharingFolder(folderName)}
-                  className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg"
-                >
-                  Share
-                </button>
-              </div>
+              </button>
             ))}
           </div>
         </div>
       )}
 
-      {/* Share with Radiologist Section */}
-      {sharingFolder && (
-        <div className="mt-8">
-          <h3 className="text-xl font-bold mb-4 text-white">
-            Share Folder {sharingFolder} with Radiologist:
-          </h3>
-          <select
-            onChange={(e) => setSelectedRadiologist(e.target.value)}
-            className="text-white bg-gray-700 border border-gray-600 p-2 rounded-lg w-full"
-          >
-            <option value="">Select Radiologist</option>
-            {radiologists.map((radiologist) => (
-              <option key={radiologist.id} value={radiologist.id}>
-                {radiologist.radiologistName}
-              </option>
-            ))}
-          </select>
-
-          {/* Share Button */}
-          <button
-            onClick={handleShareWithRadiologist}
-            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg mt-4"
-          >
-            Share
-          </button>
-        </div>
-      )}
-
-      {/* Folder View Modal */}
       {selectedFolder && (
         <FolderView
           folderName={selectedFolder}
