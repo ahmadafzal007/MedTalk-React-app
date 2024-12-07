@@ -166,8 +166,8 @@ export default function UpgradeToDoctorForm() {
       {/* Logo and Note */}
       <div className="text-center mb-2">
         <h2 className="text-lg font-poppins font-normal mb-2">
-          <img src='/medtalk-main.png' className="mx-auto h-28 w-36 mb-4" alt="MedTalk Logo" />
-          <div className="border px-4 py-2 max-w-7xl rounded-lg text-xs text-start">
+          {/* <img src='/medtalk-main.png' className="mx-auto h-28 w-36 mb-4" alt="MedTalk Logo" /> */}
+          <div className="border px-4 py-2 max-w-7xl  text-xs text-start">
             <span className="font-extrabold">Note:</span>
             <span> </span>
             By upgrading to MedTalk Pro, you will gain access to a suite of premium features tailored to support your medical practice. These include advanced tools for ECG analysis, X-ray analysis, and CT scan interpretation. MedTalk Pro also offers streamlined management of patient data, enabling you to keep records organized and efficiently generate automated reports. Additionally, you can engage in AI-driven conversations with Large Language Models (LLMs) to enhance your clinical decision-making. Join MedTalk Pro today to elevate your practice with cutting-edge technology.

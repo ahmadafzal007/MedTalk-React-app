@@ -1,27 +1,23 @@
 import React, { useState } from 'react'
 import RadiologistPageSidebar from '../components/Radiologist/RadiologistPageSidebar' // Adjust path as necessary
-import RadiologistPage from '../components/Radiologist/RadiologistPage' // Adjust path as necessary
+import Main from '../components/Radiologist/Main' // Adjust path as necessary
 
 const RadiologistData = () => {
-  const [currentFolder, setCurrentFolder] = useState(null) // To manage folder state
-
-  // Handle folder selection in the sidebar
-  const handleFolderSelection = (folder) => {
-    setCurrentFolder(folder) // Update the selected folder
-    console.log('Selected Folder:', folder) // Debug to ensure folder is selected correctly
-  }
+  const [activeScreen, setActiveScreen] = useState('') // Default to empty string
 
   return (
-    <div className='flex bg-gray-900 min-h-screen'>
-      {/* Sidebar */}
-      <RadiologistPageSidebar onSelectFolder={handleFolderSelection} />
+    <div className='flex'>
+      {/* Sidebar to navigate to different screens */}
+      <RadiologistPageSidebar setActiveScreen={setActiveScreen} />
 
-      {/* Main Content */}
-      <div className='ml-64 flex-1 p-8'>
-        <RadiologistPage selectedFolder={currentFolder} />
-      </div>
+      {/* Main screen that renders the dashboard or other screens */}
+      <Main
+        activeScreen={activeScreen}
+        setActiveScreen={setActiveScreen}
+      />
     </div>
   )
 }
 
 export default RadiologistData
+

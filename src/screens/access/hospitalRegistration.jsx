@@ -165,7 +165,7 @@ export default function HospitalRegistrationForm() {
           />
         </div>
         {/* Pending Authorization Card */}
-        <div className="w-full max-w-xl bg-[#151518] py-10 px-16  border border-gray-700 rounded-lg text-center">
+        <div className="w-full max-w-xl bg-[#151518] py-10 px-16  border border-gray-700 text-center">
           <h3 className="text-2xl font-semibold mb-4">Access Pending</h3>
           <p className="text-sm text-gray-300">
             Your registration is successful but your access is pending. Your respective hospital will review your profile, and once approved, you will be able to access your account. Stay tuned.

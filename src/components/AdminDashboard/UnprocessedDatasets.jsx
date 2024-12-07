@@ -18,7 +18,7 @@ const FolderView = ({ folderName, images, onClose }) => {
         &#8592; Back
       </button>
       <h3 className="text-2xl font-medium text-white mb-6 animate__animated animate__fadeIn">{folderName} Images:</h3>
-      <div className="grid grid-cols-2 text-xs sm:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid text-xs grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
         {images.map((image, index) => {
           const folderPath = getFolderPath(folderName);
           const imagePath = `/datasets/${folderPath}/${image}`;
@@ -113,7 +113,7 @@ const UnprocessedDatasets = () => {
         />
         <button
           onClick={handleFileUpload}
-          className="bg-[#151518] boder text-xs mt-8 border-gray-700 hover:bg-[#313138] text-white px-6 py-3 rounded-lg  transition-all hover:scale-105"
+          className="bg-[#151518] text-xs boder mt-8 border-gray-700 hover:bg-[#313138] text-white px-6 py-3 rounded-lg  transition-all hover:scale-105"
         >
           Upload ZIP
         </button>
@@ -122,12 +122,12 @@ const UnprocessedDatasets = () => {
       {Object.keys(folders).length > 0 && (
         <div>
           <h3 className="text-2xl font-bold mb-6 text-center">F<span className='font-normal'>olders:</span></h3>
-          <div className="grid grid-cols-2 text-xs sm:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             {Object.keys(folders).map((folderName, index) => (
               <button
                 onClick={() => setSelectedFolder(folderName)}
                 key={index}
-                className="bg-[#151518] border border-gray-700 hover:bg-[#313138] p-6 rounded-lg flex justify-between items-center transform transition-all hover:scale-105 hover:shadow-lg"
+                className="bg-[#151518] text-xs border border-gray-700 hover:bg-[#313138] p-6 rounded-lg flex justify-between items-center transform transition-all hover:scale-105 hover:shadow-lg"
               >
                 <p
                   className="text-white cursor-pointer text-center "

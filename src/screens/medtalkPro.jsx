@@ -25,15 +25,15 @@ const MedTalkProCard = () => {
       </button>
 
       {/* Logo outside the card */}
-      <div className="absolute top-24 flex justify-center w-full">
+      {/* <div className="absolute top-24 flex justify-center w-full">
         <img
           src="/medtalk-circle.png" // Adjust the path if necessary
           alt="MedTalk Logo"
           className="md:h-24 h-16 w-auto" // Adjust size as needed
         />
-      </div>
+      </div> */}
 
-      <div className="max-w-3xl font-poppins mx-auto bg-[#151518] shadow-lg rounded-lg p-6 border border-gray-700 flex flex-col items-center mt-20">
+      <div className="max-w-3xl font-poppins mx-auto bg-[#151518] shadow-lg  p-6 border border-gray-700 flex flex-col items-center ">
         <h2 className="text-2xl font-semibold mb-4 text-center">Join MedTalk Pro</h2>
         <p className="mb-1 text-sm text-start text-gray-300">
           <span className='font-bold'>Note:</span> MedTalk Pro is a professional platform exclusively for licensed doctors. 

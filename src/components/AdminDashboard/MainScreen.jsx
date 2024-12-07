@@ -5,9 +5,9 @@ import UnprocessedDatasets from './UnprocessedDatasets'
 import Datasets from './Datasets'
 import RegisteredHospitals from './RegisteredHospitals'
 import RegisterRadiologist from './RegisterRadiologist'
-import RadiologistPage from '../Radiologist/RadiologistPage' // Import RadiologistPage component
+import RadiologistPage from '../Radiologist/unprocessed_xray_data' // Import RadiologistPage component
 import DashboardOverview from './DashboardOverview'
-
+import RegisteredRadiologist from './RegisteredRadiologist'
 const MainScreen = ({ activeScreen, setActiveScreen }) => {
   return (
     <div className='flex-1 p-8 bg-black'>
@@ -18,7 +18,10 @@ const MainScreen = ({ activeScreen, setActiveScreen }) => {
       {activeScreen === 'Datasets' && <Datasets />}
       {activeScreen === 'RegisteredHospitals' && <RegisteredHospitals />}
       {activeScreen === 'RegisterRadiologist' && <RegisterRadiologist />}
-      {activeScreen === 'RadiologistPage' && <RadiologistPage />}{' '}
+      {activeScreen === 'RadiologistPage' && <RadiologistPage />}
+      {activeScreen === 'RegisteredRadiologists' && <RegisteredRadiologist />}      
+
+      {' '}
       {/* Add RadiologistData */}
     </div>
   )

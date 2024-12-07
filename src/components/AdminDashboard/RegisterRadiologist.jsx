@@ -1,5 +1,4 @@
-import { useState } from 'react';
-// import './chat.css';
+import { useState, useEffect } from 'react';
 
 const RadiologistRegistrationForm = ({ setShowForm }) => {
   const [name, setName] = useState(''); // State for name
@@ -8,38 +7,73 @@ const RadiologistRegistrationForm = ({ setShowForm }) => {
   const [phone, setPhone] = useState(''); // State for phone number
   const [loading, setLoading] = useState(false); // State for handling loading
   const [error, setError] = useState(''); // State for handling errors
+  const [successMessage, setSuccessMessage] = useState(''); // State for success message
+  const [alertVisible, setAlertVisible] = useState(false); // State for alert visibility
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newRadiologist = { name, email, password, phone };
+    const newRadiologist = { name, email, password, phoneNumber: phone };
 
     try {
       setLoading(true); // Start loading
 
-      // API call to register a new radiologist (placeholder for actual API call)
-      // await RadiologistController.register(newRadiologist);
+      const response = await fetch('http://localhost:3000/api/radiologists/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newRadiologist),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to register radiologist');
+      }
+
+      // Show success message
+      setSuccessMessage('Radiologist registered successfully!');
+      setAlertVisible(true);
 
       // Reset the form after successful submission
       setName('');
       setEmail('');
       setPassword('');
       setPhone('');
+      setError(''); // Clear any existing errors
 
-      setShowForm(false); // Close the form
+      if (setShowForm) setShowForm(false); // Close the form
     } catch (error) {
-      setError('Failed to register radiologist. Please try again.'); // Handle error
+      setError(error.message || 'Failed to register radiologist. Please try again.');
       console.error('Error registering radiologist:', error);
     } finally {
       setLoading(false); // Stop loading
     }
   };
 
+  useEffect(() => {
+    if (alertVisible) {
+      // Automatically hide the alert after 4 seconds
+      const timer = setTimeout(() => {
+        setAlertVisible(false);
+      }, 4000);
+      return () => clearTimeout(timer); // Cleanup timeout on component unmount
+    }
+  }, [alertVisible]);
+
   return (
-    <div className="max-w-full  font-poppins mx-auto p-8  text-gray-200 rounded-lg shadow-lg">
+    <div className="max-w-full font-poppins mx-auto p-8 text-gray-200 rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold mb-6 text-white text-center">
         R<span className="font-normal">adiologist</span> R<span className="font-normal">egistration</span>
       </h2>
+
+      {/* Custom Alert Box */}
+      {alertVisible && (
+        <div className="fixed top-10 left-1/2 transform -translate-x-1/2 border  border-gray-700 bg-[#151518] text-sm text-white p-4 rounded-lg shadow-lg z-50 transition-opacity opacity-100">
+          <p>{successMessage}</p>
+        </div>
+      )}
+
       <div className="form-container">
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Display error message */}
@@ -92,6 +126,7 @@ const RadiologistRegistrationForm = ({ setShowForm }) => {
               required
             />
           </div>
+
           {/* Password Input */}
           <div className="mb-4">
             <label htmlFor="password" className="block mb-2 text-xs font-normal text-white">
@@ -107,7 +142,6 @@ const RadiologistRegistrationForm = ({ setShowForm }) => {
               required
             />
           </div>
-
 
           {/* Note Card */}
           <div className="bg-[#151518] border border-gray-700 p-4 rounded-lg text-xs">
@@ -127,7 +161,13 @@ const RadiologistRegistrationForm = ({ setShowForm }) => {
             >
               {loading ? 'Registering...' : 'Register'}
             </button>
-         
+            <button
+              type="button"
+              className="bg-[#151518] text-xs border border-gray-700 hover:border-white text-white py-2 px-4 rounded-lg shadow-md transition ease-in-out"
+              onClick={() => setShowForm && setShowForm(false)} // Handle cancel
+            >
+              Cancel
+            </button>
           </div>
         </form>
       </div>

@@ -44,8 +44,6 @@ const Sidebar = ({ setActiveScreen }) => {
         </div>
 
         <ul className="p-4 pl-0 space-y-3">
-          
-
           <li
             className="hover:bg-[#1e1e22] p-2 rounded-lg flex items-center cursor-pointer transition-colors"
             onClick={() => setActiveScreen('Datasets')}
@@ -73,6 +71,16 @@ const Sidebar = ({ setActiveScreen }) => {
             <UserPlus size={20} className="mr-3 text-white" />
             <span className={`${isExpanded ? 'block text-xs font-normal' : 'hidden'}`}>
               Register Radiologist
+            </span>
+          </li>
+
+          <li
+            className="hover:bg-[#1e1e22] p-2 rounded-lg flex items-center cursor-pointer transition-colors"
+            onClick={() => setActiveScreen('RegisteredRadiologists')}
+          >
+            <BarChart size={20} className="mr-3 text-white" />
+            <span className={`${isExpanded ? 'block text-xs font-normal' : 'hidden'}`}>
+              Registered Radiologists
             </span>
           </li>
 
