@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const UnprocessedImages = ({ folderName, onClose }) => {
   const [images, setImages] = useState([]);
@@ -12,123 +12,137 @@ const UnprocessedImages = ({ folderName, onClose }) => {
     covid: [],
   });
 
-  // Get folder path logic
-  const getFolderPath = (folderName = 'Chest') => {
-    if (folderName === 'Chest') {
-      return 'chest_xray';
-    } else if (folderName === 'Kidney') {
-      return 'kidney_scan';
-    }
+  const getFolderPath = (folderName = "Chest") => {
+    if (folderName === "Chest") return "chest_xray";
+    if (folderName === "Kidney") return "kidney_scan";
     return folderName;
   };
 
-  // Fetch images from the server
   useEffect(() => {
     const fetchImages = async () => {
       try {
         const folderPath = getFolderPath(folderName);
-
-        // Log the folderPath for debugging
-        console.log('Folder Path: ', folderPath);
-
-        // Check if folderPath is valid
         if (!folderPath) {
-          console.error('Folder path is undefined!');
+          console.error("Folder path is undefined!");
           return;
         }
 
         const response = await axios.get(`http://localhost:3000/api/folder`);
-        console.log('Response: ', response);
-        const imageFiles = response.data.Chest || []; // Assuming the API returns { files: [...] }
-        console.log('Image Files: ', imageFiles);
-
+        const imageFiles = response.data.Chest || []; // Assuming API returns { files: [...] }
         setImages(imageFiles);
-        if (imageFiles.length > 0) {
-          setCurrentImage(imageFiles[0]);
-        }
+        if (imageFiles.length > 0) setCurrentImage(imageFiles[0]);
       } catch (error) {
-        console.error('Error fetching images: ', error);
+        console.error("Error fetching images: ", error);
       }
     };
 
     fetchImages();
   }, [folderName]);
 
-  // Handle the previous image
   const handlePreviousImage = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
     setCurrentImage(images[(currentIndex - 1 + images.length) % images.length]);
   };
 
-  // Handle the next image
   const handleNextImage = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
     setCurrentImage(images[(currentIndex + 1) % images.length]);
   };
 
-  // Simulate moving the image to a labeled folder
-  const handleLabelImage = (label) => {
-    const newProcessedData = { ...processedData };
-    newProcessedData[label].push(currentImage);
+  const handleLabelImage = async (label) => {
+    try {
+      const response = await axios.post("http://localhost:3000/api/folder/movexray", {
+        imageName: currentImage,
+        label,
+      });
 
-    // Simulate moving the image by changing its path (directory)
-    const updatedImagePath = `/processedChestData/${label}/${currentImage}`;
+      if (response.status === 200) {
+        const newProcessedData = { ...processedData };
+        newProcessedData[label].push(currentImage);
+        setProcessedData(newProcessedData);
 
-    // Update the processed data and image path
-    setProcessedData(newProcessedData);
+        const remainingImages = images.filter((_, index) => index !== currentIndex);
+        setImages(remainingImages);
 
-    // After labeling, move to the next image
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    setCurrentImage(images[(currentIndex + 1) % images.length]);
-
-    console.log(`Image ${currentImage} moved to ${updatedImagePath}`);
+        if (remainingImages.length > 0) {
+          setCurrentIndex(currentIndex % remainingImages.length);
+          setCurrentImage(remainingImages[currentIndex % remainingImages.length]);
+        } else {
+          setCurrentImage(null); // No images left
+        }
+      } else {
+        console.error(`Failed to move image: ${response.data.error}`);
+      }
+    } catch (error) {
+      console.error("Error moving image: ", error);
+    }
   };
 
   return (
-    <div className=" inset-0 bg-black bg-opacity-70 p-8 overflow-y-auto backdrop-blur-sm">
-      <button onClick={onClose} className="text-white mb-4 transition-all hover:scale-105">
-        &#8592; Back
-      </button>
-      <h3 className="text-2xl font-medium text-white mb-6 animate__animated animate__fadeIn">{folderName} Images:</h3>
-      <div className="flex flex-col items-center">
-        {currentImage && (
-          <div className="bg-[#151518] p-6 rounded-xl shadow-lg transform transition-all hover:scale-105 hover:shadow-2xl">
-            <p className="text-white mb-4 text-center">{currentImage}</p>
-            <img
-              src={`/datasets/${getFolderPath(folderName)}/${currentImage}`}
-              alt={currentImage}
-              className="w-full h-64 object-cover rounded-lg transition-transform transform hover:scale-105"
-            />
-            <div className="flex space-x-4 mt-4">
-              <button onClick={handlePreviousImage} className="btn btn-primary">
-                Previous
-              </button>
-              <button onClick={handleNextImage} className="btn btn-primary">
-                Next
-              </button>
-            </div>
-            <div className="flex space-x-4 mt-4">
-              <button onClick={() => handleLabelImage('normal')} className="btn btn-success">
-                Normal
-              </button>
-              <button onClick={() => handleLabelImage('tb')} className="btn btn-danger">
-                TB
-              </button>
-              <button onClick={() => handleLabelImage('pneumonia')} className="btn btn-warning">
-                Pneumonia
-              </button>
-              <button onClick={() => handleLabelImage('covid')} className="btn btn-info">
-                COVID
-              </button>
-            </div>
-          </div>
+    <div className="inset-0 bg-black bg-opacity-70 p-8 overflow-y-auto backdrop-blur-sm">
+      
+      <h3 className="text-lg font-medium text-white mb-6 animate__animated animate__fadeIn">
+        {folderName} Unlabelled Chest x-ray:
+      </h3>
+
+      <div className="flex flex-col  items-center">
+        {images.length > 0 ? (
+          currentImage && (
+            <>
+              <div className="relative flex items-center justify-center w-[600px] h-[550px] bg-[#1e1e22] border border-gray-700 p-6 rounded-lg shadow-lg">
+                <button
+                  onClick={handlePreviousImage}
+                  className="absolute left-0 text-white text-3xl font-bold transition-transform transform hover:scale-125"
+                >
+                  &lt;
+                </button>
+                <img
+                  src={`/datasets/${getFolderPath(folderName)}/${currentImage}`}
+                  alt={currentImage}
+                  className="w-full h-full object-contain rounded-lg transition-transform transform hover:scale-105"
+                />
+                <button
+                  onClick={handleNextImage}
+                  className="absolute right-0 text-white text-3xl font-bold transition-transform transform hover:scale-125"
+                >
+                  &gt;
+                </button>
+              </div>
+
+              <div className="flex space-x-4 mt-8">
+                <button
+                  onClick={() => handleLabelImage("normal")}
+                  className="btn border-2 border-gray-700 bg-[#1e1e22]  btn-success px-6 py-2 rounded-lg shadow hover:shadow-lg transition-all"
+                >
+                  Normal
+                </button>
+                <button
+                  onClick={() => handleLabelImage("tb")}
+                  className="btn border-2 border-gray-700 bg-[#1e1e22] btn-danger px-6 py-2 rounded-lg shadow hover:shadow-lg transition-all"
+                >
+                  TB
+                </button>
+                <button
+                  onClick={() => handleLabelImage("pneumonia")}
+                  className="btn border-2 border-gray-700 bg-[#1e1e22] btn-warning px-6 py-2 rounded-lg shadow hover:shadow-lg transition-all"
+                >
+                  Pneumonia
+                </button>
+                <button
+                  onClick={() => handleLabelImage("covid")}
+                  className="btn border-2 border-gray-700 bg-[#1e1e22] btn-info px-6 py-2 rounded-lg shadow hover:shadow-lg transition-all"
+                >
+                  COVID
+                </button>
+              </div>
+            </>
+          )
+        ) : (
+          <p className="text-lg text-white mt-8">No images present.</p>
         )}
       </div>
-      {/* For testing purposes, display the processed data */}
-      <div className="mt-8">
-        <h2 className="text-lg text-white">Processed Data:</h2>
-        <pre className="text-white">{JSON.stringify(processedData, null, 2)}</pre>
-      </div>
+
+     
     </div>
   );
 };

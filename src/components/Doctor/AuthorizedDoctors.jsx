@@ -81,7 +81,7 @@ const AuthorizedDoctors = ({ onSelectDoctor }) => {
                 <li
                   key={doctor.user.email}
                   onClick={() => onSelectDoctor(doctor)} // Added onClick handler here
-                  className='bg-[#151518] border border-gray-700 py-4 px-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:scale-105 cursor-pointer' 
+                  className='bg-[#151518] border border-gray-700 py-4 px-6 rounded-md hover:border-white cursor-pointer' 
                 >
                   <div className='flex items-center'>
                     <img

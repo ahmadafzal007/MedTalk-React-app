@@ -78,7 +78,7 @@ const ChatHistory = ({ chatHistory, isGenerating, isPending }) => {
   return (
     <section
       ref={chatContainerRef}
-      className="h-[470px] lg:ml-8   font-poppins md:h-[620px] lg:w-[850px] md:w-[700px] w-[360px] overflow-y-auto scrollbar-hide"
+      className="h-[470px] lg:ml-8  font-poppins md:h-[600px] lg:w-[850px] md:w-[700px] w-[360px] overflow-y-auto scrollbar-hide"
     >
       {chatHistory.map(({ prompt, response, plot_url, image_url, image_local_preview }, index) => (
         <div key={index} className="mb-4">

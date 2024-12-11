@@ -11,6 +11,7 @@ import {
   Database,
   BarChart,
   CheckSquare,
+  LogOut,
 } from 'lucide-react';
 
 const Sidebar = ({ setActiveScreen }) => {
@@ -20,6 +21,10 @@ const Sidebar = ({ setActiveScreen }) => {
   const toggleSidebarExpand = () => {
     setIsExpanded(!isExpanded);
     localStorage.setItem('isExpanded', !isExpanded);
+  };
+
+  const handleLogout = () => {
+    navigate('/login');
   };
 
   return (
@@ -86,16 +91,6 @@ const Sidebar = ({ setActiveScreen }) => {
 
           <li
             className="hover:bg-[#1e1e22] p-2 rounded-lg flex items-center cursor-pointer transition-colors"
-            onClick={() => navigate('/radiologist')}
-          >
-            <BarChart size={20} className="mr-3 text-white" />
-            <span className={`${isExpanded ? 'block text-xs font-normal' : 'hidden'}`}>
-              Radiologist Dashboard
-            </span>
-          </li>
-
-          <li
-            className="hover:bg-[#1e1e22] p-2 rounded-lg flex items-center cursor-pointer transition-colors"
             onClick={() => setActiveScreen('TrainModel')}
           >
             <Settings size={20} className="mr-3 text-white" />
@@ -124,7 +119,6 @@ const Sidebar = ({ setActiveScreen }) => {
             </span>
           </li>
 
-          {/* New Model Evaluation Option */}
           <li
             className="hover:bg-[#1e1e22] p-2 rounded-lg flex items-center cursor-pointer transition-colors"
             onClick={() => setActiveScreen('ModelEvaluation')}
@@ -135,6 +129,19 @@ const Sidebar = ({ setActiveScreen }) => {
             </span>
           </li>
         </ul>
+      </div>
+
+      {/* Logout Button */}
+      <div className="mt-auto">
+        <button
+          onClick={handleLogout}
+          className="hover:bg-[#1e1e22] w-full p-2 rounded-lg flex items-center cursor-pointer transition-colors"
+        >
+          <LogOut size={20} className="mr-3 text-white" />
+          <span className={`${isExpanded ? 'block text-xs font-normal' : 'hidden'}`}>
+            Logout
+          </span>
+        </button>
       </div>
     </div>
   );

@@ -96,14 +96,14 @@ const UnauthorizedDoctors = ({ onSelectDoctor }) => {
       ) : (
         <>
           {filteredDoctors.length === 0 ? (
-            <p className='bg-[#151518] text-center'>No unauthorized doctors found.</p>
+            <p className='bg-[#151518] text-xs text-center'>No unauthorized doctors found.</p>
           ) : (
             <ul className='space-y-2'>
               {paginatedDoctors.map((doctor) => (
                 <li
                   key={doctor._id}
                   onClick={() => onSelectDoctor(doctor)}
-                  className='bg-[#151518] border border-gray-700 py-4 px-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:scale-105 cursor-pointer'
+                  className='bg-[#151518] border border-gray-700 py-4 px-6 rounded-md cursor-pointer hover:border-white'
                 >
                   <div className='flex items-center justify-between'>
                     <div className='flex items-center'>
@@ -126,10 +126,10 @@ const UnauthorizedDoctors = ({ onSelectDoctor }) => {
                           handleApproveDoctor(doctor._id);
                         }}
                         disabled={actionLoading}
-                        className='flex items-center bg-green-600 hover:bg-green-700 text-white lg:px-3 py-1 rounded-lg transition duration-200 lg:text-base text-xs px-2'
+                        className='flex items-center text-xs border-2 border-gray-700 bg-green-600 hover:bg-green-700 text-white lg:px-3 py-1 rounded-lg transition duration-200 lg:text-xs  px-2'
                       >
                         <FaCheckCircle className='mr-1' />
-                        {actionLoading ? 'Processing...' : 'Accept'}
+                          Accept
                       </button>
                       <button
                         onClick={(e) => {
@@ -137,10 +137,10 @@ const UnauthorizedDoctors = ({ onSelectDoctor }) => {
                           handleRejectDoctor(doctor._id);
                         }}
                         disabled={actionLoading}
-                        className='flex items-center bg-red-600 hover:bg-red-700 text-white lg:px-3 py-1 rounded-lg transition duration-200 lg:text-base text-xs px-2'
+                        className='flex items-center border-2 border-gray-700 bg-red-600 hover:bg-red-700 text-white lg:px-3 py-1 rounded-lg transition duration-200 lg:text-xs text-xs px-2'
                       >
                         <FaTimesCircle className='mr-1' />
-                        {actionLoading ? 'Processing...' : 'Reject'}
+                         Reject
                       </button>
                     </div>
                   </div>

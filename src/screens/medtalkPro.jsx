@@ -35,7 +35,7 @@ const MedTalkProCard = () => {
 
       <div className="max-w-3xl font-poppins mx-auto bg-[#151518] shadow-lg  p-6 border border-gray-700 flex flex-col items-center ">
         <h2 className="text-2xl font-semibold mb-4 text-center">Join MedTalk Pro</h2>
-        <p className="mb-1 text-sm text-start text-gray-300">
+        <p className="mb-1 text-xs text-start text-gray-300">
           <span className='font-bold'>Note:</span> MedTalk Pro is a professional platform exclusively for licensed doctors. 
           To ensure the integrity and quality of our community, only those who are 
           associated with the provided hospitals may join. If you fulfill these conditions, please agree to continue.
@@ -53,7 +53,7 @@ const MedTalkProCard = () => {
         {/* Bottom Note */}
         <div className="mt-6 text-center text-xs text-gray-300">
           <p>If you are a hospital, you can register here:</p>
-          <p className="text-blue-600 font-light underline">
+          <p className="text-blue-600 text-[10px] font-light underline">
             <Link to="/registerhospital" className="hover:underline">
               Register as a Hospital
             </Link>

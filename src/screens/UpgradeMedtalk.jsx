@@ -23,18 +23,11 @@ const MedTalkProUpgradeCard = () => {
         <FaArrowLeft className="text-2xl" />
       </button>
 
-      {/* Logo outside the card */}
-      <div className="absolute top-24 flex justify-center w-full">
-        <img
-          src="/medtalk-circle.png" // Adjust the path if necessary
-          alt="MedTalk Logo"
-          className="md:h-24 h-16 w-auto" // Adjust size as needed
-        />
-      </div>
+   
 
-      <div className="max-w-3xl font-poppins mx-auto bg-[#151518] shadow-lg rounded-lg p-6 border border-gray-700 flex flex-col items-center mt-20">
+      <div className="max-w-3xl font-poppins mx-auto bg-[#151518] shadow-lg  p-6 border border-gray-700 flex flex-col items-center ">
         <h2 className="text-2xl font-semibold mb-4 text-center">Upgrade to MedTalk Pro</h2>
-        <p className="mb-1 text-sm text-start text-gray-300">
+        <p className="mb-1 text-xs text-start text-gray-300">
           <span className="font-bold">Note:</span> You can upgrade to MedTalk Pro. This professional platform is exclusively for licensed doctors. 
           To ensure the integrity and quality of our community, only those associated with the provided 
           hospitals may upgrade. If you fulfill these conditions, please proceed to upgrade.

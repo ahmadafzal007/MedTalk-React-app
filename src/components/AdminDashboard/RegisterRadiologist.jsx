@@ -161,13 +161,13 @@ const RadiologistRegistrationForm = ({ setShowForm }) => {
             >
               {loading ? 'Registering...' : 'Register'}
             </button>
-            <button
+            {/* <button
               type="button"
               className="bg-[#151518] text-xs border border-gray-700 hover:border-white text-white py-2 px-4 rounded-lg shadow-md transition ease-in-out"
               onClick={() => setShowForm && setShowForm(false)} // Handle cancel
             >
               Cancel
-            </button>
+            </button> */}
           </div>
         </form>
       </div>

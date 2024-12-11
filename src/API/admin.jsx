@@ -21,10 +21,12 @@ class AdminControllers {
 
   // View unauthorized hospitals
   async viewUnauthorizedHospitals() {
+    console.log('inside api')
     try {
       const response = await axios.get(`${this.apiUrl}/unauthorizedHospitals`, {
         headers: this.getHeaders(),
       });
+      console.log(response.data);
       return response.data; // Return the response data
     } catch (error) {
       console.error('Error fetching unauthorized hospitals:', error);

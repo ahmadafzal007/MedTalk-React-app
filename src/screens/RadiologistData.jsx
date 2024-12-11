@@ -6,7 +6,7 @@ const RadiologistData = () => {
   const [activeScreen, setActiveScreen] = useState('') // Default to empty string
 
   return (
-    <div className='flex'>
+    <div className='flex h-screen'>
       {/* Sidebar to navigate to different screens */}
       <RadiologistPageSidebar setActiveScreen={setActiveScreen} />
 

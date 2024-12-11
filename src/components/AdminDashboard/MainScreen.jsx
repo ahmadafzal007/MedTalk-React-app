@@ -8,6 +8,9 @@ import RegisterRadiologist from './RegisterRadiologist'
 import RadiologistPage from '../Radiologist/unprocessed_xray_data' // Import RadiologistPage component
 import DashboardOverview from './DashboardOverview'
 import RegisteredRadiologist from './RegisteredRadiologist'
+import ModelEvaluation from './ModelEvaluation'
+
+
 const MainScreen = ({ activeScreen, setActiveScreen }) => {
   return (
     <div className='flex-1 p-8 bg-black'>
@@ -20,6 +23,7 @@ const MainScreen = ({ activeScreen, setActiveScreen }) => {
       {activeScreen === 'RegisterRadiologist' && <RegisterRadiologist />}
       {activeScreen === 'RadiologistPage' && <RadiologistPage />}
       {activeScreen === 'RegisteredRadiologists' && <RegisteredRadiologist />}      
+      {activeScreen === 'ModelEvaluation' && <ModelEvaluation />}      
 
       {' '}
       {/* Add RadiologistData */}

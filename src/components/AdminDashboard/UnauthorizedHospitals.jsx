@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AdminControllers from '../../API/admin'; // Ensure this path is correct
+import { ClipLoader } from 'react-spinners'; // Import loader
 
 const UnauthorizedHospitals = () => {
   const [hospitals, setHospitals] = useState([]);
@@ -10,7 +11,9 @@ const UnauthorizedHospitals = () => {
   useEffect(() => {
     const fetchHospitals = async () => {
       try {
+        console.log('Inside the fetch hospital');
         const data = await AdminControllers.viewUnauthorizedHospitals();
+        console.log('Data: ', data);
 
         // Assuming `unauthorizedHospitals` is the key containing the hospitals list
         if (data && Array.isArray(data.unauthorizedHospitals)) {
@@ -44,12 +47,14 @@ const UnauthorizedHospitals = () => {
   };
 
   return (
-    <div className="max-w-full font-poppins mx-auto p-8 text-gray-200 rounded-lg shadow-lg">
+    <div className="max-w-full font-poppins mx-auto text-gray-200 rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold mb-6 text-white text-center">
         U<span className="font-normal">nauthorized</span> H<span className="font-normal">ospitals</span>
       </h2>
       {loading ? (
-        <div className="text-center text-white">Loading...</div>
+        <div className="flex justify-center items-center">
+          <ClipLoader color="#68687f"size={50} /> {/* Spinner while loading */}
+        </div>
       ) : error ? (
         <div className="text-center text-red-500">{error}</div>
       ) : hospitals.length > 0 ? (
@@ -57,12 +62,12 @@ const UnauthorizedHospitals = () => {
           {hospitals.map((hospital) => (
             <div
               key={hospital._id}
-              className="bg-[#1a1a1a] border border-gray-700 p-6 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              className="bg-[#151518] border border-gray-700 p-6 rounded-md"
             >
-              <h3 className="text-lg font-bold mb-2 text-white">
+              <h3 className="text-sm font-medium mb-1 text-white">
                 {hospital.user ? hospital.user.name : 'No Name Available'}
               </h3>
-              <div className="space-y-2 text-xs text-gray-300">
+              <div className="flex justify-between text-xs text-gray-300">
                 <p>
                   <span className="font-medium text-white">Phone:</span> {hospital.phoneNumber || 'N/A'}
                 </p>
@@ -74,10 +79,10 @@ const UnauthorizedHospitals = () => {
                   <span className="font-medium text-white">Type:</span> {hospital.hospitalType || 'N/A'}
                 </p>
               </div>
-              <div className="mt-4 flex justify-between">
+              <div className="mt-2 flex justify-between">
                 <button
                   onClick={() => handleApproval(hospital._id)}
-                  className="bg-[#151518] border border-gray-700 hover:border-green-500 text-white text-xs px-4 py-2 rounded-lg shadow-md transition ease-in-out"
+                  className="bg-[#151518] border border-gray-700 hover:border-white text-white text-xs px-4 py-2 rounded-lg shadow-md transition ease-in-out"
                 >
                   Approve
                 </button>
@@ -87,7 +92,7 @@ const UnauthorizedHospitals = () => {
         </div>
       ) : (
         <div className="bg-[#1a1a1a] p-6 rounded-lg shadow-lg text-center">
-          <p className="text-gray-300">No unauthorized hospitals at the moment.</p>
+          <p className="text-gray-300 text-sm">No unauthorized hospitals at the moment.</p>
         </div>
       )}
     </div>

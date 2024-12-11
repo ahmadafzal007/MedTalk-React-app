@@ -60,6 +60,8 @@ const LoginPage = () => {
         else if (response.user.role === "hospital")
           navigate("/hospitaldashboard");
         else if (response.user.role === "admin") navigate("/dashboard");
+        else if (response.user.role === "radiologist") navigate("/radiologist");
+
       } else {
         // Handle the case where response is falsy (e.g., login failed)
         setPasswordError("Email or password is incorrect.");
